@@ -1,7 +1,7 @@
 
 # Py Basic Tools
 
-A package with some basic tools for Python (3)
+A package including some basic tools for Python (3)
 
 ## Author
 
@@ -27,10 +27,10 @@ from py_basic_tools import fprint
 print('Hello world')
 >> Hello world!
 
-fprint('Hello world!') # Linebreak after string
+fprint('Hello world!') # new line after string
 >> Hello world!\n
 
-fprint('Hello world!', nl=False) # No linebreak after string (works like normal print)
+fprint('Hello world!', nl=False) # No new line after string (works like normal print)
 >> Hello world
 ```
 
@@ -38,28 +38,23 @@ fprint('Hello world!', nl=False) # No linebreak after string (works like normal 
 ```
 from py_basic_tools import enter_to_continue
 
-enter_to_continue() # Adds an extra print after the input command
+enter_to_continue()
 >> Press enter to continue...
 >>
 >>
 
-enter_to_continue('Waiting') # Write your own string in the 
+enter_to_continue('Waiting')
 >> Waiting (enter to continue)
 >>
 >>
 
-enter_to_continue('Waiting', nl=False) # Removes newline after input
+enter_to_continue('Waiting', nl=False) # Removes new line after input
 >> Waiting
 >>
 
-returned_value = enter_to_continue('Should this continue?') # If the input isn't empty, the returned value is False
+returned_value = enter_to_continue('Should this continue?', ret=True) # If the input isn't empty, the returned value is False
 print(f'Returned value: {returned_value}')
 >> Should this continue? (enter to continue)
 >>
 >> Returned value: True
-
-enter_to_continue('To be, or not to be?', use_help_text=False) # Removes the "help text" from the input string
->>To be, or not to be?
->>
->>
 ```
