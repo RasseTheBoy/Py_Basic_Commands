@@ -13,9 +13,9 @@ A package including some basic tools for Python (3)
 Install my-project with pip
 
 ```bash
-  pip install py_basic_tools
+  pip install py_basic_commands
 
-  pip3 install py_baisc_tools
+  pip3 install py_baisc_commands
 ```
     
 ## Examples
