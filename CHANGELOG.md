@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.0.4] - 2022-12-09
+
+### Added
+
+- New decorator `@try_traceback()`
+- New function `choose_from_list()`
+
+### Changed
+
+- `better_input()` to `finput()`
+
+### Todo
+
+- Update `README`
+
 ## [0.0.3] - 2022-12-08
 
 ### Added
@@ -12,7 +27,7 @@
 
 - New function created -> `better_input()`
 - A new variable (`flush`) was added to`fprint()`
-- New`CHANGELOG.md` added to the project
+- New`CHANGELOG` added to the project
 
 #### New function created -> `better_input()`
 
@@ -58,18 +73,18 @@ def fprint(text='', nl=True, <b>flush=False</b>):
 
 `flush` has a default value (`False`), so this can be left empty
 
-#### New`CHANGELOG.md` added to the project
+#### New`CHANGELOG` added to the project
 
 
-A `CHANGELOG.md` file is added to the project and it will get updated with every new version.
+A `CHANGELOG` file is added to the project and it will get updated with every new version.
 
 ### TODO
 
-- Edit `README.md`
+- Edit `README`
 
-### Edit `README.md`
+### Edit `README`
 
-The `README.md` should include a guide and examples of the new function (`better_input()`).
+The `README` should include a guide and examples of the new function (`better_input()`).
 
 
 ## [0.0.1] - 2022-12-03
