@@ -31,5 +31,5 @@ def better_input(text='', nl=True, use_end_addon=True, ret_type: type = str):
     except:
         print(f'Couldn\'t return input {inpt} as {ret_type}')
         print(f'Input type: {type(inpt)}')
-        print('Returning value as string')
+        fprint('Returning value as string')
         return inpt

@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.0.3] - 2022-12-08
+
+### Added
+
+- `better_input()` to `__init__.py`
+
 ## [0.0.2] - 2022-12-08
 
 ### Added
@@ -57,7 +63,7 @@ def fprint(text='', nl=True, <b>flush=False</b>):
 
 A `CHANGELOG.md` file is added to the project and it will get updated with every new version.
 
-## TODO
+### TODO
 
 - Edit `README.md`
 
@@ -66,7 +72,7 @@ A `CHANGELOG.md` file is added to the project and it will get updated with every
 The `README.md` should include a guide and examples of the new function (`better_input()`).
 
 
-# [0.0.1] - 2022-12-03
+## [0.0.1] - 2022-12-03
 
 ### Added
 
