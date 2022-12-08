@@ -57,7 +57,7 @@ def finput(text='', nl=True, use_end_addon=True, ret_type: type = str):
         return inpt
 
 
-def choose_from_list(lst, header_text='---Choose 1 value---', header_nl=False, input_text='Input index: ', choose_total=1, start_num=0):
+def choose_from_list(lst, header_text='---Choose 1 value---', header_nl=False, input_text='Input index: ', choose_total=1, start_num=0, choose_until_correct=False):
     # TODO: Option to choose more than one
     # TOOD: If choose_amnt > 2, show input(f'{chosen_amnt}/{choose_total} {text}')
 
@@ -66,15 +66,15 @@ def choose_from_list(lst, header_text='---Choose 1 value---', header_nl=False, i
         print(f'({indx+start_num}) {val}')
     print()
 
-    inpt_indx = finput(input_text, ret_type=int)
+    while True:
+        inpt_indx = finput(input_text, ret_type=int)
+        try:
+            return lst[inpt_indx - start_num] # type: ignore
+        except IndexError:
+            print('Given index is out of range')
+            fprint(f'List length: {len(lst)}    Input index: {inpt_indx}')
+        except:
+            fprint(f'Input not a valid index: {inpt_indx}')
 
-    try:
-        return lst[inpt_indx - start_num] # type: ignore
-    except IndexError:
-        print('Given index is out of range')
-        print(f'List length: {len(lst)}    Input index: {inpt_indx}')
-    except:
-        print('Input not valid: {inpt_indx}')
-
-    fprint('Returning nothing!')
-    return
+        if not choose_until_correct:
+            return

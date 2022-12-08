@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.5] - 2022-12-09
+
+### Added
+
+- `choose_until_correct` variable to `choose_from_list()`
+    - Waits in a while loop, until a valid and in range index is given
+
 ## [0.0.4] - 2022-12-09
 
 ### Added
