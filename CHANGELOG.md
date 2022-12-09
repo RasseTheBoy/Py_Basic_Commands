@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.6] - 2022-12-09
+
+### Added
+
+- New decorator `@func_timer`
+    - Times and prints how long a function took to run
+
 ## [0.0.5] - 2022-12-09
 
 ### Added

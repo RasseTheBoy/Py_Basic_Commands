@@ -1,5 +1,7 @@
 import traceback
+
 from functools  import wraps
+from time   import time
 
 def try_traceback(skip_traceback=False):
     def try_except(func):
@@ -12,6 +14,17 @@ def try_traceback(skip_traceback=False):
                     print(traceback.format_exc())
         return wrapper
     return try_except
+
+
+def func_timer(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        time_start = time()
+        ret_val = func(*args, **kwargs)
+        time_delta = time() - time_start
+        fprint(f'Function {func.__name__}{args} {kwargs} Took {time_delta:.4f} seconds to run')
+        return ret_val
+    return wrapper
 
 
 def fprint(text=None, nl=True, flush=False):
