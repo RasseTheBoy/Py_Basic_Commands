@@ -19,6 +19,7 @@ def try_traceback(skip_traceback=False):
 def func_timer(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
+        fprint('Function timer started')
         time_start = time()
         ret_val = func(*args, **kwargs)
         time_delta = time() - time_start
