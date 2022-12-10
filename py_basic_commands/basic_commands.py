@@ -92,3 +92,7 @@ def choose_from_list(lst, header_text='---Choose 1 value---', header_nl=False, i
 
         if not choose_until_correct:
             return
+
+
+def join_dir(*args, join_with='\\'):
+    return join_with.join(args)

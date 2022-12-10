@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.0.7] - 2022-12-09
+
+### Added
+
+- New function `join_dir()`
+    - Works `like os.path.join()`
+- `@func_timer` now prints when timer begins
+
 ## [0.0.6] - 2022-12-09
 
 ### Added
