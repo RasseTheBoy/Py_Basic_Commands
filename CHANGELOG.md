@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.1.0] - 2022-12-11
+
+### Added
+
+- New function `remove_file_dir()`
+- New function `get_path_for_file()`
+
+### Changed
+
+- Some tweaks to `create_file_dir()`
+
 ## [0.0.9] - 2022-12-11
 
 ### Added

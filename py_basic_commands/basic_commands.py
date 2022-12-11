@@ -3,7 +3,7 @@ import traceback
 from functools  import wraps
 from shutil     import rmtree
 from time   import time
-from os     import mkdir, listdir
+from os     import mkdir, listdir, remove
 
 def try_traceback(skip_traceback=False):
     def try_except(func):
@@ -114,14 +114,7 @@ def create_file_dir(do, do_path, force=False):
         create_dir()
     
     elif do == 'file':
-        file_dir = do_path.replace('\\', '/').split('/')
-        if len(file_dir) == 1:
-            file_dir = ''
-            filename = file_dir[0]
-        else:
-            filename = file_dir.pop()
-            file_dir = '/'.join(file_dir)
-
+        file_dir, filename = get_path_for_file(do_path) #type:ignore
         files_in_path = listdir(file_dir)
 
         if force or filename not in files_in_path:
@@ -132,6 +125,25 @@ def create_file_dir(do, do_path, force=False):
                 fprint(f'File already exists: {do_path}')
         elif filename in files_in_path:
             fprint(f'File already exists: {do_path}')
+
+
+@try_traceback()
+def remove_file_dir(do, do_path, force=False):
+    if do == 'dir':
+        dir_content = listdir(do_path)
+        if force:
+            rmtree(do_path)
+            fprint(f'Directory removed: {do_path}')
+        elif dir_content:
+            fprint(f'Directory is not empty, not removing: {do_path}')
+
+    elif do == 'file':
+        lines = read_file(do_path)
+        if lines:
+            fprint(f'File is not empty, not removing: {do_path}')
+            return
+        remove(do_path)
+        fprint(f'File removed: {do_path}')
 
 
 def read_file(file_path, create=False, force=False, remove_empty=True):
@@ -148,6 +160,23 @@ def read_file(file_path, create=False, force=False, remove_empty=True):
     if remove_empty and lines:
         return [x for x in lines if x != '']
     return lines
+
+
+def get_path_for_file(file_path, return_val='all'):
+    file_dir = file_path.replace('\\', '/').split('/')
+    if len(file_dir) == 1:
+        file_dir = None
+        filename = file_path
+    else:
+        filename = file_dir.pop()
+        file_dir = '/'.join(file_dir)
+
+    if return_val == 'dir':
+        return file_dir
+    elif return_val == 'filename':
+        return filename
+
+    return file_dir, filename
 
 
 def join_dir(*args, join_with='\\'):
