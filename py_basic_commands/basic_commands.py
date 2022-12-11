@@ -28,14 +28,15 @@ def func_timer(func):
     return wrapper
 
 
-def fprint(text=None, nl=True, flush=False):
+def fprint(text=None, nl=True, flush=False, do_print=True):
     if not text:
         text = ''
 
     if nl:
         text = f'{text}\n'
 
-    print(text, flush=flush)
+    if do_print:
+        print(text, flush=flush)
 
 
 def enter_to_continue(text='', nl=True, use_help_text=True):
