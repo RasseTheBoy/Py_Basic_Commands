@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.1.1] - 2022-12-11
+
+### Added
+
+- Added `do_print` to a lot of `fprint()` functions
+ - `create_file_dir()`
+ - `remove_file_dir()`
+ - `read_files()`
+
 ## [0.1.0] - 2022-12-11
 
 ### Added

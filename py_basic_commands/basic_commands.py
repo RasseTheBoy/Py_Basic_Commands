@@ -97,17 +97,17 @@ def choose_from_list(lst, header_text='---Choose 1 value---', header_nl=False, i
             return
 
 
-def create_file_dir(do, do_path, force=False):
+def create_file_dir(do, do_path, force=False, do_print=True):
     def create_dir():
         try:
             mkdir(do_path)
-            fprint(f'Directory created: {do_path}')
+            fprint(f'Directory created: {do_path}', do_print=do_print)
             return True
         except FileExistsError:
-            print(f'Directory aleady exists: {do_path}')
+            fprint(f'Directory aleady exists: {do_path}', nl=False, do_print=do_print)
             if force:
                 rmtree(do_path)
-                print(f'Directory removed: {do_path}')
+                fprint(f'Directory removed: {do_path}', nl=False, do_print=do_print)
                 return create_dir()
 
     if do == 'dir':
@@ -120,33 +120,33 @@ def create_file_dir(do, do_path, force=False):
         if force or filename not in files_in_path:
             try:
                 open(do_path, 'w', encoding='utf-8').close()
-                fprint(f'File created: {do_path}')
+                fprint(f'File created: {do_path}', do_print=do_print)
             except FileExistsError:
-                fprint(f'File already exists: {do_path}')
+                fprint(f'File already exists: {do_path}', do_print=do_print)
         elif filename in files_in_path:
-            fprint(f'File already exists: {do_path}')
+            fprint(f'File already exists: {do_path}', do_print=do_print)
 
 
 @try_traceback()
-def remove_file_dir(do, do_path, force=False):
+def remove_file_dir(do, do_path, force=False, do_print=True):
     if do == 'dir':
         dir_content = listdir(do_path)
         if force:
             rmtree(do_path)
-            fprint(f'Directory removed: {do_path}')
+            fprint(f'Directory removed: {do_path}', do_print=do_print)
         elif dir_content:
-            fprint(f'Directory is not empty, not removing: {do_path}')
+            fprint(f'Directory is not empty, not removing: {do_path}', do_print=do_print)
 
     elif do == 'file':
         lines = read_file(do_path)
         if lines:
-            fprint(f'File is not empty, not removing: {do_path}')
+            fprint(f'File is not empty, not removing: {do_path}', do_print=do_print)
             return
         remove(do_path)
-        fprint(f'File removed: {do_path}')
+        fprint(f'File removed: {do_path}', do_print=do_print)
 
 
-def read_file(file_path, create=False, force=False, remove_empty=True):
+def read_file(file_path, create=False, force=False, remove_empty=True, do_print=True):
     def try_read():
         try:
             return open(file_path, 'r', encoding='utf-8').read().splitlines()
@@ -155,7 +155,7 @@ def read_file(file_path, create=False, force=False, remove_empty=True):
                 create_file_dir('file', file_path, force)
                 return try_read()
             else:
-                fprint(f'File not found: {file_path}')
+                fprint(f'File not found: {file_path}', do_print=do_print)
     lines = try_read()
     if remove_empty and lines:
         return [x for x in lines if x != '']
