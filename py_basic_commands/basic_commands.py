@@ -134,5 +134,21 @@ def create_file_dir(do, do_path, force=False):
             fprint(f'File already exists: {do_path}')
 
 
+def read_file(file_path, create=False, force=False, remove_empty=True):
+    def try_read():
+        try:
+            return open(file_path, 'r', encoding='utf-8').read().splitlines()
+        except FileNotFoundError:
+            if create:
+                create_file_dir('file', file_path, force)
+                return try_read()
+            else:
+                fprint(f'File not found: {file_path}')
+    lines = try_read()
+    if remove_empty and lines:
+        return [x for x in lines if x != '']
+    return lines
+
+
 def join_dir(*args, join_with='\\'):
     return join_with.join(args)
