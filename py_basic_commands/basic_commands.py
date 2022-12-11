@@ -1,7 +1,9 @@
 import traceback
 
 from functools  import wraps
+from shutil     import rmtree
 from time   import time
+from os     import mkdir, listdir
 
 def try_traceback(skip_traceback=False):
     def try_except(func):
@@ -93,6 +95,44 @@ def choose_from_list(lst, header_text='---Choose 1 value---', header_nl=False, i
 
         if not choose_until_correct:
             return
+
+
+def create_file_dir(do, do_path, force=False):
+    def create_dir():
+        try:
+            mkdir(do_path)
+            fprint(f'Directory created: {do_path}')
+            return True
+        except FileExistsError:
+            print(f'Directory aleady exists: {do_path}')
+            if force:
+                rmtree(do_path)
+                print(f'Directory removed: {do_path}')
+                return create_dir()
+
+    match do:
+        case 'dir':
+            create_dir()
+
+        case 'file':
+            file_dir = do_path.replace('\\', '/').split('/')
+            if len(file_dir) == 1:
+                file_dir = ''
+                filename = file_dir[0]
+            else:
+                filename = file_dir.pop()
+                file_dir = '/'.join(file_dir)
+
+            files_in_path = listdir(file_dir)
+
+            if force or filename not in files_in_path:
+                try:
+                    open(do_path, 'w', encoding='utf-8').close()
+                    fprint(f'File created: {do_path}')
+                except FileExistsError:
+                    fprint(f'File already exists: {do_path}')
+            elif filename in files_in_path:
+                fprint(f'File already exists: {do_path}')
 
 
 def join_dir(*args, join_with='\\'):

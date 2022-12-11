@@ -1,6 +1,12 @@
 # Changelog
 
-## [0.0.7] - 2022-12-09
+## [0.0.8] - 2022-12-11
+
+### Added
+
+- Mew function `create_file_dir()`
+
+## [0.0.7] - 2022-12-11
 
 ### Added
 
