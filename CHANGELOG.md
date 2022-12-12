@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.1.3] - 2022-12-12
+
+### Added
+
+- `read_file()`
+    - Able not to split lines -> Returns `string`
+    - Able to change `encoding` (default: `'utf-8'`)
+- New function `write_file()`
+- New function `fd()`
+    - For fast debugging
+    - New `dependency required`: `colored`
+
+### Todo
+
+- `README` add
+    - `write_file()`
+    - `fd()`
+
 ## [0.1.21] - 2022-12-12
 
 ### Added

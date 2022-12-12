@@ -14,6 +14,9 @@ authors = [
 description = "Basic tools for Python"
 readme = "README.md"
 requires-python = ">=3.7"
+dependencies = [
+    "colored"
+]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Education",

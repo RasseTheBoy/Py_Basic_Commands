@@ -1,6 +1,7 @@
 import traceback
 
 from functools  import wraps
+from colored    import fg, attr
 from shutil     import rmtree
 from time   import time
 from os     import mkdir, listdir, remove
@@ -114,10 +115,13 @@ def choose_from_list(lst, header_text='', header_nl=False, input_text='Input ind
             return []
 
 
-def read_file(file_path, create=False, ret_did_create=False, remove_empty=True, do_print=True):
+def read_file(file_path, create=False, ret_did_create=False, remove_empty=True, do_splitlines=True, do_print=True, encoding='utf-8'):
     def try_read(did_create):
         try:
-            lines = open(file_path, 'r', encoding='utf-8').read().splitlines()
+            with open(file_path, 'r', encoding=encoding) as f:
+                lines = f.read()
+                if do_splitlines:
+                    lines = lines.splitlines()
             return lines, did_create
         except FileNotFoundError:
             if create:
@@ -128,12 +132,32 @@ def read_file(file_path, create=False, ret_did_create=False, remove_empty=True, 
                 fprint(f'File not found: {file_path}', do_print=do_print) 
     lines, did_create = try_read(False) #type:ignore
 
-    if remove_empty and lines:
+    if remove_empty and lines and do_splitlines:
         lines = [x for x in lines if x != '']
 
     if ret_did_create:
         return lines, did_create
     return lines
+
+
+def write_file(text, file_path, append=False, create=True, encoding='utf-8', do_print=True):
+    if text.__class__.__name__ in ('list', 'tuple', 'set'):
+        text = '\n'.join(text)
+
+    lines, did_create = read_file(file_path, create=True, ret_did_create=True, remove_empty=False, do_splitlines=False, do_print=do_print)
+
+    if not did_create and lines[-1] != '\n':
+        text = '\n' + text 
+
+    if append:
+        mode = 'a'
+    else:
+        mode = 'w'
+
+    with open(file_path, mode=mode, encoding=encoding) as f:
+        f.write(text + '\n')
+
+    return did_create
 
 
 def create_file_dir(do, do_path, force=False, do_print=True):
@@ -206,6 +230,27 @@ def get_dir_path_for_file(file_path, ret_val='all'):
         return filename
 
     return dir_path, filename
+
+
+def fd(variable, nl=False):
+    reset = attr('reset')
+    filename, lineno, function_name, code = traceback.extract_stack()[-2]
+    original_var = code.replace('fd(', '').replace(')', '', 1)
+    if code.replace(original_var, '') != 'fd()':
+        original_var = code
+
+    variable_type = type(variable).__name__
+
+    if variable == True:
+        variable = fg("green") + str(variable) + reset
+    elif variable == False:
+        variable = fg("red") + str(variable) + reset
+    elif isinstance(variable, int):
+        variable = fg("blue") + str(variable) + reset
+    else:
+        variable = f'{variable!r}'
+
+    fprint(f'fd | {variable_type} | {original_var}: {variable}', nl=nl)
 
 
 def join_path(*args, join_with='\\'):
