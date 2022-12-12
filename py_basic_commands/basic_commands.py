@@ -114,19 +114,25 @@ def choose_from_list(lst, header_text='', header_nl=False, input_text='Input ind
             return []
 
 
-def read_file(file_path, create=False, force=False, remove_empty=True, do_print=True):
-    def try_read():
+def read_file(file_path, create=False, ret_did_create=False, remove_empty=True, do_print=True):
+    def try_read(did_create):
         try:
-            return open(file_path, 'r', encoding='utf-8').read().splitlines()
+            lines = open(file_path, 'r', encoding='utf-8').read().splitlines()
+            return lines, did_create
         except FileNotFoundError:
             if create:
-                create_file_dir('file', file_path, force)
-                return try_read()
+                create_file_dir('file', file_path, force=True)
+                did_create = True
+                return try_read(did_create)
             else:
-                fprint(f'File not found: {file_path}', do_print=do_print)
-    lines = try_read()
+                fprint(f'File not found: {file_path}', do_print=do_print) 
+    lines, did_create = try_read(False) #type:ignore
+
     if remove_empty and lines:
-        return [x for x in lines if x != '']
+        lines = [x for x in lines if x != '']
+
+    if ret_did_create:
+        return lines, did_create
     return lines
 
 

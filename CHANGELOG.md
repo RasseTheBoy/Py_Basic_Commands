@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.21] - 2022-12-12
+
+### Added
+
+- `read_file()` can now return if a file was created (set `ret_did_create`=`True`)
+
 ## [0.1.2] - 2022-12-12
 
 ### Added
