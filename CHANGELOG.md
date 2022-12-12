@@ -1,5 +1,32 @@
 # Changelog
 
+## [0.1.2] - 2022-12-12
+
+### Added
+
+- `finput()`
+    - `text` variable to `'Input: '` if empty/`None` empty `''`
+- `choose_from_list()`
+    - Possible to choose more than one variable from list
+    - Returns an empty list, instead of `None` (line: `110`)
+- `remove_file_dir()`
+    - Shows correct `error` messages for both `'dir'` and `'file'`
+    - Returns `traceback.format_exc()` if `except` happens
+- `@try_traceback`
+    - Now returns `traceback.format_exc()`
+- `@func_timer`
+    - Able to return `time_delta`
+    - `do_print` to all prints
+- `README`
+    - Examples added for all functions and decorators
+
+### Changed
+
+- `get_path_for_file()` ---> `get_dir_path_for_file()`
+    - Updated `__init__.py`
+- `get_dir_path_for_file()`
+    - `return_val` ---> `ret_val`
+
 ## [0.1.1] - 2022-12-11
 
 ### Added
