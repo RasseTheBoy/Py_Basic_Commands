@@ -29,7 +29,7 @@ Install using pip
 | create | If True, the file/directory will be created if it does not exist | bool |
 | force | If True, the file/directory will be created even if it exists | bool |
 | remove_empty | If True, empty lines will be removed from list | bool |
-| do | Action for directory or file | `dir`/`file` |
+| do | Action for directory or file | `'dir'`/`'file'` |
 | ret_type | Variable type to return | type |
 | ret_var | Variable to return | str |
 
