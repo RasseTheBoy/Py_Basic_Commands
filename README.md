@@ -14,7 +14,6 @@ Install using pip
 
   pip3 install py_baisc_tools
 ```
-## Examples
 
 ## Table of input variables
 
@@ -33,7 +32,7 @@ Install using pip
 | ret_type | Variable type to return | type |
 | ret_var | Variable to return | str |
 
-
+## Examples
 
 ### fprint()
 
