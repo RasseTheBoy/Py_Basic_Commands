@@ -131,7 +131,7 @@ def read_file(file_path, create:bool=False, remove_empty:bool=True, splitlines:b
             return lines, did_create
         except FileNotFoundError:
             if create:
-                create_file_dir('file', file_path, force=True)
+                create_file_dir('f', file_path, force=True)
                 did_create = True
                 return try_read(did_create)
             else:

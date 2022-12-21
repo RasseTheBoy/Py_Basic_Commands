@@ -1,6 +1,14 @@
 # Changelog
 
-## [0.1.31] - 2022-12-16
+## [0.1.32] - 2022
+
+### Changed
+
+- `read_file()`
+    - given input variable for `create_file_dir()`
+        - `file` -> `f`
+
+## [0.1.31] - 2022-12-21
 
 ### Added
 
