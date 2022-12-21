@@ -3,6 +3,7 @@ import traceback
 from functools  import wraps
 from colored    import fg, attr
 from shutil     import rmtree
+from typing     import List, Tuple
 from time   import time
 from os     import mkdir, listdir, remove
 
@@ -36,7 +37,7 @@ def func_timer(ret_time=False, do_print=True):
     return timer
 
 
-def fprint(text=None, nl=True, flush=False, do_print=True):
+def fprint(text=None, nl=True, flush=False, do_print=True, end=''):
     if not text:
         text = ''
 
@@ -44,7 +45,10 @@ def fprint(text=None, nl=True, flush=False, do_print=True):
         text = f'{text}\n'
 
     if do_print:
-        print(text, flush=flush)
+        if not end:
+            print(text, flush=flush)
+        else:
+            print(text, end=end, flush=flush)
 
 
 def finput(text='', nl=True, use_end_addon=True, ret_type: type = str):
@@ -115,13 +119,15 @@ def choose_from_list(lst, header_text='', header_nl=False, input_text='Input ind
             return []
 
 
-def read_file(file_path, create=False, ret_did_create=False, remove_empty=True, do_splitlines=True, do_print=True, encoding='utf-8'):
-    def try_read(did_create):
+def read_file(file_path, create:bool=False, remove_empty:bool=True, splitlines:bool=True, do_print:bool=True, encoding:str='utf-8', strip:bool=True) -> Tuple[List[str] | str, bool]:
+    def try_read(did_create:bool=False) -> Tuple[List[str] | str, bool]:
         try:
             with open(file_path, 'r', encoding=encoding) as f:
                 lines = f.read()
-                if do_splitlines:
+                if splitlines:
                     lines = lines.splitlines()
+                    if strip:
+                        lines = [x.strip() for x in lines]
             return lines, did_create
         except FileNotFoundError:
             if create:
@@ -129,15 +135,12 @@ def read_file(file_path, create=False, ret_did_create=False, remove_empty=True, 
                 did_create = True
                 return try_read(did_create)
             else:
-                fprint(f'File not found: {file_path}', do_print=do_print) 
-    lines, did_create = try_read(False) #type:ignore
-
-    if remove_empty and lines and do_splitlines:
-        lines = [x for x in lines if x != '']
-
-    if ret_did_create:
-        return lines, did_create
-    return lines
+                fprint(f'File not found: {file_path}', do_print=do_print)
+                if splitlines:
+                    return [], did_create
+                return '', did_create
+    
+    return try_read()
 
 
 def write_file(text, file_path, append=False, create=True, encoding='utf-8', do_print=True):
@@ -173,10 +176,10 @@ def create_file_dir(do, do_path, force=False, do_print=True):
                 fprint(f'Directory removed: {do_path}', nl=False, do_print=do_print)
                 return create_dir()
 
-    if do == 'dir':
+    if do == 'd': # Directory
         create_dir()
     
-    elif do == 'file':
+    elif do == 'f': # File
         file_dir, filename = get_dir_path_for_file(do_path) #type:ignore
         files_in_path = listdir(file_dir)
 
@@ -192,7 +195,7 @@ def create_file_dir(do, do_path, force=False, do_print=True):
 
 @try_traceback(skip_traceback=True)
 def remove_file_dir(do, do_path, force=False, do_print=True):
-    if do == 'dir':
+    if do == 'd': # Directory
         try:
             dir_content = listdir(do_path)
         except FileNotFoundError:
@@ -206,7 +209,7 @@ def remove_file_dir(do, do_path, force=False, do_print=True):
         elif dir_content:
             fprint(f'Directory is not empty, not removing: {do_path}', do_print=do_print)
 
-    elif do == 'file':
+    elif do == 'f': # File
         lines = read_file(do_path)
         if lines and not force:
             fprint(f'File is not empty, not removing: {do_path}', do_print=do_print)
@@ -215,7 +218,7 @@ def remove_file_dir(do, do_path, force=False, do_print=True):
         fprint(f'File removed: {do_path}', do_print=do_print)
 
 
-def get_dir_path_for_file(file_path, ret_val='all'):
+def get_dir_path_for_file(file_path, ret_val='a'):
     dir_path = file_path.replace('\\', '/').split('/')
     if len(dir_path) == 1:
         dir_path = None
@@ -224,9 +227,9 @@ def get_dir_path_for_file(file_path, ret_val='all'):
         filename = dir_path.pop()
         dir_path = '/'.join(dir_path)
 
-    if ret_val == 'dir':
+    if ret_val == 'd': # Directory
         return dir_path
-    elif ret_val == 'filename':
+    elif ret_val == 'fnam': # Filename
         return filename
 
     return dir_path, filename

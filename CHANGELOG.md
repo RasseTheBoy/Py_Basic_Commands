@@ -1,5 +1,29 @@
 # Changelog
 
+## [0.1.31] - 2022-12-16
+
+### Added
+
+- `fprint()`
+    - You can add the `end` function to the print
+- `read_file()`
+    - `strip` all lines (default: `True`)
+        - Only works if `splitlines` is set as `True` (default: `True`)
+    - Type hints for returned values
+        - Also for `try_read()`
+
+### Changed
+
+- Variables changed
+    - `dir` -> `d`
+    - `file` -> `f`
+    - `filename` -> `fnam`
+- `read_file()`
+    - Removed `ret_did_create`
+    - Now returns both `lines` and `did_create` as `tuple`
+        - Due to Pylance giving some errors if `ret_did_create` was used
+    - Input variable `do_splitlines` -> `splitlines`
+
 ## [0.1.3] - 2022-12-12
 
 ### Added
