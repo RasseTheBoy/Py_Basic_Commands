@@ -13,14 +13,10 @@
 
 - `read_file()`
     - Better and more accurate hint typing
-- `@func_timer()`
-    - `time.time()` -> `time.perf_counter()`
-
-### Changed
-
-- `read_file()`
     - given input variable for `create_file_dir()`
         - `file` -> `f`
+- `@func_timer()`
+    - `time.time()` -> `time.perf_counter()`
 
 ## [0.1.31] - 2022-12-21
 
