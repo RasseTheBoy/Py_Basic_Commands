@@ -4,7 +4,7 @@ from functools  import wraps
 from colored    import fg, attr
 from shutil     import rmtree
 from typing     import List, Tuple
-from time   import time
+from time   import perf_counter
 from os     import mkdir, listdir, remove
 
 def try_traceback(skip_traceback=False):
@@ -26,9 +26,9 @@ def func_timer(ret_time=False, do_print=True):
         @wraps(func)
         def wrapper(*args, **kwargs):
             fprint('Function timer started', do_print=do_print)
-            time_start = time()
+            time_start = perf_counter()
             ret_val = func(*args, **kwargs)
-            time_delta = time() - time_start
+            time_delta = perf_counter() - time_start
             fprint(f'Function {func.__name__}{args} {kwargs} Took {time_delta:.4f} seconds to run', do_print=do_print)
             if ret_time:
                 return ret_val, time_delta
@@ -37,7 +37,7 @@ def func_timer(ret_time=False, do_print=True):
     return timer
 
 
-def fprint(text=None, nl=True, flush=False, do_print=True, end=''):
+def fprint(text=None, nl=True, flush=False, do_print=True, end='') -> None:
     if not text:
         text = ''
 
@@ -68,10 +68,10 @@ def finput(text='', nl=True, use_end_addon=True, ret_type: type = str):
         print(f'Couldn\'t return input {inpt} as {ret_type}')
         print(f'Input type: {type(inpt)}')
         fprint('Returning value as string')
-        return inpt
+    return inpt
 
 
-def enter_to_continue(text='', nl=True, use_help_text=True):
+def enter_to_continue(text='', nl=True, use_help_text=True) -> bool:
     if text and use_help_text:
         text = f'{text} (press enter to continue) '
 
@@ -119,31 +119,34 @@ def choose_from_list(lst, header_text='', header_nl=False, input_text='Input ind
             return []
 
 
-def read_file(file_path, create:bool=False, remove_empty:bool=True, splitlines:bool=True, do_print:bool=True, encoding:str='utf-8', strip:bool=True) -> Tuple[List[str] | str, bool]:
-    def try_read(did_create:bool=False) -> Tuple[List[str] | str, bool]:
+def read_file(file_path, create:bool=False, ret_did_create:bool=False, remove_empty:bool=True, splitlines:bool=True, do_print:bool=True, encoding:str='utf-8', strip:bool=True) -> (Tuple[List[str] | str, bool] | List[str] | str):
+    def try_reading(did_create:bool=False) -> Tuple[List[str] | str, bool]:
+        lines: List[str] | str = 'Nothing'
         try:
             with open(file_path, 'r', encoding=encoding) as f:
                 lines = f.read()
-                if splitlines:
-                    lines = lines.splitlines()
-                    if strip:
-                        lines = [x.strip() for x in lines]
+            if splitlines:
+                lines = lines.splitlines()
+                if remove_empty:
+                    lines = [x for x in lines if x != '']
+                if strip:
+                    lines = [x.strip() for x in lines]
             return lines, did_create
         except FileNotFoundError:
+            fprint(f'File not found: {file_path}')
             if create:
-                create_file_dir('f', file_path, force=True)
-                did_create = True
-                return try_read(did_create)
-            else:
-                fprint(f'File not found: {file_path}', do_print=do_print)
-                if splitlines:
-                    return [], did_create
-                return '', did_create
-    
-    return try_read()
+                create_file_dir('f', file_path, force=True, do_print=do_print)
+                return try_reading(True)
+        return lines, did_create
+
+    lines,did_create = try_reading()
+
+    if ret_did_create:
+        return lines,did_create
+    return lines
 
 
-def write_file(text, file_path, append=False, create=True, encoding='utf-8', do_print=True):
+def write_file(text, file_path, append=False, create=True, encoding='utf-8', do_print=True) -> bool:
     if text.__class__.__name__ in ('list', 'tuple', 'set'):
         text = '\n'.join(text)
 
@@ -235,7 +238,7 @@ def get_dir_path_for_file(file_path, ret_val='a'):
     return dir_path, filename
 
 
-def fd(variable, nl=False):
+def fd(variable, nl=False) -> None:
     reset = attr('reset')
     filename, lineno, function_name, code = traceback.extract_stack()[-2]
     original_var = code.replace('fd(', '').replace(')', '', 1)

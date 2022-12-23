@@ -1,6 +1,20 @@
 # Changelog
 
-## [0.1.32] - 2022
+## [0.1.32] - 2022-12-24
+
+### Added
+
+- `read_file()`
+    - `remove_empty` function added back
+        - Was accidentally removed
+    - `ret_did_create` added back
+
+### Changed
+
+- `read_file()`
+    - Better and more accurate hint typing
+- `@func_timer()`
+    - `time.time()` -> `time.perf_counter()`
 
 ### Changed
 
