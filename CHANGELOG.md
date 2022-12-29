@@ -2,7 +2,7 @@
 
 ## [0.1.4] - 2022-12-30
 
-## The JSON update!
+### The JSON update!
 
 ### Added
 
