@@ -1,9 +1,9 @@
-import traceback
+import traceback, json
 
 from functools  import wraps
 from colored    import fg, attr
 from shutil     import rmtree
-from typing     import List, Tuple
+from typing     import Any
 from time   import perf_counter
 from os     import mkdir, listdir, remove
 
@@ -119,9 +119,9 @@ def choose_from_list(lst, header_text='', header_nl=False, input_text='Input ind
             return []
 
 
-def read_file(file_path, create:bool=False, ret_did_create:bool=False, remove_empty:bool=True, splitlines:bool=True, do_print:bool=True, encoding:str='utf-8', strip:bool=True) -> (Tuple[List[str] | str, bool] | List[str] | str):
-    def try_reading(did_create:bool=False) -> Tuple[List[str] | str, bool]:
-        lines: List[str] | str = 'Nothing'
+def read_file(file_path, create:bool=False, ret_did_create:bool=False, remove_empty:bool=True, splitlines:bool=True, do_print:bool=True, encoding:str='utf-8', strip:bool=True) -> Any:
+    def try_reading(did_create:bool=False):
+        lines: list[str] | str = []
         try:
             with open(file_path, 'r', encoding=encoding) as f:
                 lines = f.read()
@@ -183,7 +183,7 @@ def create_file_dir(do, do_path, force=False, do_print=True):
         create_dir()
     
     elif do == 'f': # File
-        file_dir, filename = get_dir_path_for_file(do_path) #type:ignore
+        file_dir, filename = get_dir_path_for_file(do_path)
         files_in_path = listdir(file_dir)
 
         if force or filename not in files_in_path:
@@ -221,7 +221,7 @@ def remove_file_dir(do, do_path, force=False, do_print=True):
         fprint(f'File removed: {do_path}', do_print=do_print)
 
 
-def get_dir_path_for_file(file_path, ret_val='a'):
+def get_dir_path_for_file(file_path, ret_val='a') -> Any:
     dir_path = file_path.replace('\\', '/').split('/')
     if len(dir_path) == 1:
         dir_path = None
@@ -261,3 +261,23 @@ def fd(variable, nl=False) -> None:
 
 def join_path(*args, join_with='\\'):
     return join_with.join(args)
+
+
+def create_json(filepath:str, force:bool=False, do_print:bool=True) -> bool:
+    did_create = create_file_dir('f', filepath, force=force, do_print=do_print)
+    if did_create:
+        open(filepath, 'w').write(json.dumps({}, indent=4))
+    return did_create
+
+
+def read_json(filepath:str):
+    try:
+        with open(filepath, 'r') as f:
+            file_data = json.load(f)
+        return file_data
+    except FileNotFoundError:
+        fprint(f'File not found: {filepath}')
+    except json.decoder.JSONDecodeError:
+        fprint(f'File cannot be read as a JSON: {filepath}')
+    except Exception:
+        fprint(traceback.format_exc())

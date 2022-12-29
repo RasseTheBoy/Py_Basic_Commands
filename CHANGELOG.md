@@ -1,5 +1,26 @@
 # Changelog
 
+## [0.1.33] - 2022-12-30
+
+## The JSON update!
+
+### Added
+
+- New functions
+    - `create_json()`
+    - `read_json()`
+- from `typing` import
+    - `Any`
+- `read_file()`
+    - return type hint set as `Any`
+
+### Removed
+
+- from `typing` import
+    - `List`, `Tuple`
+- `read_file().try_reading()`
+    - return type hint removed
+
 ## [0.1.32] - 2022-12-24
 
 ### Added
