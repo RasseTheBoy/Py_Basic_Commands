@@ -146,14 +146,22 @@ def read_file(file_path, create:bool=False, ret_did_create:bool=False, remove_em
     return lines
 
 
-def write_file(text, file_path, append=False, create=True, encoding='utf-8', do_print=True) -> bool:
+def write_file(text:str, file_path:str, append:bool=False, create:bool=True, encoding:str='utf-8', do_print:bool=True) -> bool:
+    if text.__class__.__name__ == 'ndarray':
+        text = text.tolist()
+    
     if text.__class__.__name__ in ('list', 'tuple', 'set'):
         text = '\n'.join(text)
 
-    lines, did_create = read_file(file_path, create=True, ret_did_create=True, remove_empty=False, do_splitlines=False, do_print=do_print)
+    lines, did_create = read_file(file_path, create=create, ret_did_create=True, remove_empty=False, splitlines=False, do_print=do_print)
 
-    if not did_create and lines[-1] != '\n':
-        text = '\n' + text 
+    try:
+        if not did_create and lines[-1] != '\n':
+            text = '\n' + text 
+    except IndexError:
+        pass
+    except Exception:
+        print(traceback.format_exc())
 
     if append:
         mode = 'a'
@@ -166,7 +174,7 @@ def write_file(text, file_path, append=False, create=True, encoding='utf-8', do_
     return did_create
 
 
-def create_file_dir(do, do_path, force=False, do_print=True) -> bool:
+def create_file_dir(do:str, do_path:str, force:bool=False, do_print:bool=True) -> bool:
     def create_dir():
         try:
             mkdir(do_path)

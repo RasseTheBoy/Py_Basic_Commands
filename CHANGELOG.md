@@ -6,6 +6,8 @@
 
 - `read_json()`
     - return type hint set as `Any`
+- `write_file()`
+    - takes to account if input is a numpy array
 
 ## [0.1.41] - 2022-12-30
 
