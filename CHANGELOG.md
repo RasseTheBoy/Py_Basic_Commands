@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.41] - 2022-12-30
+
+### Changed
+
+- `create_file_dir()`
+    - returns `bool` if file or directory was created
+        - return type hint set as `bool`
+
 ## [0.1.4] - 2022-12-30
 
 ### The JSON update!
@@ -11,8 +19,7 @@
     - `read_json()`
 - from `typing` import
     - `Any`
-- `read_file()`
-    - return type hint set as `Any`
+
 
 ### Removed
 
@@ -20,6 +27,11 @@
     - `List`, `Tuple`
 - `read_file().try_reading()`
     - return type hint removed
+
+### Changed
+
+- `read_file()`
+    - return type hint set as `Any`
 
 ## [0.1.32] - 2022-12-24
 

@@ -166,7 +166,7 @@ def write_file(text, file_path, append=False, create=True, encoding='utf-8', do_
     return did_create
 
 
-def create_file_dir(do, do_path, force=False, do_print=True):
+def create_file_dir(do, do_path, force=False, do_print=True) -> bool:
     def create_dir():
         try:
             mkdir(do_path)
@@ -180,7 +180,7 @@ def create_file_dir(do, do_path, force=False, do_print=True):
                 return create_dir()
 
     if do == 'd': # Directory
-        create_dir()
+        return create_dir()
     
     elif do == 'f': # File
         file_dir, filename = get_dir_path_for_file(do_path)
@@ -190,10 +190,13 @@ def create_file_dir(do, do_path, force=False, do_print=True):
             try:
                 open(do_path, 'w', encoding='utf-8').close()
                 fprint(f'File created: {do_path}', do_print=do_print)
+                return True
             except FileExistsError:
                 fprint(f'File already exists: {do_path}', do_print=do_print)
+                return False
         elif filename in files_in_path:
             fprint(f'File already exists: {do_path}', do_print=do_print)
+            return False
 
 
 @try_traceback(skip_traceback=True)
