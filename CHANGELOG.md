@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.42] - 2022
+
+### Added
+
+- `read_json()`
+    - return type hint set as `Any`
+
 ## [0.1.41] - 2022-12-30
 
 ### Changed

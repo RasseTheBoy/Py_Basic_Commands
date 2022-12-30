@@ -273,7 +273,7 @@ def create_json(filepath:str, force:bool=False, do_print:bool=True) -> bool:
     return did_create
 
 
-def read_json(filepath:str):
+def read_json(filepath:str) -> Any:
     try:
         with open(filepath, 'r') as f:
             file_data = json.load(f)
