@@ -153,7 +153,7 @@ def write_file(text:str, file_path:str, append:bool=False, create:bool=True, enc
     if text.__class__.__name__ in ('list', 'tuple', 'set'):
         text = '\n'.join(text)
 
-    lines, did_create = read_file(file_path, create=create, ret_did_create=True, remove_empty=False, splitlines=False, do_print=do_print)
+    lines, did_create = read_file(file_path, create:=create, ret_did_create=True, remove_empty=False, splitlines=False, do_print=do_print)
 
     try:
         if not did_create and lines[-1] != '\n':
@@ -290,5 +290,26 @@ def read_json(filepath:str) -> Any:
         fprint(f'File not found: {filepath}')
     except json.decoder.JSONDecodeError:
         fprint(f'File cannot be read as a JSON: {filepath}')
+    except Exception:
+        fprint(traceback.format_exc())
+
+
+def write_json(data:str, filepath:str, indent:int=4, force:bool=False, do_print:bool=True):
+    try:
+        if data.__class__.__name__ == ('str'):
+            data = json.loads(data)
+
+        d = read_json(filepath)
+        
+        if d and not force:
+            fprint(f'Data found in JSON file, not writing new data: {filepath}', do_print=do_print)
+            return
+
+        with open(filepath, 'w') as f:
+            json.dump(data, f, indent=indent)
+
+        fprint(f'Wrote data to JSON file: {filepath}', do_print=do_print)
+    except TypeError:
+        fprint(f'Data type is wrong, can\'t write to JSON: {data.__class__.__name__}', do_print=do_print)
     except Exception:
         fprint(traceback.format_exc())
