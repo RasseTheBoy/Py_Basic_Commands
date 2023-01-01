@@ -146,7 +146,7 @@ def read_file(file_path, create:bool=False, ret_did_create:bool=False, remove_em
     return lines
 
 
-def write_file(text:str, file_path:str, append:bool=False, create:bool=True, encoding:str='utf-8', do_print:bool=True) -> bool:
+def write_file(text:Any, file_path:str, append:bool=False, create:bool=True, encoding:str='utf-8', do_print:bool=True) -> bool:
     if text.__class__.__name__ == 'ndarray':
         text = text.tolist()
     
@@ -294,7 +294,7 @@ def read_json(filepath:str) -> Any:
         fprint(traceback.format_exc())
 
 
-def write_json(data:str, filepath:str, indent:int=4, force:bool=False, do_print:bool=True):
+def write_json(data:Any, filepath:str, indent:int=4, force:bool=False, do_print:bool=True):
     try:
         if data.__class__.__name__ == ('str'):
             data = json.loads(data)

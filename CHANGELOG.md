@@ -4,6 +4,8 @@
 
 ### Added
 
+- New function
+    - `write_json()`
 - `read_json()`
     - return type hint set as `Any`
 - `write_file()`
