@@ -1,11 +1,12 @@
 # Changelog
 
-## [0.1.42] - 2022
+## [0.1.42] - 2023
 
 ### Added
 
 - New function
     - `write_json()`
+    - `chunker()`
 - `read_json()`
     - return type hint set as `Any`
 - `write_file()`

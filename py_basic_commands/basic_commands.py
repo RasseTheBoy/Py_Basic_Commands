@@ -274,6 +274,10 @@ def join_path(*args, join_with='\\'):
     return join_with.join(args)
 
 
+def chunker(seq, size:int):
+    return (seq[pos:pos + size] for pos in range(0, len(seq), size))
+
+
 def create_json(filepath:str, force:bool=False, do_print:bool=True) -> bool:
     did_create = create_file_dir('f', filepath, force=force, do_print=do_print)
     if did_create:
