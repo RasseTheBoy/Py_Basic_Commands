@@ -2,7 +2,7 @@
 Py Basic Commands
 ==================
 
-A package with some basic tools for Python (3.6>)
+A package with some basic tools and commands for Python (3.6>)
 # Author
 
 - [@RasseTheBoy](https://github.com/RasseTheBoy)
