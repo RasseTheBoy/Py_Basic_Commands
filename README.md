@@ -2,7 +2,7 @@
 Py Basic Commands
 ==================
 
-![py_basic_commands logo](/Logo/py_basic_commands.png?raw=True | width=100)
+<img src="https://github.com/RasseTheBoy/Py_Basic_Commands/blob/main/Logo/py_basic_commands.png" width=300>
 
 A package with some basic tools and commands for Python (3.6>)
 
