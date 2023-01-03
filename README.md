@@ -37,17 +37,17 @@ Install using pip
 
 ## Links to functions
 
-- [fprint()](#fprint())
-- [finput()](#finput())
-- [enter_to_continue()](#enter_to_continue())
-- [choose_from_list()](#choose_from_list())
-- [read_file()](#read_file())
-- [create_file_dir()](#create_file_dir())
-- [remove_file_dir()](#remove_file_dir())
-- [get_dir_path_for_file()](#get_dir_path_for_file())
-- [join_path()](#join_path())
-- [try_traceback()](#try_traceback())
-- [func_timer()](#func_timer())
+- [fprint()](#fprint)
+- [finput()](#finput)
+- [enter_to_continue()](#enter_to_continue)
+- [choose_from_list()](#choose_from_list)
+- [read_file()](#read_file)
+- [create_file_dir()](#create_file_dir)
+- [remove_file_dir()](#remove_file_dir)
+- [get_dir_path_for_file()](#get_dir_path_for_file)
+- [join_path()](#join_path)
+- [try_traceback()](#try_traceback)
+- [func_timer()](#func_timer)
 
 
 ## fprint()
