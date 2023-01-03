@@ -3,6 +3,7 @@
 ## FastDebugger()
 
 - Should print a list like `ic()`
+- Doesn't print lists properly
 
 ## README.md
 
