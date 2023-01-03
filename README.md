@@ -2,10 +2,15 @@
 Py Basic Commands
 ==================
 
+![py_basic_commands logo](/Logo/py_basic_commands.png?raw=True | width=100)
+
 A package with some basic tools and commands for Python (3.6>)
+
+
 # Author
 
 - [@RasseTheBoy](https://github.com/RasseTheBoy)
+
 # Installation
 
 Install using pip
