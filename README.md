@@ -1,11 +1,12 @@
 
-# Py Basic Tools
+Py Basic Commands
+==================
 
 A package with some basic tools for Python (3.6>)
-## Author
+# Author
 
 - [@RasseTheBoy](https://github.com/RasseTheBoy)
-## Installation
+# Installation
 
 Install using pip
 
@@ -15,7 +16,7 @@ Install using pip
   pip3 install py_baisc_tools
 ```
 
-## Table of input variables
+# Table of input variables
 
 | Variable | Usage | Type |
 | :---: | :---: | :---: |
@@ -32,9 +33,25 @@ Install using pip
 | ret_type | Variable type to return | type |
 | ret_var | Variable to return | str |
 
-## Examples
+# Examples
 
-### fprint()
+## Links to functions
+
+- [fprint()](##fprint())
+- [finput()](##finput())
+- [enter_to_continue()](##enter_to_continue())
+- [choose_from_list()](##choose_from_list())
+- [read_file()](##read_file())
+- [create_file_dir()](##create_file_dir())
+- [remove_file_dir()](##remove_file_dir())
+- [get_dir_path_for_file()](##get_dir_path_for_file())
+- [join_dir()](##join_dir())
+- [try_traceback()](##try_traceback())
+- [func_timer()](##func_timer())
+- [finput()](##finput())
+
+
+## fprint()
 
 - Customizable input function
 
@@ -51,7 +68,7 @@ Hello World
 ```
 
 The above fprint() examples are very basic. But you could implement and customise it to your liking.
-### finput()
+## finput()
 
 - Customizable input function
 
@@ -77,7 +94,7 @@ Returning value as string
 
 'five'
 ```
-### enter_to_continue()
+## enter_to_continue()
 
 - Wait until user presses enter to continue
 - Returns:
@@ -101,7 +118,7 @@ Waiting
 >>> enter_to_continue(use_help_text=False)
 
 ```
-### choose_from_list()
+## choose_from_list()
 
 - Choose one or more variables from user given list
 - When choosing more than one, add a space between chosen indexes
@@ -157,7 +174,7 @@ Input what you will: 0
 
 ['foo']
 ```
-### read_file()
+## read_file()
 
 - Function tries to read the file, and if it fails, it will create the file if the `create` argument is True.
 - If the file is read successfully, the function will return a list of lines from the file
@@ -178,7 +195,7 @@ File created: path/to/file.txt
 >>> read_file('path/to/file.txt', remove_empty_lines=False)
 ['hello', 'world', '', 'foo bar']
 ```
-### create_file_dir()
+## create_file_dir()
 
 - Creates a file or directory to the given path
 
@@ -198,7 +215,7 @@ File created: path/to/file.txt
 Directory created: path/to/new directory
 
 ```
-### remove_file_dir()
+## remove_file_dir()
 
 - Removes a file or directory to the given path
 
@@ -218,7 +235,7 @@ File not found: path/to/another file.txt
 >>> remove_file_dir('dir', 'path/to/directory')
 Directory path not found: path/to/directory
 ```
-### get_dir_path_for_file()
+## get_dir_path_for_file()
 
 - Gets the path to the direcotry where given file is
 - Returns: 
@@ -233,7 +250,7 @@ Directory path not found: path/to/directory
 >>> get_dir_path_for_file('path/to/file.txt', ret_var='dir')
 'path/to'
 ```
-### join_dir()
+## join_dir()
 
 - Joins given paths together
     - Like `os.path.join()`
@@ -244,7 +261,7 @@ Directory path not found: path/to/directory
 >>> join_dir('hello', 'world', join_with='/')
 'hello/world'
 ```
-### try_traceback()
+## try_traceback()
 
 Code:
 ```python
@@ -271,7 +288,7 @@ Traceback (most recent call last):
 ```
 
 `bar()` doesn't raise an exception, because traceback was skipped.
-### func_timer()
+## func_timer()
 
 - The decorator can be used to time any function, and it will print the time it took to run the function
 - Returns:

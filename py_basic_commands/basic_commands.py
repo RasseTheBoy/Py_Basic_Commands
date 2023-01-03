@@ -1,6 +1,7 @@
 import traceback, json
 
 from functools  import wraps
+from datetime   import datetime
 from colored    import fg, attr
 from shutil     import rmtree
 from typing     import Any
@@ -181,7 +182,7 @@ def create_file_dir(do:str, do_path:str, force:bool=False, do_print:bool=True) -
             fprint(f'Directory created: {do_path}', do_print=do_print)
             return True
         except FileExistsError:
-            fprint(f'Directory aleady exists: {do_path}', nl=False, do_print=do_print)
+            fprint(f'Directory aleady exists: {do_path}', nl=not force, do_print=do_print)
             if force:
                 rmtree(do_path)
                 fprint(f'Directory removed: {do_path}', nl=False, do_print=do_print)
@@ -249,33 +250,12 @@ def get_dir_path_for_file(file_path, ret_val='a') -> Any:
     return dir_path, filename
 
 
-def fd(variable, nl=False) -> None:
-    reset = attr('reset')
-    filename, lineno, function_name, code = traceback.extract_stack()[-2]
-    original_var = code.replace('fd(', '').replace(')', '', 1)
-    if code.replace(original_var, '') != 'fd()':
-        original_var = code
-
-    variable_type = type(variable).__name__
-
-    if variable == True:
-        variable = fg("green") + str(variable) + reset
-    elif variable == False:
-        variable = fg("red") + str(variable) + reset
-    elif isinstance(variable, int):
-        variable = fg("blue") + str(variable) + reset
-    else:
-        variable = f'{variable!r}'
-
-    fprint(f'fd | {variable_type} | {original_var}: {variable}', nl=nl)
-
-
 def join_path(*args, join_with='\\'):
     return join_with.join(args)
 
 
-def chunker(seq, size:int):
-    return (seq[pos:pos + size] for pos in range(0, len(seq), size))
+def chunker(seq, size:int) -> Any:
+    return [seq[pos:pos + size] for pos in range(0, len(seq), size)]
 
 
 def create_json(filepath:str, force:bool=False, do_print:bool=True) -> bool:
@@ -317,3 +297,76 @@ def write_json(data:Any, filepath:str, indent:int=4, force:bool=False, do_print:
         fprint(f'Data type is wrong, can\'t write to JSON: {data.__class__.__name__}', do_print=do_print)
     except Exception:
         fprint(traceback.format_exc())
+
+
+class FastDebugger:
+    def __init__(self) -> None:
+        self.add_color = lambda color, s: fg(color) + s + attr('reset')
+
+
+    def find_fd_brackets(self, code:str) -> Any:
+        fd_indxs = []
+        for char_indx, char in enumerate(code):
+            if code[char_indx-2:char_indx+1] == 'fd(':
+                fd_indxs.append({'start': char_indx+1, 'end': None})
+            elif char == ')':
+                for x in fd_indxs[::-1]:
+                    if not x['end']:
+                        x['end'] = char_indx
+        self.fd_indxs = fd_indxs
+
+
+    def get_color(self):
+        color = None
+        match self.variable_type:
+            case 'bool':
+                if self.variable:
+                    color = 'green'
+                else:
+                    color = 'red'
+            case 'int' | 'float':
+                color = 'blue'
+            case 'str':
+                self.variable = f'{self.variable!r}'
+        return color
+
+
+    def is_args_empty(self, args):
+        if args != ():
+            return False
+        
+        time_now = datetime.now().strftime('%d/%m/%Y - %H:%M:%S')
+        print(f'fd | {time_now}')
+        return True
+
+    
+    def __call__(self, *args:Any, nl:bool=False):
+        if self.is_args_empty(args):
+            return
+
+        filename, lineno, function_name, code = traceback.extract_stack()[-2]
+
+        if ';' in code:
+            code_split = code.split(';')
+            for func in code_split:
+                if 'fd(' in func:
+                    code = func
+                    continue
+        
+        self.find_fd_brackets(code)
+
+        var_lst = [x.strip() for x in code[self.fd_indxs[0]['start']:self.fd_indxs[0]['end']].split(',')]
+        for var_indx, self.variable in enumerate(args):
+            self.variable_type:str = self.variable.__class__.__name__
+
+            color = self.get_color()
+
+            self.variable_type = self.variable_type.center(5)
+
+            if color:
+                self.variable_type, self.variable = [self.add_color(color, str(x)) for x in (self.variable_type, self.variable)]
+
+            fprint(f'fd | {self.variable_type} | {var_lst[var_indx]}: {self.variable}', nl=nl)
+
+
+fd = FastDebugger()

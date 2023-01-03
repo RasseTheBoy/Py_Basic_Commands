@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.1.43] - 2023-3-1
+
+### Added
+
+- `chunker()`
+    - type hint returns `Any`
+- New file
+    - `TODO.md`
+
+### Changed
+
+- `chunker()`
+    - returns `list` instead of `generator`
+- `fd()`
+    - changed from a `function` to a `class`
+    - input set as *args
+        - can take multiple variables
+
 ## [0.1.42] - 2023-1-1
 
 ### Added
@@ -7,6 +25,7 @@
 - New function
     - `write_json()`
     - `chunker()`
+    - `join_path()`
 - `read_json()`
     - return type hint set as `Any`
 - `write_file()`
