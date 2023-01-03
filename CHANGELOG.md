@@ -8,6 +8,7 @@
     - type hint returns `Any`
 - New file
     - `TODO.md`
+- New logo added to `README.md`
 
 ### Changed
 
