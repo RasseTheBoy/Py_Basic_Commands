@@ -17,6 +17,8 @@
     - changed from a `function` to a `class`
     - input set as *args
         - can take multiple variables
+- New function name
+        - `join_dir()` -> `join_path()`
 
 ## [0.1.42] - 2023-1-1
 
@@ -25,7 +27,6 @@
 - New function
     - `write_json()`
     - `chunker()`
-    - `join_path()`
 - `read_json()`
     - return type hint set as `Any`
 - `write_file()`
@@ -50,7 +51,6 @@
     - `read_json()`
 - from `typing` import
     - `Any`
-
 
 ### Removed
 
