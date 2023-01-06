@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.1.44] - 2023
+
+### Added
+
+- `README.md`
+    - Anchor points to all functions
+
+### Removed
+
+- `FastDebugger()`
+    - Completely removed from `py_basic_commands`
+    - [Separate GitHub project](https://github.com/RasseTheBoy/FastDebugger)
+
 ## [0.1.43] - 2023-3-1
 
 ### Added
