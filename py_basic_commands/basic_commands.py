@@ -1,8 +1,6 @@
 import traceback, json
 
 from functools  import wraps
-from datetime   import datetime
-from colored    import fg, attr
 from shutil     import rmtree
 from typing     import Any
 from time   import perf_counter
@@ -16,8 +14,8 @@ def try_traceback(skip_traceback=False):
                 return func(*args, **kwargs)
             except:
                 if not skip_traceback:
-                    print(traceback.format_exc())
-                return traceback.format_exc()
+                    fprint(traceback.format_exc())
+                return None
         return wrapper
     return try_except
 

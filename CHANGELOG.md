@@ -7,11 +7,17 @@
 - `README.md`
     - Anchor points to all functions
 
+### Changed
+
+- `try-traceback()`
+    - returns `None` instead `traceback.format_exc()` if `except` is called
+
 ### Removed
 
 - `FastDebugger()`
     - Completely removed from `py_basic_commands`
-    - [Separate GitHub project](https://github.com/RasseTheBoy/FastDebugger)
+    - [Separate GitHub repo](https://github.com/RasseTheBoy/FastDebugger)
+    - Unnecessary imports removed from `py_basic_commands`
 
 ## [0.1.43] - 2023-3-1
 
