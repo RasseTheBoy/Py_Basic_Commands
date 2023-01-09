@@ -10,7 +10,9 @@
 ### Changed
 
 - `try-traceback()`
-    - returns `None` instead `traceback.format_exc()` if `except` is called
+    - Returns `None` instead `traceback.format_exc()` if `except` is called
+- `fprint()`
+    - Takes `*args:Any` instead of just a single `string` as input
 
 ### Removed
 

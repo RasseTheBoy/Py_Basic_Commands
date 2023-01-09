@@ -2,11 +2,21 @@ import traceback, json
 
 from functools  import wraps
 from shutil     import rmtree
-from typing     import Any
+from typing     import Any, Optional
 from time   import perf_counter
 from os     import mkdir, listdir, remove
 
 def try_traceback(skip_traceback=False):
+    """Wraps a `try except` for the whole function
+    
+    Parameters:
+        `skip_traceback`: Doesn't print the traceback
+        
+    Return:
+        `func(*args, **kwargs)`: Returns whatever the given function should return
+        
+        `None`: If `except` is raised"""
+
     def try_except(func):
         @wraps(func)
         def wrapper(*args, **kwargs):
@@ -21,6 +31,18 @@ def try_traceback(skip_traceback=False):
 
 
 def func_timer(ret_time=False, do_print=True):
+    """Times the excecution time of a function.
+    
+    Parameters:
+        `ret_time`: If time delta should be returned
+        
+        `do_print`: Print time delta
+        
+    Return:
+        `ret_val`: Default return values from the given fucntion
+        
+        `time_delta`: Time delta of function excecution time"""
+
     def timer(func):
         @wraps(func)
         def wrapper(*args, **kwargs):
@@ -36,24 +58,51 @@ def func_timer(ret_time=False, do_print=True):
     return timer
 
 
-def fprint(text=None, nl=True, flush=False, do_print=True, end='') -> None:
-    if not text:
-        text = ''
-
-    if nl:
-        text = f'{text}\n'
+def fprint(*args:Any, nl:bool=True, flush:bool=False, do_print:bool=True, end:Optional[str]=None) -> None:
+    """Custom print function.
+    
+    Parameters:
+        `*args`: Values to be printed
+        
+        `nl`: If a new line should be included at the end a the print
+        
+        `flush`: Add flush to print
+        
+        `do_print`: Should values be printed
+        
+        `end`: Same as the `end` in the default print funciton"""
 
     if do_print:
-        if not end:
-            print(text, flush=flush)
-        else:
-            print(text, end=end, flush=flush)
+        if not args:
+            print('')
+
+        for arg in args:
+            if nl:
+                arg = f'{arg}\n'
+
+            print(arg, end=end, flush=flush)
 
 
-def finput(text='', nl=True, use_end_addon=True, ret_type: type = str):
+def finput(text:str='', nl:bool=True, use_suffix:bool=True, ret_type:type=str):
+    """Custom input function.
+    
+    Parameters:
+        `text`: Text to be shown
+        
+        `nl`: If a newline should be printed after the input
+        
+        `use_suffix`: if `': '` should be added at the end of the input text
+        
+        `ret_type`: Type the input variable should be returned as
+        
+    Return:
+        `ret_type(inpt)`: Input value changed to the desired type
+        
+        `inpt`: Input value returned as a string if it can't be changed to the desired type"""
+
     if not text:
         text = 'Input: '
-    elif use_end_addon and text.rstrip()[-1] != ':':
+    elif use_suffix and text.rstrip()[-1] != ':':
         text = f'{text}: '
 
     inpt = input(text)
@@ -70,11 +119,23 @@ def finput(text='', nl=True, use_end_addon=True, ret_type: type = str):
     return inpt
 
 
-def enter_to_continue(text='', nl=True, use_help_text=True) -> bool:
-    if text and use_help_text:
+def enter_to_continue(text:str='', nl:bool=True, use_suffix:bool=True) -> bool:
+    """Wait for user input to continue.
+    
+    Parameters:
+        `text`: Text to show
+        
+        `nl`: If a new line should be printed afetr the input
+        
+        `use_suffix`: If a suffix should be used
+        
+    Return:
+        `not any(inpt)`: `True` if input was left empty, `False` if not"""
+
+    if text and use_suffix:
         text = f'{text} (press enter to continue) '
 
-    elif not text and use_help_text:
+    elif not text and use_suffix:
         text = 'Press enter to continue... '
     
     inpt = input(text)
@@ -85,7 +146,20 @@ def enter_to_continue(text='', nl=True, use_help_text=True) -> bool:
     return not any(inpt)
 
 
-def choose_from_list(lst, header_text='', header_nl=False, input_text='Input index: ', choose_total=1, start_num=0, choose_until_correct=True) -> list:
+def choose_from_list(_array:Any, header_text:str='', header_nl:bool=False, input_text:str='Input index: ', choose_total:int=1, start_num:int=0, choose_until_correct:bool=True) -> list:
+    """Choose one or more values from a list.
+     
+    - Parameters:
+        - `_array`: An array to choose item(s) from        
+        - `header_text`: String to use before the array is printed
+        - `header_nl`: If a new line is printed after the header
+        - `input_text`: Text displayed in the input function
+        - `choose_total`: Total amount of values to choose
+        - `start_num`: What number the list index should start at
+        - `choose_until_correct`: Only continue after a valid value is chosen from the given array
+    - Return:
+        - A list of variables that've been chosen. A list is returned even when only one value is requested."""
+
     if not header_text:
         if choose_total == 1:
             header_text = '---Choose 1 value---'
@@ -94,7 +168,7 @@ def choose_from_list(lst, header_text='', header_nl=False, input_text='Input ind
 
     fprint(header_text, nl=header_nl)
 
-    for indx, val in enumerate(lst):
+    for indx, val in enumerate(_array):
         print(f'({indx+start_num}) {val}')
     print()
 
@@ -106,11 +180,11 @@ def choose_from_list(lst, header_text='', header_nl=False, input_text='Input ind
             if any({x<start_num for x in inpt_indx}):
                 raise IndexError
 
-            return [lst[x - start_num] for x in inpt_indx]
+            return [_array[x - start_num] for x in inpt_indx]
 
         except IndexError:
             print('Given index is out of range')
-            fprint(f'Value has to be between: {start_num}-{start_num+len(lst)-1}')
+            fprint(f'Value has to be between: {start_num}-{start_num+len(_array)-1}')
         except:
             fprint(f'Input not a valid index: {inpt_indx}')
 
@@ -118,7 +192,21 @@ def choose_from_list(lst, header_text='', header_nl=False, input_text='Input ind
             return []
 
 
-def read_file(file_path, create:bool=False, ret_did_create:bool=False, remove_empty:bool=True, splitlines:bool=True, do_print:bool=True, encoding:str='utf-8', strip:bool=True) -> Any:
+def read_file(file_path, create:bool=False, ret_did_create:bool=False, splitlines:bool=True, remove_empty:bool=True, strip:bool=True, encoding:str='utf-8', do_print:bool=True) -> Any:
+    """Read a file and return the read content.
+    
+    - Parameters:
+        - `file_path`: Path to the file that is going to be read
+        - `create`: Creates the file if not found
+        - `ret_did_create`: Return value if file was created or not
+        - `splitlines`: Converts the read file string to a list of lines
+            - `remove_empty`: Remove empty lines from the read file list
+            - `strip`: If the individual lines in the list should be stripped
+        - `encoding`: What encoding should be used when reading the file
+        - `do_print`: Print status messages
+    - Return:
+        - The read file is returned as a list or a string, depending on the given parameters."""
+
     def try_reading(did_create:bool=False):
         lines: list[str] | str = []
         try:
@@ -146,6 +234,18 @@ def read_file(file_path, create:bool=False, ret_did_create:bool=False, remove_em
 
 
 def write_file(text:Any, file_path:str, append:bool=False, create:bool=True, encoding:str='utf-8', do_print:bool=True) -> bool:
+    """Write content to a file.
+    
+    - Parameters:
+        - `text`: Text to write or append in the file        
+        - `file_path`: Path to the file        
+        - `append`: If the text should be appended, instead of writing on top of the file        
+        - `create`: Create file, if not found:        
+        - `encoding`: Encoding used for writing:
+        - `do_print`: Print status messages
+    - Return:
+        - `did_create`: If a file was created or not"""
+
     if text.__class__.__name__ == 'ndarray':
         text = text.tolist()
     
@@ -174,6 +274,17 @@ def write_file(text:Any, file_path:str, append:bool=False, create:bool=True, enc
 
 
 def create_file_dir(do:str, do_path:str, force:bool=False, do_print:bool=True) -> bool:
+    """Create a file or a directory to given path.
+    
+    - Parameters:
+        - `do`: `'d'` - Create a directory, `'f'` - Create a file
+        - `do_path`: Path to the new file/directory
+        - `force`: Even if an excisting file/directory is found, create a new one
+        - `do_print`: Print status messages
+        
+    - Return:
+        - `did_create`: If the file/directory was created"""
+
     def create_dir():
         try:
             mkdir(do_path)
@@ -207,13 +318,20 @@ def create_file_dir(do:str, do_path:str, force:bool=False, do_print:bool=True) -
 
 
 @try_traceback(skip_traceback=True)
-def remove_file_dir(do, do_path, force=False, do_print=True):
+def remove_file_dir(do:str, do_path:str, force:bool=False, do_print:bool=True) -> None:
+    """Removes file or directory for given path.
+    
+    - Parameters:
+        - `do`: `'f'` - Removes a file, `'d'` - Removes a directory    
+        - `do_path`: Path to the file/directory    
+        - `force`: Removes file/directory even when content is found inside    
+        - `do_print`: Should info get printed"""
+
     if do == 'd': # Directory
         try:
             dir_content = listdir(do_path)
         except FileNotFoundError:
             fprint(f'Directory path not found: {do_path}', do_print=do_print)
-            return traceback.format_exc()
 
         if not dir_content or force:
             rmtree(do_path)
@@ -231,7 +349,14 @@ def remove_file_dir(do, do_path, force=False, do_print=True):
         fprint(f'File removed: {do_path}', do_print=do_print)
 
 
-def get_dir_path_for_file(file_path, ret_val='a') -> Any:
+def get_dir_path_for_file(file_path:str, ret_val='a') -> Any:
+    """Get the directory path for given file path.
+    
+    - Parameters:
+        - `ret_val`:
+            - `'a'` - Return both `'d'` and `'fnam'`
+            - `'d' `- Returns only the directory path
+            - `'fnam'` - Returns only the filename"""
     dir_path = file_path.replace('\\', '/').split('/')
     if len(dir_path) == 1:
         dir_path = None
