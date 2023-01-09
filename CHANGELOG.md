@@ -1,6 +1,13 @@
 # Changelog
 
-## [0.1.44] - 2023
+## [0.1.441] - 2023-1-9
+
+### Changed
+
+- `README.md`
+    - URL to the logo
+
+## [0.1.44] - 2023-1-9
 
 ### Added
 
@@ -22,7 +29,7 @@
     - [Separate GitHub repo](https://github.com/RasseTheBoy/FastDebugger)
     - Unnecessary imports removed from `py_basic_commands`
 
-## [0.1.43] - 2023-3-1
+## [0.1.43] - 2023-1-3
 
 ### Added
 
