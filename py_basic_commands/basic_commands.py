@@ -7,15 +7,14 @@ from time   import perf_counter
 from os     import mkdir, listdir, remove
 
 def try_traceback(skip_traceback=False):
-    """Wraps a `try except` for the whole function
+    """Decorator to catch and handle exceptions raised by a function.
     
     Parameters:
-        `skip_traceback`: Doesn't print the traceback
-        
-    Return:
-        `func(*args, **kwargs)`: Returns whatever the given function should return
-        
-        `None`: If `except` is raised"""
+    - `skip_traceback` (bool): Whether to skip printing the traceback information.
+    
+    Returns:
+    - `function`: The decorated function.
+    """
 
     def try_except(func):
         @wraps(func)
@@ -31,17 +30,15 @@ def try_traceback(skip_traceback=False):
 
 
 def func_timer(ret_time=False, do_print=True):
-    """Times the excecution time of a function.
+    """Decorator to measure the runtime of a function.
     
     Parameters:
-        `ret_time`: If time delta should be returned
-        
-        `do_print`: Print time delta
-        
-    Return:
-        `ret_val`: Default return values from the given fucntion
-        
-        `time_delta`: Time delta of function excecution time"""
+    - `ret_time` (bool): Whether to return the time taken by the function in addition to its return value.
+    - `do_print` (bool): Whether to print the time taken by the function.
+    
+    Returns:
+    - `function`: The decorated function.
+    """
 
     def timer(func):
         @wraps(func)
@@ -59,18 +56,15 @@ def func_timer(ret_time=False, do_print=True):
 
 
 def fprint(*args:Any, nl:bool=True, flush:bool=False, do_print:bool=True, end:Optional[str]=None) -> None:
-    """Custom print function.
+    """Print one or more objects to the console, with optional newline, flushing, and ending characters.
     
     Parameters:
-        `*args`: Values to be printed
-        
-        `nl`: If a new line should be included at the end a the print
-        
-        `flush`: Add flush to print
-        
-        `do_print`: Should values be printed
-        
-        `end`: Same as the `end` in the default print funciton"""
+    - `args` (*Any): One or more objects to print.
+    - `nl` (bool): Whether to append a newline character to the output.
+    - `flush` (bool): Whether to flush the output buffer.
+    - `do_print` (bool): Whether to actually print the output.
+    - `end` (str | None): The string to print at the end of the output.
+    """
 
     if do_print:
         if not args:
@@ -84,21 +78,17 @@ def fprint(*args:Any, nl:bool=True, flush:bool=False, do_print:bool=True, end:Op
 
 
 def finput(text:str='', nl:bool=True, use_suffix:bool=True, ret_type:type=str):
-    """Custom input function.
+    """Get input from the user and return it as a specified type.
     
     Parameters:
-        `text`: Text to be shown
-        
-        `nl`: If a newline should be printed after the input
-        
-        `use_suffix`: if `': '` should be added at the end of the input text
-        
-        `ret_type`: Type the input variable should be returned as
-        
-    Return:
-        `ret_type(inpt)`: Input value changed to the desired type
-        
-        `inpt`: Input value returned as a string if it can't be changed to the desired type"""
+    - `text` (str): The text to prompt the user with. Default is an empty string.
+    - `nl` (bool): Whether to append a newline character after the input. Default is True.
+    - `use_suffix` (bool): Whether to append a colon character to the end of the prompt text. Default is True.
+    - `ret_type` (type): The type to return the input as. Default is `str`.
+    
+    Returns:
+    - The input value, converted to the specified type. If the conversion fails, the value is returned as a string.
+    """
 
     if not text:
         text = 'Input: '
@@ -120,17 +110,16 @@ def finput(text:str='', nl:bool=True, use_suffix:bool=True, ret_type:type=str):
 
 
 def enter_to_continue(text:str='', nl:bool=True, use_suffix:bool=True) -> bool:
-    """Wait for user input to continue.
+    """Prompt the user to press the enter key to continue.
     
     Parameters:
-        `text`: Text to show
-        
-        `nl`: If a new line should be printed afetr the input
-        
-        `use_suffix`: If a suffix should be used
-        
-    Return:
-        `not any(inpt)`: `True` if input was left empty, `False` if not"""
+    - `text` (str): The text to prompt the user with.
+    - `nl` (bool): Whether to append a newline character after the input.
+    - `use_suffix` (bool): Whether to append '(press enter to continue)' to the end of the prompt text.
+    
+    Returns:
+    - `bool`: True if the user pressed the enter key, False otherwise.
+    """
 
     if text and use_suffix:
         text = f'{text} (press enter to continue) '
@@ -147,18 +136,20 @@ def enter_to_continue(text:str='', nl:bool=True, use_suffix:bool=True) -> bool:
 
 
 def choose_from_list(_array:Any, header_text:str='', header_nl:bool=False, input_text:str='Input index: ', choose_total:int=1, start_num:int=0, choose_until_correct:bool=True) -> list:
-    """Choose one or more values from a list.
-
-    - Parameters:
-        - `_array`: An array to choose item(s) from        
-        - `header_text`: String to use before the array is printed
-        - `header_nl`: If a new line is printed after the header
-        - `input_text`: Text displayed in the input function
-        - `choose_total`: Total amount of values to choose
-        - `start_num`: What number the list index should start at
-        - `choose_until_correct`: Only continue after a valid value is chosen from the given array
-    - Return:
-        - A list of variables that've been chosen. A list is returned even when only one value is requested."""
+    """Prompt the user to choose one or more values from a list.
+    
+    Parameters:
+    - `_array` (Any): The list of values to choose from.
+    - `header_text` (str): The text to display as a header.
+    - `header_nl` (bool): Whether to append a newline character after the header.
+    - `input_text` (str): The text to prompt the user with.
+    - `choose_total` (int): The number of values to choose. 
+    - `start_num` (int): The number to start the indexing from.
+    - `choose_until_correct` (bool): Whether to keep prompting the user until a correct input is given.
+    
+    Returns:
+    - `list`: A list of the chosen values.
+    """
 
     if not header_text:
         if choose_total == 1:
@@ -193,20 +184,22 @@ def choose_from_list(_array:Any, header_text:str='', header_nl:bool=False, input
 
 
 def read_file(file_path, create:bool=False, ret_did_create:bool=False, splitlines:bool=True, remove_empty:bool=True, strip:bool=True, encoding:str='utf-8', do_print:bool=True) -> Any:
-    """Read a file and return the read content.
+    """Read the contents of a file.
     
-    - Parameters:
-        - `file_path`: Path to the file that is going to be read
-        - `create`: Creates the file if not found
-        - `ret_did_create`: Return value if file was created or not
-        - `splitlines`: Converts the read file string to a list of lines
-            - `remove_empty`: Remove empty lines from the read file list
-            - `strip`: If the individual lines in the list should be stripped
-        - `encoding`: What encoding should be used when reading the file
-        - `do_print`: Print status messages
-    - Return:
-        - The read file is returned as a list or a string, depending on the given parameters."""
-
+    Parameters:
+    - `file_path` (str): The path to the file to read.
+    - `create` (bool): Whether to create the file if it does not exist.
+    - `ret_did_create` (bool): Whether to return a tuple of the file contents and a bool indicating whether the file was created.
+    - `splitlines` (bool): Whether to split the file contents into a list of lines.
+    - `remove_empty` (bool): Whether to remove empty lines when `splitlines` is True.
+    - `strip` (bool): Whether to strip leading and trailing whitespace from each line when `splitlines` is True.
+    - `encoding` (str): The encoding to use when reading the file.
+    - `do_print` (bool): Whether to print information about the file reading process.
+    
+    Returns:
+    - `Any`: If `ret_did_create` is True, a tuple containing the file contents and a bool indicating whether the file was created. Otherwise, the file contents.
+    """
+    
     def try_reading(did_create:bool=False):
         lines: list[str] | str = []
         try:
@@ -234,17 +227,19 @@ def read_file(file_path, create:bool=False, ret_did_create:bool=False, splitline
 
 
 def write_file(text:Any, file_path:str, append:bool=False, create:bool=True, encoding:str='utf-8', do_print:bool=True) -> bool:
-    """Write content to a file.
+    """Write text to a file.
     
-    - Parameters:
-        - `text`: Text to write or append in the file        
-        - `file_path`: Path to the file        
-        - `append`: If the text should be appended, instead of writing on top of the file        
-        - `create`: Create file, if not found:        
-        - `encoding`: Encoding used for writing:
-        - `do_print`: Print status messages
-    - Return:
-        - `did_create`: If a file was created or not"""
+    Parameters:
+    - `text` (Any): The text to write. Can be a string, list, tuple, set or a numpy.array.
+    - `file_path` (str): The path to the file to write to.
+    - `append` (bool): Whether to append the text to the end of the file.
+    - `create` (bool): Whether to create the file if it does not exist.
+    - `encoding` (str): The encoding to use when writing the file.
+    - `do_print` (bool): Whether to print information about the file writing process.
+    
+    Returns:
+    - `bool`: Whether the file was created.
+    """
 
     if text.__class__.__name__ == 'ndarray':
         text = text.tolist()
@@ -274,16 +269,17 @@ def write_file(text:Any, file_path:str, append:bool=False, create:bool=True, enc
 
 
 def create_file_dir(do:str, do_path:str, force:bool=False, do_print:bool=True) -> bool:
-    """Create a file or a directory to given path.
+    """Create a file or directory at the specified path.
     
-    - Parameters:
-        - `do`: `'d'` - Create a directory, `'f'` - Create a file
-        - `do_path`: Path to the new file/directory
-        - `force`: Even if an excisting file/directory is found, create a new one
-        - `do_print`: Print status messages
-        
-    - Return:
-        - `did_create`: If the file/directory was created"""
+    Parameters:
+    - `do` (str): Whether to create a `'d'`irectory or a `'f'`ile.
+    - `do_path` (str): The path to create the file or directory at.
+    - `force` (bool): Whether to force the creation of the file or directory by deleting any existing file or directory with the same name.
+    - `do_print` (bool): Whether to print information about the file or directory creation process.
+    
+    Returns:
+    - `bool`: Whether the file or directory was created.
+    """
 
     def create_dir():
         try:
@@ -318,14 +314,18 @@ def create_file_dir(do:str, do_path:str, force:bool=False, do_print:bool=True) -
 
 
 @try_traceback(skip_traceback=True)
-def remove_file_dir(do:str, do_path:str, force:bool=False, do_print:bool=True) -> None:
-    """Removes file or directory for given path.
+def remove_file_dir(do:str, do_path:str, force:bool=False, do_print:bool=True) -> bool:
+    """Remove a file or directory at the specified path.
     
-    - Parameters:
-        - `do`: `'f'` - Removes a file, `'d'` - Removes a directory    
-        - `do_path`: Path to the file/directory    
-        - `force`: Removes file/directory even when content is found inside    
-        - `do_print`: Should info get printed"""
+    Parameters:
+    - `do` (str): Whether to remove a `'d'`irectory or a `'f'`ile.
+    - `do_path` (str): The path to the file or directory to remove.
+    - `force` (bool): Whether to force the removal of the file or directory.
+    - `do_print` (bool): Whether to print information about the file or directory removal process.
+    
+    Returns:
+    - `bool`: Whether the file or directory was removed.
+    """
 
     if do == 'd': # Directory
         try:
@@ -336,27 +336,36 @@ def remove_file_dir(do:str, do_path:str, force:bool=False, do_print:bool=True) -
         if not dir_content or force:
             rmtree(do_path)
             fprint(f'Directory removed: {do_path}', do_print=do_print)
+            return True
             
         elif dir_content:
             fprint(f'Directory is not empty, not removing: {do_path}', do_print=do_print)
+            return False
+        
+        else:
+            return False
 
     elif do == 'f': # File
         lines = read_file(do_path)
         if lines and not force:
             fprint(f'File is not empty, not removing: {do_path}', do_print=do_print)
-            return
+            return False
         remove(do_path)
         fprint(f'File removed: {do_path}', do_print=do_print)
+        return True
 
 
 def get_dir_path_for_file(file_path:str, ret_val='a') -> Any:
-    """Get the directory path for given file path.
+    """Get the directory path and filename for a file.
     
-    - Parameters:
-        - `ret_val`:
-            - `'a'` - Return both `'d'` and `'fnam'`
-            - `'d' `- Returns only the directory path
-            - `'fnam'` - Returns only the filename"""
+    Parameters:
+    - `file_path` (str): The path to the file.
+    - `ret_val` (str): Whether to return the `'d'`irectory path, `'fnam'`e of the file, or `'a'`ll (default).
+    
+    Returns:
+    - `Any`: If `ret_val` is `'d'`, the directory path. If `ret_val` is `'fnam'`, the filename. Otherwise, a tuple containing the directory path and the filename.
+    """
+
     dir_path = file_path.replace('\\', '/').split('/')
     if len(dir_path) == 1:
         dir_path = None
@@ -376,21 +385,43 @@ def get_dir_path_for_file(file_path:str, ret_val='a') -> Any:
 def join_path(*args, join_with='/'):
     """Join a list of paths with a specified separator.
     
-    - Parameters:
-        - args (str): A list of paths to join.
-        - join_with (str): The separator to use when joining the paths. Default is '/'.
+    Parameters:
+    - `args` (str): A list of paths to join.
+    - `join_with` (str): The separator to use when joining the paths. Default is '/'.
     
-    - Returns:
-        - str: The joined path."""
+    Returns:
+    - `str`: The joined path.
+    """
 
     return join_with.join(args)
 
 
 def chunker(seq, size:int) -> Any:
+    """Split a sequence into chunks of the specified size.
+    
+    Parameters:
+    - `seq` (Any): The sequence to split. Can be a list, tuple, or any other iterable object.
+    - `size` (int): The size of the chunks.
+    
+    Returns:
+    - `Any`: A list of chunks of the specified size.
+    """
+
     return [seq[pos:pos + size] for pos in range(0, len(seq), size)]
 
 
 def create_json(filepath:str, force:bool=False, do_print:bool=True) -> bool:
+    """Create a new empty JSON file.
+    
+    Parameters:
+    - `filepath` (str): The path for the new JSON file.
+    - `force` (bool): Whether to overwrite any existing file with the same name.
+    - `do_print` (bool): Whether to print information about the file creation process.
+    
+    Returns:
+    - `bool`: Whether the file was created.
+    """
+
     did_create = create_file_dir('f', filepath, force=force, do_print=do_print)
     if did_create:
         open(filepath, 'w').write(json.dumps({}, indent=4))
@@ -398,6 +429,15 @@ def create_json(filepath:str, force:bool=False, do_print:bool=True) -> bool:
 
 
 def read_json(filepath:str) -> Any:
+    """Read data from a JSON file.
+    
+    Parameters:
+    - `filepath` (str): The path of the JSON file to read from.
+    
+    Returns:
+    - `Any`: The data from the JSON file, as a dictionary or list.
+    """
+
     try:
         with open(filepath, 'r') as f:
             file_data = json.load(f)
@@ -411,6 +451,19 @@ def read_json(filepath:str) -> Any:
 
 
 def write_json(data:Any, filepath:str, indent:int=4, force:bool=False, do_print:bool=True):
+    """Write data to a JSON file.
+    
+    Parameters:
+    - `data` (Any): The data to write to the JSON file. This can be a dictionary, list, or a string representation of JSON.
+    - `filepath` (str): The path of the JSON file to write to.
+    - `indent` (int): The number of spaces to use for indentation in the JSON file.
+    - `force` (bool): Whether to overwrite any existing data in the JSON file.
+    - `do_print` (bool): Whether to print information about the data writing process.
+
+    Return:
+    - `bool`: Whether the file was created.
+    """
+
     try:
         if data.__class__.__name__ == ('str'):
             data = json.loads(data)
@@ -419,13 +472,15 @@ def write_json(data:Any, filepath:str, indent:int=4, force:bool=False, do_print:
         
         if d and not force:
             fprint(f'Data found in JSON file, not writing new data: {filepath}', do_print=do_print)
-            return
+            return False
 
         with open(filepath, 'w') as f:
             json.dump(data, f, indent=indent)
 
         fprint(f'Wrote data to JSON file: {filepath}', do_print=do_print)
+        return True
     except TypeError:
         fprint(f'Data type is wrong, can\'t write to JSON: {data.__class__.__name__}', do_print=do_print)
     except Exception:
         fprint(traceback.format_exc())
+    return False

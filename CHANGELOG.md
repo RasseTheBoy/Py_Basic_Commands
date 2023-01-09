@@ -6,6 +6,7 @@
 
 - `README.md`
     - Anchor points to all functions
+- A docstring to each function
 
 ### Changed
 
