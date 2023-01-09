@@ -148,7 +148,7 @@ def enter_to_continue(text:str='', nl:bool=True, use_suffix:bool=True) -> bool:
 
 def choose_from_list(_array:Any, header_text:str='', header_nl:bool=False, input_text:str='Input index: ', choose_total:int=1, start_num:int=0, choose_until_correct:bool=True) -> list:
     """Choose one or more values from a list.
-     
+
     - Parameters:
         - `_array`: An array to choose item(s) from        
         - `header_text`: String to use before the array is printed
@@ -373,7 +373,16 @@ def get_dir_path_for_file(file_path:str, ret_val='a') -> Any:
     return dir_path, filename
 
 
-def join_path(*args, join_with='\\'):
+def join_path(*args, join_with='/'):
+    """Join a list of paths with a specified separator.
+    
+    - Parameters:
+        - args (str): A list of paths to join.
+        - join_with (str): The separator to use when joining the paths. Default is '/'.
+    
+    - Returns:
+        - str: The joined path."""
+
     return join_with.join(args)
 
 
