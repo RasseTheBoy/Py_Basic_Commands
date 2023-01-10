@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.45] - 2023
+
+### Changed
+
+- `join_path()`
+    - Removes illegal characters (`<>:"/\|?*`)
+
 ## [0.1.441] - 2023-1-9
 
 ### Changed

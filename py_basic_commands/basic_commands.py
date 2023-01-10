@@ -383,17 +383,18 @@ def get_dir_path_for_file(file_path:str, ret_val='a') -> Any:
 
 
 def join_path(*args, join_with='/'):
-    """Join a list of paths with a specified separator.
+    r"""Join multiple path parts together, removes certain characters (`<>:"/\|?*`) and join them with the specified join_with parameter.
     
     Parameters:
-    - `args` (str): A list of paths to join.
-    - `join_with` (str): The separator to use when joining the paths. Default is '/'.
-    
-    Returns:
-    - `str`: The joined path.
-    """
+    - `*args`: List of string paths
+    - `join_with`: (optional) Character to use when joining paths. Default is '/'
 
-    return join_with.join(args)
+    Returns:
+    - a new string path
+    """
+    
+    new_args = [arg.translate({ord(c): None for c in r'<>:"/\|?*'}) for arg in args]
+    return join_with.join(new_args)
 
 
 def chunker(seq, size:int) -> Any:
