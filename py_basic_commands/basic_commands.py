@@ -383,7 +383,7 @@ def get_dir_path_for_file(file_path:str, ret_val='a') -> Any:
 
 
 def join_path(*args, join_with='/'):
-    r"""Join multiple path parts together, removes certain characters (`<>:"/\|?*`) and join them with the specified join_with parameter.
+    r"""Join multiple path parts together, removes certain characters (`<>:"|?*`) and join them with the specified join_with parameter.
     
     Parameters:
     - `*args`: List of string paths
@@ -392,8 +392,17 @@ def join_path(*args, join_with='/'):
     Returns:
     - a new string path
     """
-    
-    new_args = [arg.translate({ord(c): None for c in r'<>:"/\|?*'}) for arg in args]
+
+    def split_join(var:str, split_with:str=' '):
+        return join_with.join(var.split(split_with))
+
+    new_args = []
+    for arg in args:
+        arg = split_join(split_join(arg, '\\'), '/')
+        arg = arg.translate({ord(c): None for c in '<>:"|?*'})
+
+        new_args.append(arg)
+
     return join_with.join(new_args)
 
 
