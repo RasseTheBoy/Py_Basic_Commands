@@ -382,17 +382,18 @@ def get_dir_path_for_file(file_path:str, ret_val='a') -> Any:
     return dir_path, filename
 
 
-def join_path(*args, join_with='/'):
-    r"""Join multiple path parts together, removes certain characters (`<>:"|?*`) and join them with the specified join_with parameter.
-    
+def join_path(*args:str, join_with='/', dir_end:bool=False):
+    r"""Join path segments together, removing certain characters (`<>:"/\|?*`) and adjust for correct slash direction.
+
     Parameters:
-    - `*args`: List of string paths
-    - `join_with`: (optional) Character to use when joining paths. Default is '/'
+    - `*args`: One or more path segments to join
+    - `join_with`: The separator to use when joining the path segments
+    - `dir_end`: Specify whether to add join_with character at the end of the returned path
 
-    Returns:
-    - a new string path
+    Return:
+    A `string` representing the joined path
     """
-
+    
     def split_join(var:str, split_with:str=' '):
         return join_with.join(var.split(split_with))
 
@@ -403,7 +404,12 @@ def join_path(*args, join_with='/'):
 
         new_args.append(arg)
 
-    return join_with.join(new_args)
+    out_path = join_with.join(new_args)
+
+    if dir_end:
+        out_path += join_with
+
+    return out_path
 
 
 def chunker(seq, size:int) -> Any:
