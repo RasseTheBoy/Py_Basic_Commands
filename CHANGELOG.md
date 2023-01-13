@@ -2,10 +2,20 @@
 
 ## [0.1.51] - 2023
 
+### Added
+
+- `FunctionTimer`
+    - New variable `skip_intro`
+        - Skips the intro text `'Function timer started: {function name}'`
+        - Default: True
+
 ### Changed
 
 - `FunctionTimer`
     - Added a combined print function for both the function and decorator
+    - Should get the correct function name
+        - If fails, gets the name of the object
+        - Returns an empty string if all fails
 
 ## [0.1.5] - 2023-1-13
 
