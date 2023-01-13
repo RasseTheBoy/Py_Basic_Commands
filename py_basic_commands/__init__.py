@@ -1,4 +1,5 @@
 from .basic_commands import try_traceback
+from .basic_commands import _func_timer
 from .basic_commands import func_timer
 
 from .basic_commands import fprint

@@ -1,6 +1,12 @@
 # Changelog
 
-## [0.1.45] - 2023
+## [0.1.5] - 2023
+
+### Added
+
+- New class
+    - `FunctionTimer`
+    - Includes a function timer decorator (`@_func_timer()`) and a function to time other functions (`func_timer()`)
 
 ### Changed
 

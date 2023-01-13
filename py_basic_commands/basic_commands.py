@@ -6,6 +6,48 @@ from typing     import Any, Optional
 from time   import perf_counter
 from os     import mkdir, listdir, remove
 
+class FunctionTimer:
+    def __init__(self) -> None:
+        self.do_print:bool = True
+        self.ret_time:bool = False
+
+        self.text_print_fill = 'Function {} {}{} Took {} seconds to run'
+
+    def config(self, **kwargs):
+        if 'do_print' in kwargs:
+            self.do_print = kwargs['do_print']
+        if 'ret_time' in kwargs:
+            self.ret_time = kwargs['ret_time']
+
+    def _func_timer(self, do_print:bool=True, ret_time:bool=False):
+        def timer(func):
+            @wraps(func)
+            def wrapper(*args, **kwargs):
+                fprint('Function timer started', do_print=do_print)
+                time_start = perf_counter()
+                ret_val = func(*args, **kwargs)
+                time_delta = perf_counter() - time_start
+                fprint(self.text_print_fill.format(func.__name__, args, kwargs, round(time_delta, 4)), do_print=do_print)
+                if ret_time:
+                    return ret_val, time_delta
+                return ret_val
+            return wrapper
+        return timer
+    
+    def __call__(self, func, *args, **kwargs):
+        fprint('Function timer started', do_print=self.do_print)
+        time_start = perf_counter()
+        ret_val = func(*args, **kwargs)
+        time_delta = perf_counter() - time_start
+        fprint(self.text_print_fill.format(func.__name__, args, kwargs, round(time_delta, 4)), do_print=self.do_print)
+        if self.ret_time:
+            return ret_val, time_delta
+        return ret_val
+
+_func_timer = FunctionTimer()._func_timer
+func_timer = FunctionTimer()
+
+
 def try_traceback(skip_traceback=False):
     """Decorator to catch and handle exceptions raised by a function.
     
@@ -27,32 +69,6 @@ def try_traceback(skip_traceback=False):
                 return None
         return wrapper
     return try_except
-
-
-def func_timer(ret_time=False, do_print=True):
-    """Decorator to measure the runtime of a function.
-    
-    Parameters:
-    - `ret_time` (bool): Whether to return the time taken by the function in addition to its return value.
-    - `do_print` (bool): Whether to print the time taken by the function.
-    
-    Returns:
-    - `function`: The decorated function.
-    """
-
-    def timer(func):
-        @wraps(func)
-        def wrapper(*args, **kwargs):
-            fprint('Function timer started', do_print=do_print)
-            time_start = perf_counter()
-            ret_val = func(*args, **kwargs)
-            time_delta = perf_counter() - time_start
-            fprint(f'Function {func.__name__}{args} {kwargs} Took {time_delta:.4f} seconds to run', do_print=do_print)
-            if ret_time:
-                return ret_val, time_delta
-            return ret_val
-        return wrapper
-    return timer
 
 
 def fprint(*args:Any, nl:bool=True, flush:bool=False, do_print:bool=True, end:Optional[str]=None) -> None:
