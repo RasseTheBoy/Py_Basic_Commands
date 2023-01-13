@@ -12,14 +12,13 @@ class FunctionTimer:
         self.ret_time:bool = False
         self.skip_inputs:bool = True
 
-        self.full_text_print_fill = 'Function {} {}{} Took {} seconds to run'
-
-
     def config(self, **kwargs):
         if 'do_print' in kwargs:
             self.do_print = kwargs['do_print']
         if 'ret_time' in kwargs:
             self.ret_time = kwargs['ret_time']
+        if 'skip_inputs' in kwargs:
+            self.skip_inputs = kwargs['skip_inputs']
 
     def _func_timer(self, do_print:bool=True, ret_time:bool=False, skip_inputs:bool=True):
         def timer(func):
