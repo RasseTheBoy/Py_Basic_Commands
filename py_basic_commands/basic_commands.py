@@ -10,8 +10,10 @@ class FunctionTimer:
     def __init__(self) -> None:
         self.do_print:bool = True
         self.ret_time:bool = False
+        self.skip_inputs:bool = True
 
-        self.text_print_fill = 'Function {} {}{} Took {} seconds to run'
+        self.full_text_print_fill = 'Function {} {}{} Took {} seconds to run'
+
 
     def config(self, **kwargs):
         if 'do_print' in kwargs:
@@ -19,15 +21,17 @@ class FunctionTimer:
         if 'ret_time' in kwargs:
             self.ret_time = kwargs['ret_time']
 
-    def _func_timer(self, do_print:bool=True, ret_time:bool=False):
+    def _func_timer(self, do_print:bool=True, ret_time:bool=False, skip_inputs:bool=True):
         def timer(func):
             @wraps(func)
             def wrapper(*args, **kwargs):
-                fprint('Function timer started', do_print=do_print)
+                fprint(f'Function timer started: {func.__name__}', do_print=do_print)
                 time_start = perf_counter()
                 ret_val = func(*args, **kwargs)
                 time_delta = perf_counter() - time_start
-                fprint(self.text_print_fill.format(func.__name__, args, kwargs, round(time_delta, 4)), do_print=do_print)
+
+                self._print_time(func, time_delta, skip_inputs, do_print, *args, **kwargs)
+
                 if ret_time:
                     return ret_val, time_delta
                 return ret_val
@@ -35,14 +39,27 @@ class FunctionTimer:
         return timer
     
     def __call__(self, func, *args, **kwargs):
-        fprint('Function timer started', do_print=self.do_print)
+        fprint(f'Function timer started: {func.__name__}', do_print=self.do_print)
         time_start = perf_counter()
         ret_val = func(*args, **kwargs)
         time_delta = perf_counter() - time_start
-        fprint(self.text_print_fill.format(func.__name__, args, kwargs, round(time_delta, 4)), do_print=self.do_print)
+        
+        self._print_time(func, time_delta, self.skip_inputs, self.do_print, *args, **kwargs)
+
         if self.ret_time:
             return ret_val, time_delta
         return ret_val
+
+    def _print_time(self, func, time_delta:float, skip_inputs:bool, do_print:bool, *args, **kwargs):
+        if not do_print:
+            return
+
+        time_delta = round(time_delta, 4)
+
+        if skip_inputs:
+            fprint(f'Function {func.__name__} Took {time_delta} seconds to run')
+        else:
+            fprint(f'Function {func.__name__} {args}{kwargs} Took {time_delta} seconds to run')
 
 _func_timer = FunctionTimer()._func_timer
 func_timer = FunctionTimer()

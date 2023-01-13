@@ -1,6 +1,13 @@
 # Changelog
 
-## [0.1.5] - 2023
+## [0.1.51] - 2023
+
+### Changed
+
+- `FunctionTimer`
+    - Added a combined print function for both the function and decorator
+
+## [0.1.5] - 2023-1-13
 
 ### Added
 
