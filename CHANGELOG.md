@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.52] - 2023
+
+### Added
+
+- `Timer`
+    - Works like `time.perf_counter`, but with added features
+
 ## [0.1.51] - 2023-1-13
 
 ### Added
