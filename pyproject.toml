@@ -7,7 +7,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "py_basic_commands"
-version = "0.1.52"
+version = "0.1.53"
 authors = [
   { name="Rasmus Ohert", email="rassemichael@gmail.com" },
 ]

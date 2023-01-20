@@ -150,11 +150,14 @@ def fprint(*args:Any, nl:bool=True, flush:bool=False, do_print:bool=True, end:Op
         if not args:
             print('')
 
-        for arg in args:
-            if nl:
-                arg = f'{arg}\n'
+        for arg_indx, arg in enumerate(args):
+            if arg_indx == len(args)-1:
+                print(arg, end=end, flush=flush)
+            else:
+                print(arg, end=' ', flush=flush)
 
-            print(arg, end=end, flush=flush)
+        if nl and not end:
+            print()
 
 
 def finput(text:str='', nl:bool=True, use_suffix:bool=True, ret_type:type=str):

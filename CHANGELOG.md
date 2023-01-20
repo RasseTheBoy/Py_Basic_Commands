@@ -1,6 +1,15 @@
 # Changelog
 
-## [0.1.52] - 2023
+## [0.1.53] - 2023
+
+### Changed
+
+- `fprint()`
+    - Multiple args print after each other, instead of beneath
+    - `end` input variable fixed
+        - Now prints after all args 
+
+## [0.1.52] - 2023-1-18
 
 ### Added
 
