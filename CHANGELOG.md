@@ -1,13 +1,20 @@
 # Changelog
 
-## [0.1.53] -2023
+## [0.1.53] - 2023
 
 ### Added
 
 - New function `flatten_list()`
     - Opens a list of lists to a single list
 
-## [0.1.52] - 2023
+### Changed
+
+- `fprint()`
+    - Multiple args print after each other, instead of beneath
+    - `end` input variable fixed
+        - Now prints after all args 
+
+## [0.1.52] - 2023-1-18
 
 ### Added
 
