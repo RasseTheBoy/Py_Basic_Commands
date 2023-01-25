@@ -344,6 +344,7 @@ def write_file(text:Any, file_path:str, append:bool=False, create:bool=True, enc
 
     with open(file_path, mode=mode, encoding=encoding) as f:
         f.write(text + '\n')
+        fprint(f'Content written to file: {file_path}', do_print=do_print)
 
     return did_create
 
@@ -504,6 +505,10 @@ def chunker(seq, size:int) -> Any:
     """
 
     return [seq[pos:pos + size] for pos in range(0, len(seq), size)]
+
+
+def flatten_list(lst:list[Any]) -> Any:
+    return [item for sublist in lst for item in sublist]
 
 
 def create_json(filepath:str, force:bool=False, do_print:bool=True) -> bool:

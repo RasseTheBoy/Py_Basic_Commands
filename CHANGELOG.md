@@ -1,10 +1,17 @@
 # Changelog
 
+## [0.1.53] -2023
+
+### Added
+
+- New function `flatten_list()`
+    - Opens a list of lists to a single list
+
 ## [0.1.52] - 2023
 
 ### Added
 
-- `Timer`
+- New class `Timer`
     - Works like `time.perf_counter`, but with added features
 
 ## [0.1.51] - 2023-1-13

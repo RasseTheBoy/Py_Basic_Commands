@@ -14,6 +14,7 @@ from .basic_commands import remove_file_dir
 from .basic_commands import get_dir_path_for_file
 from .basic_commands import join_path
 from .basic_commands import chunker
+from .basic_commands import flatten_list
 from .basic_commands import create_json
 from .basic_commands import read_json
 from .basic_commands import write_json
