@@ -9,3 +9,4 @@
     - `func_timer()`
     - `write_json()`
     - `create_json()`
+    - `create_full_dir_path()`

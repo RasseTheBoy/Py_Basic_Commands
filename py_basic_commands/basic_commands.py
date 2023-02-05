@@ -146,18 +146,20 @@ def fprint(*args:Any, nl:bool=True, flush:bool=False, do_print:bool=True, end:Op
     - `end` (str | None): The string to print at the end of the output.
     """
 
-    if do_print:
-        if not args:
-            print('')
+    if not do_print:
+        return
+        
+    if not args:
+        print('')
 
-        for arg_indx, arg in enumerate(args):
-            if arg_indx == len(args)-1:
-                print(arg, end=end, flush=flush)
-            else:
-                print(arg, end=' ', flush=flush)
+    for arg_indx, arg in enumerate(args):
+        if arg_indx == len(args)-1:
+            print(arg, end=end, flush=flush)
+        else:
+            print(arg, end=' ', flush=flush)
 
-        if nl and not end:
-            print()
+    if nl and not end:
+        print()
 
 
 def finput(text:str='', nl:bool=True, use_suffix:bool=True, ret_type:type=str):
@@ -296,20 +298,20 @@ def read_file(file_path, create:bool=False, ret_did_create:bool=False, splitline
                     lines = [x.strip() for x in lines]
             return lines, did_create
         except FileNotFoundError:
-            fprint(f'File not found: {file_path}')
+            fprint(f'File not found: {file_path}', do_print=do_print)
             if create:
                 create_file_dir('f', file_path, force=True, do_print=do_print)
                 return try_reading(True)
         return lines, did_create
 
-    lines,did_create = try_reading()
+    lines, did_create = try_reading()
 
     if ret_did_create:
-        return lines,did_create
+        return lines, did_create
     return lines
 
 
-def write_file(text:Any, file_path:str, append:bool=False, create:bool=True, encoding:str='utf-8', do_print:bool=True) -> bool:
+def write_file(text:Any, file_path:str, append:bool=False, force_create:bool=True, encoding:str='utf-8', do_print:bool=True) -> bool:
     """Write text to a file.
     
     Parameters:
@@ -330,7 +332,11 @@ def write_file(text:Any, file_path:str, append:bool=False, create:bool=True, enc
     if text.__class__.__name__ in ('list', 'tuple', 'set'):
         text = '\n'.join(text)
 
-    lines, did_create = read_file(file_path, create:=create, ret_did_create=True, remove_empty=False, splitlines=False, do_print=do_print)
+    lines, did_create = read_file(file_path, create=force_create, ret_did_create=True, remove_empty=False, splitlines=False, do_print=do_print)
+
+    if len(lines.strip()) > 0 and not force_create and not append:
+        fprint('Not writing to file. File has content; and foce_create is set to False', do_print=do_print)
+        return did_create
 
     try:
         if not did_create and lines[-1] != '\n':
@@ -338,7 +344,7 @@ def write_file(text:Any, file_path:str, append:bool=False, create:bool=True, enc
     except IndexError:
         pass
     except Exception:
-        print(traceback.format_exc())
+        fprint(traceback.format_exc(), do_print=do_print)
 
     if append:
         mode = 'a'
@@ -377,24 +383,35 @@ def create_file_dir(do:str, do_path:str, force:bool=False, do_print:bool=True) -
                 fprint(f'Directory removed: {do_path}', nl=False, do_print=do_print)
                 return create_dir()
 
-    if do == 'd': # Directory
-        return create_dir()
-    
-    elif do == 'f': # File
-        file_dir, filename = get_dir_path_for_file(do_path)
-        files_in_path = listdir(file_dir)
+    match do:
+        case 'd': # Directory
+            return create_dir()
 
-        if force or filename not in files_in_path:
-            try:
-                open(do_path, 'w', encoding='utf-8').close()
-                fprint(f'File created: {do_path}', do_print=do_print)
-                return True
-            except FileExistsError:
+        case 'f': # File
+            file_dir, filename = get_dir_path_for_file(do_path)
+            files_in_path = listdir(file_dir)
+
+            if force or filename not in files_in_path:
+                try:
+                    open(do_path, 'w', encoding='utf-8').close()
+                    fprint(f'File created: {do_path}', do_print=do_print)
+                    return True
+                except FileExistsError:
+                    fprint(f'File already exists: {do_path}', do_print=do_print)
+                    return False
+            elif filename in files_in_path:
                 fprint(f'File already exists: {do_path}', do_print=do_print)
                 return False
-        elif filename in files_in_path:
-            fprint(f'File already exists: {do_path}', do_print=do_print)
-            return False
+
+
+def create_full_dir_path(dir_path:str, force:bool=False, do_print:bool=True) -> bool:
+    dir_path = dir_path.replace('\\', '/')
+
+    dir_path_lst = dir_path.split('/')
+    for dir_indx, dir in enumerate(dir_path_lst):
+        was_created = create_file_dir('d', '/'.join(dir_path_lst[:dir_indx+1]), force, do_print)
+
+    return was_created
 
 
 @try_traceback(skip_traceback=True)
@@ -416,6 +433,7 @@ def remove_file_dir(do:str, do_path:str, force:bool=False, do_print:bool=True) -
             dir_content = listdir(do_path)
         except FileNotFoundError:
             fprint(f'Directory path not found: {do_path}', do_print=do_print)
+            return False
 
         if not dir_content or force:
             rmtree(do_path)
@@ -430,7 +448,7 @@ def remove_file_dir(do:str, do_path:str, force:bool=False, do_print:bool=True) -
             return False
 
     elif do == 'f': # File
-        lines = read_file(do_path)
+        lines = read_file(do_path, do_print=do_print)
         if lines and not force:
             fprint(f'File is not empty, not removing: {do_path}', do_print=do_print)
             return False
@@ -466,7 +484,7 @@ def get_dir_path_for_file(file_path:str, ret_val='a') -> Any:
     return dir_path, filename
 
 
-def join_path(*args:str, join_with='/', dir_end:bool=False):
+def join_path(*args:str, join_with='/', remove_empty:bool=True, dir_end:bool=False, do_print:bool=True) -> str:
     r"""Join path segments together, removing certain characters (`<>:"/\|?*`) and adjust for correct slash direction.
 
     Parameters:
@@ -482,9 +500,17 @@ def join_path(*args:str, join_with='/', dir_end:bool=False):
         return join_with.join(var.split(split_with))
 
     new_args = []
-    for arg in args:
+    for arg_indx, arg in enumerate(args):
         arg = split_join(split_join(arg, '\\'), '/')
         arg = arg.translate({ord(c): None for c in '<>:"|?*'})
+
+        split_arg = arg.split('/')
+        if '' in split_arg and remove_empty:
+            fprint(f'Empty string found in input arg (indx: {arg_indx}): {arg!r}', do_print=do_print)
+            split_arg = [x for x in split_arg if x != '']
+            arg = join_with.join(split_arg)
+            if arg == '':
+                continue
 
         new_args.append(arg)
 
@@ -494,6 +520,7 @@ def join_path(*args:str, join_with='/', dir_end:bool=False):
         out_path += join_with
 
     return out_path
+
 
 
 def chunker(seq, size:int) -> Any:
@@ -514,52 +541,63 @@ def flatten_list(lst:list[Any]) -> Any:
     return [item for sublist in lst for item in sublist]
 
 
-def create_json(filepath:str, force:bool=False, do_print:bool=True) -> bool:
+def create_json(file_path:str, force:bool=False, do_print:bool=True) -> bool:
     """Create a new empty JSON file.
     
     Parameters:
-    - `filepath` (str): The path for the new JSON file.
+    - `file_path` (str): The path for the new JSON file.
     - `force` (bool): Whether to overwrite any existing file with the same name.
     - `do_print` (bool): Whether to print information about the file creation process.
     
     Returns:
     - `bool`: Whether the file was created.
     """
+    write_empty_json = lambda: open(file_path, 'w').write(json.dumps({}, indent=4))
 
-    did_create = create_file_dir('f', filepath, force=force, do_print=do_print)
+    did_create = create_file_dir('f', file_path, force=force, do_print=do_print)
     if did_create:
-        open(filepath, 'w').write(json.dumps({}, indent=4))
+        write_empty_json()
+        fprint(f'New JSON created: {file_path}', do_print=do_print)
+    elif read_json(file_path, do_print=do_print) == None:
+        text = read_file(file_path, splitlines=False)
+        if text and not force:
+            fprint(f'Cannot create new JSON file. Text found in file; and force set as False: {file_path}', do_print=do_print)
+            return did_create
+        write_empty_json()
+        fprint(f'Basic brackets added to JSON: {file_path}', do_print=do_print)
+    
     return did_create
 
 
-def read_json(filepath:str) -> Any:
+def read_json(file_path:str, do_print:bool=True) -> Any:
     """Read data from a JSON file.
     
     Parameters:
-    - `filepath` (str): The path of the JSON file to read from.
+    - `file_path` (str): The path of the JSON file to read from.
+    - `do_print` (bool): Whether to get feedback printed to terminal or not
     
     Returns:
     - `Any`: The data from the JSON file, as a dictionary or list.
     """
 
     try:
-        with open(filepath, 'r') as f:
+        with open(file_path, 'r') as f:
             file_data = json.load(f)
         return file_data
     except FileNotFoundError:
-        fprint(f'File not found: {filepath}')
+        fprint(f'File not found: {file_path}', do_print=do_print)
     except json.decoder.JSONDecodeError:
-        fprint(f'File cannot be read as a JSON: {filepath}')
+        fprint(f'File cannot be read as a JSON: {file_path}', do_print=do_print)
     except Exception:
-        fprint(traceback.format_exc())
+        fprint(traceback.format_exc(), do_print=do_print)
 
 
-def write_json(data:Any, filepath:str, indent:int=4, force:bool=False, do_print:bool=True):
+def write_json(data:Any, file_path:str, indent:int=4, force:bool=False, do_print:bool=True):
     """Write data to a JSON file.
     
     Parameters:
     - `data` (Any): The data to write to the JSON file. This can be a dictionary, list, or a string representation of JSON.
-    - `filepath` (str): The path of the JSON file to write to.
+    - `file_path` (str): The path of the JSON file to write to.
     - `indent` (int): The number of spaces to use for indentation in the JSON file.
     - `force` (bool): Whether to overwrite any existing data in the JSON file.
     - `do_print` (bool): Whether to print information about the data writing process.
@@ -572,16 +610,16 @@ def write_json(data:Any, filepath:str, indent:int=4, force:bool=False, do_print:
         if data.__class__.__name__ == ('str'):
             data = json.loads(data)
 
-        d = read_json(filepath)
+        d = read_json(file_path)
         
         if d and not force:
-            fprint(f'Data found in JSON file, not writing new data: {filepath}', do_print=do_print)
+            fprint(f'Data found in JSON file, not writing new data: {file_path}', do_print=do_print)
             return False
 
-        with open(filepath, 'w') as f:
+        with open(file_path, 'w') as f:
             json.dump(data, f, indent=indent)
 
-        fprint(f'Wrote data to JSON file: {filepath}', do_print=do_print)
+        fprint(f'Wrote data to JSON file: {file_path}', do_print=do_print)
         return True
     except TypeError:
         fprint(f'Data type is wrong, can\'t write to JSON: {data.__class__.__name__}', do_print=do_print)

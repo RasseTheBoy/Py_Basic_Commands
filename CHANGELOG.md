@@ -1,6 +1,16 @@
 # Changelog
 
-## [0.1.53] - 2023
+## [0.1.54] - 2023-2-5
+
+### Added
+
+- New function `create_full_dir_path()`
+
+### Changed
+
+- A lot of small fixes and quality of life changes!
+
+## [0.1.53] - 2023-1-25
 
 ### Added
 
