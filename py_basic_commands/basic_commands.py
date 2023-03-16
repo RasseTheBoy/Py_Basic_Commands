@@ -112,7 +112,7 @@ _func_timer = FunctionTimer()._func_timer
 func_timer = FunctionTimer()
 
 
-def try_traceback(skip_traceback=False):
+def try_traceback(print_traceback=False):
     """Decorator to catch and handle exceptions raised by a function.
     
     Parameters:
@@ -128,7 +128,7 @@ def try_traceback(skip_traceback=False):
             try:
                 return func(*args, **kwargs)
             except:
-                if not skip_traceback:
+                if not print_traceback:
                     fprint(traceback.format_exc())
                 return None
         return wrapper
