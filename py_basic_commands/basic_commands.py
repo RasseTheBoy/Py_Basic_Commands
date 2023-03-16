@@ -116,7 +116,7 @@ def try_traceback(print_traceback=False):
     """Decorator to catch and handle exceptions raised by a function.
     
     Parameters:
-    - `skip_traceback` (bool): Whether to skip printing the traceback information.
+    - `print_traceback` (bool): Whether to skip printing the traceback information.
     
     Returns:
     - `function`: The decorated function.
@@ -128,7 +128,7 @@ def try_traceback(print_traceback=False):
             try:
                 return func(*args, **kwargs)
             except:
-                if not print_traceback:
+                if print_traceback:
                     fprint(traceback.format_exc())
                 return None
         return wrapper
@@ -419,7 +419,7 @@ def create_full_dir_path(dir_path:str, force:bool=False, do_print:bool=True) -> 
     return was_created
 
 
-@try_traceback(skip_traceback=True)
+@try_traceback(print_traceback=True)
 def remove_file_dir(do:str, do_path:str, force:bool=False, do_print:bool=True) -> bool:
     """Remove a file or directory at the specified path.
     
