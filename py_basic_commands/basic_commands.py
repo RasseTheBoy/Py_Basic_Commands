@@ -207,10 +207,10 @@ def enter_to_continue(text:str='', nl:bool=True, use_suffix:bool=True) -> bool:
     """
 
     if text and use_suffix:
-        text = f'{text} (press enter to continue) '
+        text = f'{text} (press enter to continue or type anything to break) '
 
     elif not text and use_suffix:
-        text = 'Press enter to continue... '
+        text = 'Press enter to continue or type anything to break... '
     
     inpt = input(text)
     
@@ -268,7 +268,7 @@ def choose_from_list(_array:Any, header_text:str='', header_nl:bool=False, input
             return []
 
 
-def read_file(file_path, create:bool=False, ret_did_create:bool=False, splitlines:bool=True, remove_empty:bool=True, strip:bool=True, encoding:str='utf-8', do_print:bool=True) -> Any:
+def read_file(file_path, create:bool=False, ret_did_create:bool=False, splitlines:bool=True, remove_empty:bool=True, do_strip:bool=True, do_lower:bool=False, encoding:str='utf-8', do_print:bool=True) -> Any:
     """Read the contents of a file.
     
     Parameters:
@@ -294,8 +294,10 @@ def read_file(file_path, create:bool=False, ret_did_create:bool=False, splitline
                 lines = lines.splitlines()
                 if remove_empty:
                     lines = [x for x in lines if x != '']
-                if strip:
+                if do_strip:
                     lines = [x.strip() for x in lines]
+                if do_lower:
+                    lines = [x.lower() for x in lines]
             return lines, did_create
         except FileNotFoundError:
             fprint(f'File not found: {file_path}', do_print=do_print)
@@ -311,14 +313,15 @@ def read_file(file_path, create:bool=False, ret_did_create:bool=False, splitline
     return lines
 
 
-def write_file(text:Any, file_path:str, append:bool=False, force_create:bool=True, encoding:str='utf-8', do_print:bool=True) -> bool:
+def write_file(text:Any, file_path:str, append:bool=False, force_create:bool=True, remove_duplicates:bool=False, encoding:str='utf-8', do_print:bool=True) -> bool:
     """Write text to a file.
     
     Parameters:
     - `text` (Any): The text to write. Can be a string, list, tuple, set or a numpy.array.
     - `file_path` (str): The path to the file to write to.
     - `append` (bool): Whether to append the text to the end of the file.
-    - `create` (bool): Whether to create the file if it does not exist.
+    - `force_create` (bool): Whether to create the file if it does not exist.
+    - `remove_duplicates` (bool): Whether to remove duplicates from a list, tuple or set
     - `encoding` (str): The encoding to use when writing the file.
     - `do_print` (bool): Whether to print information about the file writing process.
     
@@ -330,6 +333,8 @@ def write_file(text:Any, file_path:str, append:bool=False, force_create:bool=Tru
         text = text.tolist()
     
     if text.__class__.__name__ in ('list', 'tuple', 'set'):
+        if remove_duplicates:
+            text = list(dict.fromkeys(text))
         text = '\n'.join(text)
 
     lines, did_create = read_file(file_path, create=force_create, ret_did_create=True, remove_empty=False, splitlines=False, do_print=do_print)
@@ -484,7 +489,7 @@ def get_dir_path_for_file(file_path:str, ret_val='a') -> Any:
     return dir_path, filename
 
 
-def join_path(*args:str, join_with='/', remove_empty:bool=True, dir_end:bool=False, do_print:bool=True) -> str:
+def join_path(*args:str, join_with='/', remove_empty:bool=True, dir_end:bool=False, do_print:bool=False) -> str:
     r"""Join path segments together, removing certain characters (`<>:"/\|?*`) and adjust for correct slash direction.
 
     Parameters:

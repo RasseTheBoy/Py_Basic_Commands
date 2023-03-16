@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.1.55] - 2023-3-16
+
+### Added
+
+- `read_file()`
+    - Input variable: `do_lower`
+        - `bool`, default value `False`
+        - Return read string(s) as lowered
+- `write_file()`
+    - Input variable `remove_duplicates`
+        - `bool`, default value `True`
+        - Removes duplicates before writing to file
+
+### Changed
+
+- `enter_to_continue()`
+    - Updated shown text
+- `read_file()`
+    - Variable name change `strip` -> `do_strip`
+- `join_path()`
+    -  `do_print` default value changed `True` -> `False`
+
 ## [0.1.54] - 2023-2-5
 
 ### Added
