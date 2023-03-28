@@ -1,6 +1,7 @@
-import traceback, json
+import traceback, json, sys, executing
 
 from functools  import wraps
+from textwrap   import dedent
 from shutil     import rmtree
 from typing     import Any, Optional
 from time   import perf_counter
@@ -218,6 +219,61 @@ def enter_to_continue(text:str='', nl:bool=True, use_suffix:bool=True) -> bool:
         print()
 
     return not any(inpt)
+
+
+def fprint_array(arr, header:str='', indx_brackets:str='[]', start_num:int=0, nl:bool=True) -> None:
+    """This function prints the elements of an array along with their index numbers.
+
+    Parameters:
+    - `arr` (`list`|`set`|`tuple`|`dict`): The input array whose elements are to be printed.
+    - `header` (str):  The header message to be printed before the array elements. Defaults is ''.
+    - `indx_brackets` (str): The type of brackets to be used for index numbers. Defaults is '`[]`'.
+    - `nl` (bool): Whether to append a newline character after the input.
+    
+    Returns:
+    - `None`
+    """
+
+    def _get_array_name() -> str:
+        class Source(executing.Source):
+            def get_text_with_indentation(self, node):
+                result = self.asttokens().get_text(node)
+                if '\n' in result:
+                    result = ' ' * node.first_token.start[1] + result
+                    result = dedent(result)
+                result = result.strip()
+                return result
+        
+        callFrame = sys._getframe(2)
+        callNode = Source.executing(callFrame).node
+        source = Source.for_frame(callFrame)
+        inpt_array_name = source.get_text_with_indentation(callNode.args[0])
+
+        return inpt_array_name
+
+    config_indx_num = lambda indx : f'{indx_brackets[0]}{indx}{indx_brackets[1]}'
+
+    arr_type = arr.__class__.__name__
+    
+    if arr_type not in 'list set tuple dict'.split():
+        arr_name = _get_array_name()
+        print(f'Given array ({arr_name}) is not a valid format: {arr_type}')
+        return
+
+    if header:
+        print(header)
+
+    match arr_type:
+        case 'list' | 'set' | 'tuple':
+            for indx, value in enumerate(arr, start=start_num):
+                print(f'{config_indx_num(indx)} {value}')
+
+        case 'dict':
+            for indx, (key, value) in enumerate(arr.items(), start=start_num):
+                print(f'{config_indx_num(indx)} {key}: {value}')
+
+    if nl:
+        print()
 
 
 def choose_from_list(_array:Any, header_text:str='', header_nl:bool=False, input_text:str='Input index: ', choose_total:int=1, start_num:int=0, choose_until_correct:bool=True) -> list:

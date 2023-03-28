@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.1.6] - 2023-3-28
+
+### Added
+
+- New function
+    - `fprint_array()`
+- New imports
+    - `sys`
+    - `executing`
+    - from `textwrap` -> `dedent`
+
 ## [0.1.55] - 2023-3-16
 
 ### Added
