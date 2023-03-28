@@ -8,6 +8,9 @@ Py Basic Commands
 
 A package with some basic tools and commands for Python (3.6>)
 
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/RasseTheBoy/Py_Basic_Commands?style=flat-square)](https://github.com/RasseTheBoy/Py_Basic_Commands/releases/latest)
+![Working status](https://img.shields.io/badge/status-working-success?style=flat-square)
+[![Working Python version](https://img.shields.io/badge/Python-%2B3.6-informational?style=flat-square&logo=python)](https://www.python.org/)
 
 # Author
 
