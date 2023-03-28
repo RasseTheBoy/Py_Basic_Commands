@@ -221,13 +221,14 @@ def enter_to_continue(text:str='', nl:bool=True, use_suffix:bool=True) -> bool:
     return not any(inpt)
 
 
-def fprint_array(arr, header:str='', indx_brackets:str='[]', start_num:int=0, nl:bool=True) -> None:
+def fprint_array(arr, header:str='', indx_brackets:str='[]', print_num:bool=False, start_num:int=0, nl:bool=True) -> None:
     """This function prints the elements of an array along with their index numbers.
 
     Parameters:
     - `arr` (`list`|`set`|`tuple`|`dict`): The input array whose elements are to be printed.
     - `header` (str): Header message to be printed before the array elements. Default is ''.
     - `indx_brackets` (str): Type of brackets to be used for index numbers. Default is '`[]`'.
+    - `print_num` (bool): Whether to print the index nuber. Default is `False`.
     - `start_num` (int): Starting index number for printing elements. Default is 0.
     - `nl` (bool): Whether to append a newline character after the input.
     
@@ -252,6 +253,12 @@ def fprint_array(arr, header:str='', indx_brackets:str='[]', start_num:int=0, nl
 
         return inpt_array_name
 
+    def _print_output(text):
+        if print_num:
+            print(f'{config_indx_num(indx)} {text}')
+        else:
+            print(text)
+
     config_indx_num = lambda indx : f'{indx_brackets[0]}{indx}{indx_brackets[1]}'
 
     arr_type = arr.__class__.__name__
@@ -267,11 +274,11 @@ def fprint_array(arr, header:str='', indx_brackets:str='[]', start_num:int=0, nl
     match arr_type:
         case 'list' | 'set' | 'tuple':
             for indx, value in enumerate(arr, start=start_num):
-                print(f'{config_indx_num(indx)} {value}')
+                _print_output(value)
 
         case 'dict':
             for indx, (key, value) in enumerate(arr.items(), start=start_num):
-                print(f'{config_indx_num(indx)} {key}: {value}')
+                _print_output(f'{key}: {value}')
 
     if nl:
         print()
