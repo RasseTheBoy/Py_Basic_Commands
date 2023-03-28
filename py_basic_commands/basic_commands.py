@@ -221,15 +221,13 @@ def enter_to_continue(text:str='', nl:bool=True, use_suffix:bool=True) -> bool:
     return not any(inpt)
 
 
-def fprint_array(arr, header:str='', indx_brackets:str='[]', print_num:bool=False, start_num:int=0, nl:bool=True) -> None:
+def print_array(arr, header:str='', indx_brackets:str='[]', print_num=False, start_num:int=0, nl:bool=True) -> None:
     """This function prints the elements of an array along with their index numbers.
 
     Parameters:
     - `arr` (`list`|`set`|`tuple`|`dict`): The input array whose elements are to be printed.
-    - `header` (str): Header message to be printed before the array elements. Default is ''.
-    - `indx_brackets` (str): Type of brackets to be used for index numbers. Default is '`[]`'.
-    - `print_num` (bool): Whether to print the index nuber. Default is `False`.
-    - `start_num` (int): Starting index number for printing elements. Default is 0.
+    - `header` (str):  The header message to be printed before the array elements. Defaults is ''.
+    - `indx_brackets` (str): The type of brackets to be used for index numbers. Defaults is '`[]`'.
     - `nl` (bool): Whether to append a newline character after the input.
     
     Returns:
@@ -253,7 +251,11 @@ def fprint_array(arr, header:str='', indx_brackets:str='[]', print_num:bool=Fals
 
         return inpt_array_name
 
+
     def _print_output(text):
+        if text.__class__.__name__ == 'dict':
+            return print_array(text, header=header, indx_brackets=indx_brackets, print_num=print_num, start_num=start_num, nl=nl)
+
         if print_num:
             print(f'{config_indx_num(indx)} {text}')
         else:
@@ -262,26 +264,30 @@ def fprint_array(arr, header:str='', indx_brackets:str='[]', print_num:bool=Fals
     config_indx_num = lambda indx : f'{indx_brackets[0]}{indx}{indx_brackets[1]}'
 
     arr_type = arr.__class__.__name__
-    
-    if arr_type not in 'list set tuple dict'.split():
-        arr_name = _get_array_name()
-        print(f'Given array ({arr_name}) is not a valid format: {arr_type}')
-        return
-
-    if header:
-        print(header)
 
     match arr_type:
         case 'list' | 'set' | 'tuple':
+            if not arr:
+                print(f'Array is empty: {_get_array_name()}')
+                return
+
+            if header:
+                print(header)
+
             for indx, value in enumerate(arr, start=start_num):
                 _print_output(value)
+
+            if nl:
+                print()
 
         case 'dict':
             for indx, (key, value) in enumerate(arr.items(), start=start_num):
                 _print_output(f'{key}: {value}')
 
-    if nl:
-        print()
+        case _:
+            arr_name = _get_array_name()
+            print(f'Given array ({arr_name}) is not a valid format: {arr_type}')
+            return
 
 
 def choose_from_list(_array:Any, header_text:str='', header_nl:bool=False, input_text:str='Input index: ', choose_total:int=1, start_num:int=0, choose_until_correct:bool=True) -> list:

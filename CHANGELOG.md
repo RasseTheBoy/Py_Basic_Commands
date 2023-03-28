@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.1.61] - 2023-3-28
+
+### Changed
+
+- `fprint_array()`
+    - Reworked how `dicts` get printed
+    - New input array -> `print_num`
+        - Whether to print the index numbers or not
+
 ## [0.1.60] - 2023-3-28
 
 ### Added
