@@ -226,8 +226,9 @@ def fprint_array(arr, header:str='', indx_brackets:str='[]', start_num:int=0, nl
 
     Parameters:
     - `arr` (`list`|`set`|`tuple`|`dict`): The input array whose elements are to be printed.
-    - `header` (str):  The header message to be printed before the array elements. Defaults is ''.
-    - `indx_brackets` (str): The type of brackets to be used for index numbers. Defaults is '`[]`'.
+    - `header` (str): Header message to be printed before the array elements. Default is ''.
+    - `indx_brackets` (str): Type of brackets to be used for index numbers. Default is '`[]`'.
+    - `start_num` (int): Starting index number for printing elements. Default is 0.
     - `nl` (bool): Whether to append a newline character after the input.
     
     Returns:
