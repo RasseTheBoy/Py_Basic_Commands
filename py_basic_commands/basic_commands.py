@@ -221,7 +221,7 @@ def enter_to_continue(text:str='', nl:bool=True, use_suffix:bool=True) -> bool:
     return not any(inpt)
 
 
-def print_array(arr, header:str='', indx_brackets:str='[]', print_num=False, start_num:int=0, nl:bool=True) -> None:
+def fprint_array(arr, header:str='', indx_brackets:str='[]', print_num=False, start_num:int=0, nl:bool=True) -> None:
     """This function prints the elements of an array along with their index numbers.
 
     Parameters:
