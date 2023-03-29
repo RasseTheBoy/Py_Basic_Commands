@@ -254,7 +254,7 @@ def fprint_array(arr, header:str='', indx_brackets:str='[]', print_num=False, st
 
     def _print_output(text):
         if text.__class__.__name__ == 'dict':
-            return print_array(text, header=header, indx_brackets=indx_brackets, print_num=print_num, start_num=start_num, nl=nl)
+            return fprint_array(text, header=header, indx_brackets=indx_brackets, print_num=print_num, start_num=start_num, nl=nl)
 
         if print_num:
             print(f'{config_indx_num(indx)} {text}')
