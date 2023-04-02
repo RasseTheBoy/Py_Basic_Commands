@@ -1,9 +1,4 @@
 from .basic_commands import try_traceback
-from .basic_commands import timer
-from .basic_commands import _func_timer
-from .basic_commands import func_timer
-
-from .basic_commands import fprint
 from .basic_commands import finput
 from .basic_commands import enter_to_continue
 from .basic_commands import fprint_array
@@ -20,3 +15,10 @@ from .basic_commands import flatten_list
 from .basic_commands import create_json
 from .basic_commands import read_json
 from .basic_commands import write_json
+
+from .function_timer    import _func_timer
+from .function_timer    import func_timer
+
+from .fprint    import fprint
+
+from .timer     import timer
