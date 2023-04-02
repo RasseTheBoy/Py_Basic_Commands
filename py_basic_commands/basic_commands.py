@@ -1,11 +1,12 @@
-import traceback, json, sys, executing
+import json, sys, executing
 
+from traceback  import format_exc
 from functools  import wraps
 from textwrap   import dedent
 from shutil     import rmtree
 from typing     import Any, Optional
 from time   import perf_counter
-from os     import mkdir, listdir, remove
+from os     import mkdir, listdir, remove, makedirs
 
 
 class Timer:
@@ -130,7 +131,7 @@ def try_traceback(print_traceback=False):
                 return func(*args, **kwargs)
             except:
                 if print_traceback:
-                    fprint(traceback.format_exc())
+                    fprint(format_exc())
                 return None
         return wrapper
     return try_except
@@ -419,7 +420,7 @@ def write_file(text:Any, file_path:str, append:bool=False, force_create:bool=Tru
     except IndexError:
         pass
     except Exception:
-        fprint(traceback.format_exc(), do_print=do_print)
+        fprint(format_exc(), do_print=do_print)
 
     if append:
         mode = 'a'
@@ -479,14 +480,32 @@ def create_file_dir(do:str, do_path:str, force:bool=False, do_print:bool=True) -
                 return False
 
 
-def create_full_dir_path(dir_path:str, force:bool=False, do_print:bool=True) -> bool:
-    dir_path = dir_path.replace('\\', '/')
+def create_dirs(dst_path:str, do_print:bool=True) -> bool:
+    """Create all required directories for the given path.
+    
+    Parameters:
+    - `dst_path` (str): Destination path; can include the file name at the end
+    
+    Returns:
+    - `bool`: If all directories were created or not"""
 
-    dir_path_lst = dir_path.split('/')
-    for dir_indx, dir in enumerate(dir_path_lst):
-        was_created = create_file_dir('d', '/'.join(dir_path_lst[:dir_indx+1]), force, do_print)
+    if dst_path == '':
+        return False
 
-    return was_created
+    _dst_path = get_dir_path_for_file(dst_path, ret_val='d', do_print=do_print)
+
+    try:
+        makedirs(_dst_path)
+        fprint(f'Destination created for path: {_dst_path}', do_print=do_print)
+        return True
+
+    except FileExistsError:
+        fprint(f'Path already exists: {_dst_path}', do_print=do_print)
+
+    except Exception:
+        fprint(format_exc(), do_print=do_print)
+    
+    return False
 
 
 @try_traceback(print_traceback=True)
@@ -664,7 +683,7 @@ def read_json(file_path:str, do_print:bool=True) -> Any:
     except json.decoder.JSONDecodeError:
         fprint(f'File cannot be read as a JSON: {file_path}', do_print=do_print)
     except Exception:
-        fprint(traceback.format_exc(), do_print=do_print)
+        fprint(format_exc(), do_print=do_print)
 
 
 def write_json(data:Any, file_path:str, indent:int=4, force:bool=False, do_print:bool=True):
@@ -699,5 +718,5 @@ def write_json(data:Any, file_path:str, indent:int=4, force:bool=False, do_print
     except TypeError:
         fprint(f'Data type is wrong, can\'t write to JSON: {data.__class__.__name__}', do_print=do_print)
     except Exception:
-        fprint(traceback.format_exc())
+        fprint(format_exc())
     return False
