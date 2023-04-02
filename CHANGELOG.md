@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.62] - 2023-4-1
+
+### Changed
+
+- `create_full_dir_path` -> `create_dirs()`
+    - Much more functional
+
 ## [0.1.61] - 2023-3-28
 
 ### Changed
