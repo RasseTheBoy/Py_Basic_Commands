@@ -4,7 +4,7 @@
 
 ### Changed
 
-- `create_full_dir_path` -> `create_dirs()`
+- `create_full_dir_path()` -> `create_dirs()`
     - Much more functional
 
 ## [0.1.61] - 2023-3-28
