@@ -6,11 +6,12 @@ Py Basic Commands
     <img src="https://raw.githubusercontent.com/RasseTheBoy/Py_Basic_Commands/main/Logo/py_basic_commands.png" width=300>
 </p>
 
-A package with some basic tools and commands for Python (3.6>)
+A package with some basic tools and commands for Python (+3.7)
 
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/RasseTheBoy/Py_Basic_Commands?style=flat-square)](https://github.com/RasseTheBoy/Py_Basic_Commands/releases/latest)
 ![Working status](https://img.shields.io/badge/status-working-success?style=flat-square)
-[![Working Python version](https://img.shields.io/badge/Python-%2B3.6-informational?style=flat-square&logo=python)](https://www.python.org/)
+[![Working Python version](https://img.shields.io/badge/Python-%2B3.7-informational?style=flat-square&logo=python)](https://www.python.org/)
+![PyPI - License](https://img.shields.io/pypi/l/Py_Basic_Commands?style=flat-square)
 
 # Author
 

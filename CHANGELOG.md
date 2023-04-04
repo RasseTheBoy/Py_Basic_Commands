@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.2.00] - 2023-4-2
+
+### Added
+
+- New shield to `README.md`
+    - license
+
+### Changed
+
+- Split all functions into separate files and folders.
+    - This will make it easier to find the function you want to use.
+    - This will also make it easier to add and fix functions in the future.
+
+Everything should work as before, but if you have any problems, 
+[please let me know](https://github.com/RasseTheBoy/Py_Basic_Commands/issues)!
+
+Most functions have been tested. But there may be some bugs that I have not found yet.
+So keep an eye out for future updates!
+
 ## [0.1.62] - 2023-4-1
 
 ### Changed
@@ -133,7 +152,7 @@
 
 ### Changed
 
-- `try-traceback()`
+- `try_traceback()`
     - Returns `None` instead `traceback.format_exc()` if `except` is called
 - `fprint()`
     - Takes `*args:Any` instead of just a single `string` as input

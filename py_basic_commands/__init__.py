@@ -1,22 +1,11 @@
-from .basic_commands import try_traceback
-from .basic_commands import timer
-from .basic_commands import _func_timer
-from .basic_commands import func_timer
+# From file_dir_scripts
+from py_basic_commands.file_dir_scripts import create_dirs, create_file, get_src_path, join_path, read_file, remove_file_dir, write_file
 
-from .basic_commands import fprint
-from .basic_commands import finput
-from .basic_commands import enter_to_continue
-from .basic_commands import fprint_array
-from .basic_commands import choose_from_list
-from .basic_commands import read_file
-from .basic_commands import write_file
-from .basic_commands import create_file_dir
-from .basic_commands import create_dirs
-from .basic_commands import remove_file_dir
-from .basic_commands import get_dir_path_for_file
-from .basic_commands import join_path
-from .basic_commands import chunker
-from .basic_commands import flatten_list
-from .basic_commands import create_json
-from .basic_commands import read_json
-from .basic_commands import write_json
+# From fscripts
+from py_basic_commands.fscripts import finput, fprint_array, fprint
+
+# From json_scripts
+from py_basic_commands.json_scripts import create_json, read_json, write_json
+
+# From other
+from py_basic_commands.other import choose_from_list, chunker, enter_to_continue, flatten_list, func_timer, try_traceback, timer
