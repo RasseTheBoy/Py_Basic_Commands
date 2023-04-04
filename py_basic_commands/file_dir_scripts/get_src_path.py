@@ -1,4 +1,3 @@
-
 from dataclasses    import dataclass
 from py_basic_commands.fscripts   import fprint
 from os.path    import dirname, basename, splitext

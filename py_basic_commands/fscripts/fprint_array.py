@@ -1,5 +1,4 @@
 import executing, sys
-sys.path.append('..')
 
 from dataclasses    import dataclass
 from textwrap   import dedent
