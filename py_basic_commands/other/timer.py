@@ -1,15 +1,25 @@
-from fprint import fprint
+import sys
+sys.path.append('..')
+
+from dataclasses    import dataclass
+from py_basic_commands.fscripts   import fprint
 from time   import perf_counter
+from py_basic_commands.base   import Base
 
-
-class Timer:
-    def __init__(self) -> None:
+@dataclass
+class Timer(Base):
+    def __post_init__(self) -> None:
         super().__init__()
 
         self.timer_lst:dict[str,float] = {}
 
 
     def start_timer(self, timer_name:str, do_print:bool=True) -> bool:
+        """Start a timer with a specified name"""
+
+        # Chek values
+        do_print = self._check_input_val(do_print, self._do_print)
+
         if self.timer_lst.get(timer_name):
             print(f'Timer with name already started: {timer_name}')
             return False
@@ -21,6 +31,8 @@ class Timer:
 
 
     def end_timer(self, timer_name:str) -> float:
+        """End timer with given name"""
+
         if not self.timer_lst.get(timer_name):
             print(f'No timer found with name: {timer_name}')
             return 0.0
@@ -34,6 +46,5 @@ class Timer:
 
         return delta_time
     
-
 
 timer = Timer()

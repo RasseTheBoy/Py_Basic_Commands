@@ -1,15 +1,21 @@
+import sys
+sys.path.append('..')
+
+from dataclasses    import dataclass
 from functools  import wraps
-from fscripts     import fprint
-from base   import Base
+from py_basic_commands.fscripts   import fprint
+from py_basic_commands.base   import Base
 from time   import perf_counter
 
-class FunctionTimer(Base):
-    def __init__(self) -> None:
-        super().__init__()
 
-        self.ret_time:bool = False
-        self.skip_intro:bool = True
-        self.skip_inputs:bool = True
+@dataclass
+class FunctionTimer(Base):
+    _ret_time:bool = False
+    _skip_intro:bool = True
+    _skip_inputs:bool = True    
+    
+    def __post_init__(self) -> None:
+        super().__init__()
 
     def config(self, **kwargs):
         self._config(**kwargs)
@@ -18,6 +24,7 @@ class FunctionTimer(Base):
             self.ret_time = kwargs['ret_time']
         if 'skip_inputs' in kwargs:
             self.skip_inputs = kwargs['skip_inputs']
+
 
     # TODO: Add self.do_print to function
     def _func_timer(self, do_print:bool=True, ret_time:bool=False, skip_intro:bool=True, skip_inputs:bool=True):
@@ -36,10 +43,18 @@ class FunctionTimer(Base):
                     return ret_val, time_delta
                 return ret_val
             return wrapper
+        
+        # Check input values
+        do_print = self._check_input_val(do_print, self._do_print)
+        ret_time = self._check_input_val(ret_time, self._ret_time)
+        skip_intro = self._check_input_val(skip_intro, self._skip_intro)
+        skip_inputs = self._check_input_val(skip_inputs, self._skip_inputs)
+
         return timer
     
+
     def __call__(self, func, *args, **kwargs):
-        fprint(f'Function timer started: {self._get_func_name(func)}', do_print=not self.skip_intro and self.do_print)
+        fprint(f'Function timer started: {self._get_func_name(func)}', do_print=not self._skip_intro and self.do_print)
         
         time_start = perf_counter()
         ret_val = func(*args, **kwargs)
@@ -51,10 +66,11 @@ class FunctionTimer(Base):
             return ret_val, time_delta
         return ret_val
 
+
     def _get_func_name(self, func):
         try:
             return func.__name__
-        except:
+        except Exception:
             try:
                 return func.__class__.__name__
             except Exception:
@@ -75,6 +91,7 @@ class FunctionTimer(Base):
             fprint(f'Function {func_name} Took {time_delta} seconds to run')
         else:
             fprint(f'Function {func_name} {args}{kwargs} Took {time_delta} seconds to run')
+
 
 _func_timer = FunctionTimer()._func_timer
 func_timer = FunctionTimer()

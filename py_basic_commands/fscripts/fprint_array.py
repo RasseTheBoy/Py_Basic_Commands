@@ -1,71 +1,9 @@
 import executing, sys
+sys.path.append('..')
 
 from dataclasses    import dataclass
 from textwrap   import dedent
-from typing     import Any
-from base   import Base
-
-#TODO: Remove ic
-# from icecream   import ic
-
-
-@dataclass
-class Fprint(Base):
-    _nl:bool = True
-    _flush:bool = False
-    _end = None
-
-    def __post_init__(self):
-        super().__init__()
-
-    def __call__(self, *args:Any, nl:bool=None, flush:bool=None, do_print:bool=None, end:str=None) -> None:
-        """Print one or more objects to the console, with optional newline, flushing, and ending characters.
-        
-        Parameters:
-        - `args` (*Any): One or more objects to print.
-        - `nl` (bool): Whether to append a newline character to the output.
-        - `flush` (bool): Whether to flush the output buffer.
-        - `do_print` (bool): Whether to actually print the output.
-        - `end` (str): The string to print at the end of the output.
-        """
-
-        # t_f = lambda inpt_val, saved_val : inpt_val == True or (inpt_val == None and saved_val) # True or false
-
-        # Config values
-        nl = self._check_input_val(nl, self._nl) 
-        flush = self._check_input_val(flush, self._flush)
-        do_print = self._check_input_val(do_print, self.do_print)
-        end = self._check_input_val(end, self._end)
-        if not args:
-            args = ('\n')
-
-        if not do_print:
-            return
-
-        for arg_indx, arg in enumerate(args):
-            if arg_indx == len(args)-1:
-                print(arg, end=end, flush=flush)
-            else:
-                print(arg, end=' ', flush=flush)
-
-        if nl and not end:
-            print()
-
-    
-    def config(self, **kwargs):
-        """Configure fprint variables"""
-
-        self._config(**kwargs)
-
-        if 'nl' in kwargs:
-            self._nl = kwargs['nl']
-        if 'flush' in kwargs:
-            self._flush = kwargs['flush']
-        if 'end' in kwargs:
-            self._end = kwargs['end']
-
-
-fprint = Fprint()
+from py_basic_commands.base   import Base
 
 
 @dataclass
@@ -78,6 +16,23 @@ class FprintArray(Base):
 
     def __post_init__(self):
         super().__init__()
+
+
+    def config(self, **kwargs):
+        """Configure variables"""
+        self._config(**kwargs)
+
+        if 'header' in kwargs:
+            self._header = kwargs['header']
+        elif 'indx_brackets' in kwargs:
+            self._indx_brackets = kwargs['indx_brackets']
+        elif 'print_num' in kwargs:
+            self._print_num = kwargs['print_num']
+        elif 'start_num' in kwargs:
+            self._start_num = kwargs['start_num']
+        elif 'nl' in kwargs:
+            self._nl = kwargs['nl'] 
+
 
     def __call__(self, arr, header:str=None, indx_brackets:str=None, print_num=None, start_num:int=None, nl:bool=None) -> None:
         """This function prints the elements of an array along with their index numbers.
@@ -111,7 +66,9 @@ class FprintArray(Base):
             return inpt_array_name
 
 
-        def _print_output(text):
+        def _print_output(text) -> None:
+            """Print the output of the array elements and their index numbers if `print_num` is `True`. Otherwise, just print the array elements.
+            If the input is a dictionary, then print the key-value pairs."""
             if text.__class__.__name__ == 'dict':
                 return self.__call__(text, header=header, indx_brackets=indx_brackets, print_num=print_num, start_num=start_num, nl=nl)
 
@@ -155,10 +112,6 @@ class FprintArray(Base):
                 arr_name = _get_array_name()
                 print(f'Given array ({arr_name}) is not a valid format: {arr_type}')
                 return
-
-
-    def config(self, **kwargs):
-        """Configure `fprint_array` variables"""
 
 
 fprint_array = FprintArray()
