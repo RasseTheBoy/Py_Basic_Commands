@@ -19,6 +19,27 @@ class ReadFile(Base):
     def __post_init__(self):
         super().__init__()
 
+
+    def config(self, **kwargs):
+        """Configure variables"""
+        self._config(**kwargs)
+
+        for key, value in kwargs.items():
+            if key == 'create':
+                self._create = value
+            elif key == 'ret_did_create':
+                self._ret_did_create = value
+            elif key == 'splitlines':
+                self._splitlines = value
+            elif key == 'remove_empty':
+                self._remove_empty = value
+            elif key == 'do_strip':
+                self._do_strip = value
+            elif key == 'do_lower':
+                self._do_lower = value
+            elif key == 'encoding':
+                self._encoding = value
+
     
     def __call__(self, file_path:str, create:bool=None, ret_did_create:bool=None, splitlines:bool=None, remove_empty:bool=None, do_strip:bool=None, do_lower:bool=None, encoding:str=None, do_print:bool=None) -> Any:
         """Read the contents of a file.
@@ -84,26 +105,6 @@ class ReadFile(Base):
         if ret_did_create:
             return lines, did_create
         return lines
-
-
-    def config(self, **kwargs):
-        """Configure variables"""
-        self._config(**kwargs)
-
-        if 'create' in kwargs:
-            self._create = kwargs['create']
-        elif 'ret_did_create' in kwargs:
-            self._ret_did_create = kwargs['ret_did_create']
-        elif 'splitlines' in kwargs:
-            self._splitlines = kwargs['splitlines']
-        elif 'remove_empty' in kwargs:
-            self._remove_empty = kwargs['remove_empty']
-        elif 'do_strip' in kwargs:
-            self._do_strip = kwargs['do_strip']
-        elif 'do_lower' in kwargs:
-            self._do_lower = kwargs['do_lower']
-        elif 'encoding' in kwargs:
-            self._encoding = kwargs['encoding']
 
 
 read_file = ReadFile()

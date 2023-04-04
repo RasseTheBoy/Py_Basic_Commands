@@ -1,6 +1,3 @@
-import sys
-sys.path.append('..')
-
 from py_basic_commands.file_dir_scripts   import read_file
 from dataclasses    import dataclass
 from traceback  import format_exc
@@ -24,14 +21,15 @@ class WriteFile(Base):
         """Configure variables."""
         self._config(**kwargs)
 
-        if 'append' in kwargs:
-            self._append = kwargs['append']
-        elif 'force_create' in kwargs:
-            self._force_create = kwargs['force_create']
-        elif 'remove_duplicates' in kwargs:
-            self._remove_duplicates = kwargs['remove_duplicates']
-        elif 'encoding' in kwargs:
-            self._encoding = kwargs['encoding']
+        for key, value in kwargs.items():
+            if key == 'append':
+                self._append = value
+            elif key == 'force_create':
+                self._force_create = value
+            elif key == 'remove_duplicates':
+                self._remove_duplicates = value
+            elif key == 'encoding':
+                self._encoding = value
 
 
     def __call__(self, text:Any, file_path:str, append:bool=None, force_create:bool=None, remove_duplicates:bool=None, encoding:str=None, do_print:bool=None) -> bool:

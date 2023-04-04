@@ -22,17 +22,17 @@ class FprintArray(Base):
         """Configure variables"""
         self._config(**kwargs)
 
-        if 'header' in kwargs:
-            self._header = kwargs['header']
-        elif 'indx_brackets' in kwargs:
-            self._indx_brackets = kwargs['indx_brackets']
-        elif 'print_num' in kwargs:
-            self._print_num = kwargs['print_num']
-        elif 'start_num' in kwargs:
-            self._start_num = kwargs['start_num']
-        elif 'nl' in kwargs:
-            self._nl = kwargs['nl'] 
-
+        for key, value in kwargs.items():
+            if key == 'header':
+                self._header = value
+            elif key == 'indx_brackets':
+                self._indx_brackets = value
+            elif key == 'print_num':
+                self._print_num = value
+            elif key == 'start_num':
+                self._start_num = value
+            elif key == 'nl':
+                self._nl = value
 
     def __call__(self, arr, header:str=None, indx_brackets:str=None, print_num=None, start_num:int=None, nl:bool=None) -> None:
         """This function prints the elements of an array along with their index numbers.
@@ -49,6 +49,7 @@ class FprintArray(Base):
         """
 
         def _get_array_name() -> str:
+            """Get the name of the input array."""
             class Source(executing.Source):
                 def get_text_with_indentation(self, node):
                     result = self.asttokens().get_text(node)
@@ -89,29 +90,29 @@ class FprintArray(Base):
 
         arr_type = arr.__class__.__name__
 
-        match arr_type:
-            case 'list' | 'set' | 'tuple':
-                if not arr:
-                    print(f'Array is empty: {_get_array_name()}')
-                    return
-
-                if header:
-                    print(header)
-
-                for indx, value in enumerate(arr, start=start_num):
-                    _print_output(value)
-
-                if nl:
-                    print()
-
-            case 'dict':
-                for indx, (key, value) in enumerate(arr.items(), start=start_num):
-                    _print_output(f'{key}: {value}')
-
-            case _:
-                arr_name = _get_array_name()
-                print(f'Given array ({arr_name}) is not a valid format: {arr_type}')
+        # Check if the input is a valid array
+        if arr_type in ['list', 'set', 'tuple', 'dict']:
+            if not arr:
+                print(f'Array is empty: {_get_array_name()}')
                 return
+
+            if header:
+                print(header)
+
+            for indx, value in enumerate(arr, start=start_num):
+                _print_output(value)
+
+            if nl:
+                print()
+
+        elif arr_type == 'dict':
+            for indx, (key, value) in enumerate(arr.items(), start=start_num):
+                _print_output(f'{key}: {value}')
+        
+        else:
+            arr_name = _get_array_name()
+            print(f'Given array ({arr_name}) is not a valid format: {arr_type}')
+            return
 
 
 fprint_array = FprintArray()

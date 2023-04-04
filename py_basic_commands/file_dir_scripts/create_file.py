@@ -1,6 +1,3 @@
-import sys
-sys.path.append('..')
-
 from py_basic_commands.file_dir_scripts.create_dirs   import create_dirs
 from dataclasses    import dataclass
 from traceback  import format_exc
@@ -15,6 +12,15 @@ class CreateFile(Base):
 
     def __post_init__(self):
         super().__init__()
+
+    
+    def config(self, **kwargs):
+        """Configure variables"""
+        self._config(**kwargs)
+
+        for key, value in kwargs.items():
+            if key == 'force':
+                self._force = value
 
 
     def _create_empty_file(self, dst_path:str) -> bool:
@@ -69,14 +75,6 @@ class CreateFile(Base):
             return False
         
         return self._create_empty_file(dst_path)
-
-    
-    def config(self, **kwargs):
-        """Configure variables"""
-        self._config(**kwargs)
-
-        if 'force' in kwargs:
-            self._force = kwargs['force']
 
 
 create_file = CreateFile()

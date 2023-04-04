@@ -1,6 +1,3 @@
-import sys
-sys.path.append('..')
-
 import json
 
 from py_basic_commands.json_scripts.read_json  import read_json
@@ -25,11 +22,12 @@ class WriteJson(Base):
         """Configure variables"""
         self._config(**kwargs)
 
-        if 'indent' in kwargs:
-            self._indent = kwargs['indent']
-        elif 'force' in kwargs:
-            self._force = kwargs['force']
-
+        for key, value in kwargs.items():
+            if key == 'indent':
+                self._indent = value
+            elif key == 'force':
+                self._force = value
+                
 
     def __call__(self, data:Any, file_path:str, indent:int=None, force:bool=None, do_print:bool=None) -> bool:
         """Write data to a JSON file.

@@ -1,6 +1,3 @@
-import sys
-sys.path.append('..')
-
 import json
 from dataclasses    import dataclass
 from traceback  import format_exc

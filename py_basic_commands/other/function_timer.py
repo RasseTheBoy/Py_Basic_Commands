@@ -1,6 +1,3 @@
-import sys
-sys.path.append('..')
-
 from dataclasses    import dataclass
 from functools  import wraps
 from py_basic_commands.fscripts   import fprint
@@ -20,10 +17,13 @@ class FunctionTimer(Base):
     def config(self, **kwargs):
         self._config(**kwargs)
 
-        if 'ret_time' in kwargs:
-            self.ret_time = kwargs['ret_time']
-        if 'skip_inputs' in kwargs:
-            self.skip_inputs = kwargs['skip_inputs']
+        for key, value in kwargs.items():
+            if key == 'ret_time':
+                self._ret_time = value
+            elif key == 'skip_intro':
+                self._skip_intro = value
+            elif key == 'skip_inputs':
+                self._skip_inputs = value
 
 
     # TODO: Add self.do_print to function

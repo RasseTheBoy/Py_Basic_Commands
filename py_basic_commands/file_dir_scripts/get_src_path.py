@@ -1,6 +1,3 @@
-import sys
-sys.path.append('..')
-
 
 from dataclasses    import dataclass
 from py_basic_commands.fscripts   import fprint
@@ -20,8 +17,9 @@ class GetSourcePath(Base):
         """Configure variables"""
         self._config(**kwargs)
 
-        if 'ret_val' in kwargs:
-            self._ret_val = kwargs['ret_val']
+        for key, value in kwargs.items():
+            if key == 'ret_val':
+                self._ret_val = value
 
 
     def __call__(self, src_path:str, ret_val=None, do_print:bool=None) -> Any:

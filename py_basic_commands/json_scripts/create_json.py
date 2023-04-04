@@ -1,6 +1,3 @@
-import sys
-sys.path.append('..')
-
 import json
 
 from py_basic_commands.file_dir_scripts   import create_file, read_file
@@ -22,8 +19,9 @@ class CreateJson(Base):
         """Configure `create_json` variables"""
         self._config(**kwargs)
 
-        if 'force' in kwargs:
-            self._force = kwargs['force']
+        for key, value in kwargs.items():
+            if key == 'force':
+                self._force = value
 
 
     def __call__(self, file_path:str, force:bool=None, do_print:bool=None) -> bool:

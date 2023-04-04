@@ -1,6 +1,3 @@
-import sys
-sys.path.append('..')
-
 from dataclasses    import dataclass
 from typing     import Any
 from py_basic_commands.base   import Base
@@ -17,15 +14,15 @@ class Fprint(Base):
 
     def config(self, **kwargs):
         """Configure variables"""
-
         self._config(**kwargs)
 
-        if 'nl' in kwargs:
-            self._nl = kwargs['nl']
-        if 'flush' in kwargs:
-            self._flush = kwargs['flush']
-        if 'end' in kwargs:
-            self._end = kwargs['end']
+        for key, value in kwargs.items():
+            if key == 'nl':
+                self._nl = value
+            elif key == 'flush':
+                self._flush = value
+            elif key == 'end':
+                self._end = value
 
 
     def __call__(self, *args:Any, nl:bool=None, flush:bool=None, do_print:bool=None, end:str=None) -> None:
@@ -38,6 +35,7 @@ class Fprint(Base):
         - `do_print` (bool): Whether to actually print the output.
         - `end` (str): The string to print at the end of the output.
         """
+        # TODO: Add `sep` input parameter (separator between objects to print)
 
         # Check input values
         nl = self._check_input_val(nl, self._nl) 
@@ -46,8 +44,6 @@ class Fprint(Base):
         end = self._check_input_val(end, self._end)
         if not args:
             args = ('\n')
-
-
 
         if not do_print:
             return

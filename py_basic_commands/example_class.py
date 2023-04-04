@@ -1,8 +1,5 @@
 # Only used as a reference for the base of a class
 
-import sys
-sys.path.append('..')
-
 
 from dataclasses    import dataclass
 from base   import Base

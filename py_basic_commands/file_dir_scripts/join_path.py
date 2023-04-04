@@ -1,6 +1,3 @@
-import sys
-sys.path.append('..')
-
 from dataclasses    import dataclass
 from py_basic_commands.fscripts   import fprint
 from os.path    import dirname, basename, splitext
@@ -21,12 +18,13 @@ class JoinPath(Base):
         """Configure variables"""
         self._config(**kwargs)
 
-        if 'join_with' in kwargs:
-            self._join_with = kwargs['join_with']
-        elif 'remove_empty' in kwargs:
-            self._remove_empty = kwargs['remove_empty']
-        elif 'dir_end' in kwargs:
-            self._dir_end = kwargs['dir_end']
+        for key, value in kwargs.items():
+            if key == 'join_with':
+                self._join_with = value
+            elif key == 'remove_empty':
+                self._remove_empty = value
+            elif key == 'dir_end':
+                self._dir_end = value
 
 
     def __call__(self, *args:str, join_with:str=None, remove_empty:bool=None, dir_end:bool=None, do_print:bool=None) -> str:

@@ -1,6 +1,3 @@
-import sys
-sys.path.append('..')
-
 from py_basic_commands.file_dir_scripts.get_src_path  import get_src_path
 from dataclasses    import dataclass
 from py_basic_commands.fscripts   import fprint
@@ -16,11 +13,6 @@ class CreateDirs(Base):
     def config(self, **kwargs):
         """Conmfigure `create_dirs` variables"""
         self._config(**kwargs)
-
-        if 'val1' in kwargs:
-            self.val1 = kwargs['val1']
-        elif 'val2' in kwargs:
-            self.val2 = kwargs['val2']
 
 
     def __call__(self, dst_path:str, do_print:bool=None) -> bool:

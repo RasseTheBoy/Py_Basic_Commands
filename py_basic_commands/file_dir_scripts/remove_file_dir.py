@@ -1,6 +1,3 @@
-import sys
-sys.path.append('..')
-
 from py_basic_commands.other.basic_commands     import try_traceback
 from py_basic_commands.file_dir_scripts   import read_file
 from dataclasses    import dataclass
@@ -22,8 +19,9 @@ class RemoveFileDir(Base):
         """Configure `remove_file_dir` variables"""
         self._config(**kwargs)
 
-        if 'force' in kwargs:
-            self._force = kwargs['force']
+        for key, value in kwargs.items():
+            if key == 'force':
+                self._force = value
 
     @try_traceback(print_traceback=True)
     def __call__(self, do:str, do_path:str, force:bool=False, do_print:bool=True) -> bool:

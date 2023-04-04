@@ -1,6 +1,3 @@
-import sys
-sys.path.append('..')
-
 from dataclasses    import dataclass
 from py_basic_commands.fscripts.fprint   import fprint
 from py_basic_commands.base   import Base
@@ -15,6 +12,22 @@ class Finput(Base):
 
     def __post_init__(self):
         super().__init__()
+
+
+    def config(self, **kwargs):
+        """Configure `finput` values"""
+        self._config(**kwargs)
+
+        for key, value in kwargs.items():
+            if key == 'text':
+                self._text = value
+            elif key == 'nl':
+                self._nl = value
+            elif key == 'use_suffix':
+                self._use_suffix = value
+            elif key == 'ret_type':
+                self._ret_type = value
+
 
     def __call__(self, text:str=None, ret_type:type=None, nl:bool=None, use_suffix:bool=None):
         """Get input from the user and return it as a specified type.
@@ -49,20 +62,6 @@ class Finput(Base):
             print(f'Input type: {type(inpt)}')
             fprint('Returning value as string')
         return inpt
-    
-
-    def config(self, **kwargs):
-        """Configure `finput` values"""
-        self._config(**kwargs)
-
-        if 'text' in kwargs:
-            self._text = kwargs['text']
-        elif 'nl' in kwargs:
-            self._nl = kwargs['nl']
-        elif 'use_suffix' in kwargs:
-            self._use_suffix = kwargs['use_suffix']
-        elif 'ret_type' in kwargs:
-            self._ret_type = kwargs['ret_type']
 
 
 finput = Finput()

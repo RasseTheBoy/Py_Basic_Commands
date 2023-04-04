@@ -22,18 +22,19 @@ class ChooseFromList(Base):
         """Configure variables"""
         self._config(**kwargs)
 
-        if 'header_text' in kwargs:
-            self._header_text = kwargs['header_text']
-        elif 'header_nl' in kwargs:
-            self._header_nl = kwargs['header_nl']
-        elif 'input_text' in kwargs:
-            self._input_text = kwargs['input_text']
-        elif 'choose_total' in kwargs:
-            self._choose_total = kwargs['choose_total']
-        elif 'start_num' in kwargs:
-            self._start_num = kwargs['start_num']
-        elif 'choose_until_correct' in kwargs:
-            self._choose_until_correct = kwargs['choose_until_correct']
+        for key, value in kwargs.items():
+            if key == 'header_text':
+                self._header_text = value
+            elif key == 'header_nl':
+                self._header_nl = value
+            elif key == 'input_text':
+                self._input_text = value
+            elif key == 'choose_total':
+                self._choose_total = value
+            elif key == 'start_num':
+                self._start_num = value
+            elif key == 'choose_until_correct':
+                self._choose_until_correct = value
 
 
     def __call__(self, _array:Any, header_text:str=None, header_nl:bool=None, input_text:str=None, choose_total:int=None, start_num:int=None, choose_until_correct:bool=None) -> list:
