@@ -29,7 +29,7 @@ class WriteJson(Base):
                 self._force = value
                 
 
-    def __call__(self, data:Any, file_path:str, indent:int=None, force:bool=None, do_print:bool=None) -> bool:
+    def __call__(self, data:Any, file_path:str, force:bool=None, indent:int=None, do_print:bool=None) -> bool:
         """Write data to a JSON file.
         
         Parameters:
