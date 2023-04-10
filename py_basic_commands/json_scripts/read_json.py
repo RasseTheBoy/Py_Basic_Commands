@@ -1,8 +1,10 @@
 import json
-from dataclasses    import dataclass
-from traceback  import format_exc
+
 from py_basic_commands.fscripts   import fprint
 from py_basic_commands.base   import Base
+from dataclasses    import dataclass
+from traceback  import format_exc
+from typing     import Any
 
 
 @dataclass
@@ -16,7 +18,7 @@ class ReadJson(Base):
         self._config(**kwargs)
 
 
-    def __call__(self, file_path:str, do_print:bool=None):
+    def __call__(self, file_path:str, do_print:bool=None) -> Any:
         """Read data from a JSON file.
         
         Parameters:
