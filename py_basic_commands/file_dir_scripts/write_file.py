@@ -38,11 +38,11 @@ class WriteFile(Base):
         Parameters:
         - `text` (Any): The text to write. Can be a string, list, tuple, set or a numpy.array.
         - `file_path` (str): The path to the file to write to.
-        - `append` (bool): Whether to append the text to the end of the file.
-        - `force_create` (bool): Whether to create the file if it does not exist.
-        - `remove_duplicates` (bool): Whether to remove duplicates from a list, tuple or set
-        - `encoding` (str): The encoding to use when writing the file.
-        - `do_print` (bool): Whether to print information about the file writing process.
+        - `append` (bool): Whether to append the text to the end of the file. Default is `False`.
+        - `force_create` (bool): Whether to create the file if it does not exist. Default is `True`.
+        - `remove_duplicates` (bool): Whether to remove duplicates from a list, tuple or set before writing to file. Default is `False`.
+        - `encoding` (str): The encoding to use when writing the file. Default is `utf-8`.
+        - `do_print` (bool): Whether to print information about the file writing process. Default is `True`.
         
         Returns:
         - `bool`: Whether the file was created.
