@@ -58,7 +58,7 @@ class JoinPath(Base):
         for arg_indx, arg in enumerate(args):
             # Remove invalid characters
             arg = split_join(split_join(arg, '\\'), '/')
-            arg = arg.translate({ord(c): None for c in '<>:"|?*'})
+            arg = arg.translate({ord(c): None for c in '<>"|?*'}) # ":" is an invalid character on Windows, but drivers can use it. E.g. "C:\"
 
             # Remove empty strings
             split_arg = arg.split('/')
