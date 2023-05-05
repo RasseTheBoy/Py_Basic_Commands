@@ -70,7 +70,24 @@ class RemoveFileDir(Base):
             if lines and not force:
                 fprint(f'File is not empty, not removing: {do_path}')
                 return False
-            remove(do_path)
+            try:
+                remove(do_path)
+            except FileNotFoundError:
+                fprint(f'File path not found: {do_path}')
+                return False
+            except IsADirectoryError:
+                fprint(f'Path is a directory: {do_path}')
+                return False
+            except PermissionError:
+                fprint(f'Permission denied: {do_path}')
+                return False
+            except OSError:
+                fprint(f'File is being used by another process: {do_path}')
+                return False
+            except Exception as err:
+                fprint(f'Error removing file: {do_path}')
+                raise err
+
             fprint(f'File removed: {do_path}')
             return True
 
