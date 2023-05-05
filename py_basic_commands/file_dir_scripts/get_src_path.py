@@ -26,8 +26,11 @@ class GetSourcePath(Base):
         
         Parameters:
         - `src_path` (str): The path to the source.
-        - `ret_val` (str): Whether to return the `'d'`irectory path, `'fnam'`e of the file, or `'a'`ll (default).
-        
+        - `ret_val` (str): Whether to return the 
+            - `'d'`: directory path
+            - `'fnam'`: name of the file
+            - `'a'`: all (default)
+
         Returns:
         - `Any`: If `ret_val` is `'d'`, the directory path. If `ret_val` is `'fnam'`, the filename. Otherwise, a tuple containing the directory path and the filename.
         """
