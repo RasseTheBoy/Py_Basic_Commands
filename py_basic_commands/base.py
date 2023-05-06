@@ -11,7 +11,6 @@ class Base:
         for key, value in kwargs.items():
             if hasattr(self, key):
                 setattr(self, key, value)
-                print(f'Changed {key} to {value}')
             else:
                 raise AttributeError(f'{self.__class__.__name__} has no attribute {key}')
         

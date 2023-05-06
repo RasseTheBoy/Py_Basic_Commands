@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.23] - 2023-
+
+### Removed
+
+- `base.py`
+    - Forgot to remove (debugging) `print()` from `.config()`
+
 ## [0.2.22] - 2023-6-5
 
 ### Changed
