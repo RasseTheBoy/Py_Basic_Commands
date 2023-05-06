@@ -6,6 +6,8 @@
 
 - All objects can now be imported as is, instead of pre-made variables
     - (Testing how this works out; may be removed in the future)
+- `remove_file_dir.py`
+    - Catches a lot more exceptions when trying to remove a file or directory
 
 ### Changed
 
