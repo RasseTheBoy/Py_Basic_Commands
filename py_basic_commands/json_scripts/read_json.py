@@ -13,11 +13,6 @@ class ReadJson(Base):
         super().__init__()
 
 
-    def config(self, **kwargs):
-        """Configure variables"""
-        self._config(**kwargs)
-
-
     def __call__(self, file_path:str, do_print:bool=None) -> Any:
         """Read data from a JSON file.
         

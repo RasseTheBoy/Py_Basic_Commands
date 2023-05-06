@@ -13,15 +13,6 @@ class CreateFile(Base):
     def __post_init__(self):
         super().__init__()
 
-    
-    def config(self, **kwargs):
-        """Configure variables"""
-        self._config(**kwargs)
-
-        for key, value in kwargs.items():
-            if key == 'force':
-                self._force = value
-
 
     def _create_empty_file(self, dst_path:str) -> bool:
         """Create an empty file at the specified path.

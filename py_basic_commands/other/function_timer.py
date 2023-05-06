@@ -14,17 +14,6 @@ class FunctionTimer(Base):
     def __post_init__(self) -> None:
         super().__init__()
 
-    def config(self, **kwargs):
-        self._config(**kwargs)
-
-        for key, value in kwargs.items():
-            if key == 'ret_time':
-                self._ret_time = value
-            elif key == 'skip_intro':
-                self._skip_intro = value
-            elif key == 'skip_inputs':
-                self._skip_inputs = value
-
 
     # TODO: Add self.do_print to function
     def _func_timer(self, do_print:bool=True, ret_time:bool=False, skip_intro:bool=True, skip_inputs:bool=True):

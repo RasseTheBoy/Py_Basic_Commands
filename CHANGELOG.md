@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.2.10] - 2023-6-5
+
+### Added
+
+- All objects can now be imported as is, instead of pre-made variables
+    - (Testing how this works out; may be removed in the future)
+
+### Changed
+
+- Configuring objects **actually** works now!
+    - Code is also a lot more readable
+- `xxx.config()` function removed from all objects
+    - Included in the `base.py` file
+    - No need to create function for each object
+
 ## [0.2.01] - 2023-4-2
 
 ### Added

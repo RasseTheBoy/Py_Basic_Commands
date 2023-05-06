@@ -17,22 +17,6 @@ class FprintArray(Base):
         super().__init__()
 
 
-    def config(self, **kwargs):
-        """Configure variables"""
-        self._config(**kwargs)
-
-        for key, value in kwargs.items():
-            if key == 'header':
-                self._header = value
-            elif key == 'indx_brackets':
-                self._indx_brackets = value
-            elif key == 'print_num':
-                self._print_num = value
-            elif key == 'start_num':
-                self._start_num = value
-            elif key == 'nl':
-                self._nl = value
-
     def __call__(self, arr, header:str=None, indx_brackets:str=None, print_num=None, start_num:int=None, nl:bool=None) -> None:
         """This function prints the elements of an array along with their index numbers.
 

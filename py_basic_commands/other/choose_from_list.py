@@ -18,25 +18,6 @@ class ChooseFromList(Base):
         super().__init__()
 
 
-    def config(self, **kwargs):
-        """Configure variables"""
-        self._config(**kwargs)
-
-        for key, value in kwargs.items():
-            if key == 'header_text':
-                self._header_text = value
-            elif key == 'header_nl':
-                self._header_nl = value
-            elif key == 'input_text':
-                self._input_text = value
-            elif key == 'choose_total':
-                self._choose_total = value
-            elif key == 'start_num':
-                self._start_num = value
-            elif key == 'choose_until_correct':
-                self._choose_until_correct = value
-
-
     def __call__(self, _array:Any, header_text:str=None, header_nl:bool=None, input_text:str=None, choose_total:int=None, start_num:int=None, choose_until_correct:bool=None) -> list:
         """Prompt the user to choose one or more values from a list.
         

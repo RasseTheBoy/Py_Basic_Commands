@@ -1,18 +1,13 @@
 from py_basic_commands.file_dir_scripts.get_src_path  import get_src_path
-from dataclasses    import dataclass
 from py_basic_commands.fscripts   import fprint
 from py_basic_commands.base   import Base
+from dataclasses    import dataclass
 from os     import makedirs
 
 @dataclass
 class CreateDirs(Base):
     def __post_init__(self):
         super().__init__()
-
-
-    def config(self, **kwargs):
-        """Conmfigure `create_dirs` variables"""
-        self._config(**kwargs)
 
 
     def __call__(self, dst_path:str, do_print:bool=None) -> bool:

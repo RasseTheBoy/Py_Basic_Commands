@@ -15,15 +15,6 @@ class CreateJson(Base):
         super().__init__()
 
 
-    def config(self, **kwargs):
-        """Configure `create_json` variables"""
-        self._config(**kwargs)
-
-        for key, value in kwargs.items():
-            if key == 'force':
-                self._force = value
-
-
     def __call__(self, file_path:str, force:bool=None, do_print:bool=None) -> bool:
         """Create a new empty JSON file.
         

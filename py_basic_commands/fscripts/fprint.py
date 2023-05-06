@@ -4,25 +4,12 @@ from py_basic_commands.base   import Base
 
 @dataclass
 class Fprint(Base):
-    _nl:bool = True
-    _flush:bool = False
-    _end = None
+    nl:bool = True
+    flush:bool = False
+    end = None
 
     def __post_init__(self):
         super().__init__()
-
-
-    def config(self, **kwargs):
-        """Configure variables"""
-        self._config(**kwargs)
-
-        for key, value in kwargs.items():
-            if key == 'nl':
-                self._nl = value
-            elif key == 'flush':
-                self._flush = value
-            elif key == 'end':
-                self._end = value
 
 
     def __call__(self, *args:Any, nl:bool=None, flush:bool=None, do_print:bool=None, end:str=None) -> None:
@@ -38,10 +25,10 @@ class Fprint(Base):
         # TODO: Add `sep` input parameter (separator between objects to print)
 
         # Check input values
-        nl = self._check_input_val(nl, self._nl) 
-        flush = self._check_input_val(flush, self._flush)
-        do_print = self._check_input_val(do_print, self._do_print)
-        end = self._check_input_val(end, self._end)
+        nl = self._check_input_val(nl, self.nl) 
+        flush = self._check_input_val(flush, self.flush)
+        do_print = self._check_input_val(do_print, self.do_print)
+        end = self._check_input_val(end, self.end)
         if not args:
             args = ('\n')
 

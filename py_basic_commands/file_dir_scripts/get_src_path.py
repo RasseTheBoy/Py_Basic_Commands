@@ -12,15 +12,6 @@ class GetSourcePath(Base):
         super().__init__()
 
 
-    def config(self, **kwargs):
-        """Configure variables"""
-        self._config(**kwargs)
-
-        for key, value in kwargs.items():
-            if key == 'ret_val':
-                self._ret_val = value
-
-
     def __call__(self, src_path:str, ret_val=None, do_print:bool=None) -> Any:
         """Get the path for the given source.
         

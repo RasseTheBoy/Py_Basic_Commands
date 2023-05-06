@@ -1,9 +1,9 @@
 from py_basic_commands.other.basic_commands     import try_traceback
 from py_basic_commands.file_dir_scripts   import read_file
-from dataclasses    import dataclass
 from py_basic_commands.fscripts   import fprint
-from shutil     import rmtree
 from py_basic_commands.base   import Base
+from dataclasses    import dataclass
+from shutil     import rmtree
 from os     import listdir, remove
 
 
@@ -14,14 +14,6 @@ class RemoveFileDir(Base):
     def __post_init__(self):
         super().__init__()
 
-    
-    def config(self, **kwargs):
-        """Configure `remove_file_dir` variables"""
-        self._config(**kwargs)
-
-        for key, value in kwargs.items():
-            if key == 'force':
-                self._force = value
 
     @try_traceback(print_traceback=True)
     def __call__(self, do:str, do_path:str, force:bool=False, do_print:bool=True) -> bool:
@@ -40,8 +32,6 @@ class RemoveFileDir(Base):
         # Check input values
         force    = self._check_input_val(force, self._force)
         do_print = self._check_input_val(do_print, self._do_print)
-
-        fprint.config(do_print=do_print)
 
         if do == 'd': # Directory
             try:
@@ -96,4 +86,5 @@ remove_file_dir = RemoveFileDir()
 
 if __name__ == '__main__':
     # Test code
-    remove_file_dir('d', 'Test folder', force=True)
+    remove_file_dir.config(do_print=False)
+    remove_file_dir('d', 'Test folder', force=True, do_print=False)

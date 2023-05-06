@@ -16,17 +16,6 @@ class WriteJson(Base):
 
     def __post_init__(self):
         super().__init__()
-
-
-    def config(self, **kwargs):
-        """Configure variables"""
-        self._config(**kwargs)
-
-        for key, value in kwargs.items():
-            if key == 'indent':
-                self._indent = value
-            elif key == 'force':
-                self._force = value
                 
 
     def __call__(self, data:Any, file_path:str, force:bool=None, indent:int=None, do_print:bool=None) -> bool:

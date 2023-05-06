@@ -14,19 +14,6 @@ class JoinPath(Base):
         super().__init__(False)
 
 
-    def config(self, **kwargs):
-        """Configure variables"""
-        self._config(**kwargs)
-
-        for key, value in kwargs.items():
-            if key == 'join_with':
-                self._join_with = value
-            elif key == 'remove_empty':
-                self._remove_empty = value
-            elif key == 'dir_end':
-                self._dir_end = value
-
-
     def __call__(self, *args:str, join_with:str=None, remove_empty:bool=None, dir_end:bool=None, do_print:bool=None) -> str:
         r"""Join path segments together, removing certain characters (`<>:"/\|?*`) and adjust for correct slash direction.
 

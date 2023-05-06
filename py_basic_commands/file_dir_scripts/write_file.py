@@ -17,21 +17,6 @@ class WriteFile(Base):
         super().__init__()
 
 
-    def config(self, **kwargs):
-        """Configure variables."""
-        self._config(**kwargs)
-
-        for key, value in kwargs.items():
-            if key == 'append':
-                self._append = value
-            elif key == 'force_create':
-                self._force_create = value
-            elif key == 'remove_duplicates':
-                self._remove_duplicates = value
-            elif key == 'encoding':
-                self._encoding = value
-
-
     def __call__(self, text:Any, file_path:str, append:bool=None, force_create:bool=None, remove_duplicates:bool=None, encoding:str=None, do_print:bool=None) -> bool:
         """Write text to a file.
         

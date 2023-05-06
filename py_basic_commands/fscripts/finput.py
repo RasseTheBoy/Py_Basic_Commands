@@ -14,21 +14,6 @@ class Finput(Base):
         super().__init__()
 
 
-    def config(self, **kwargs):
-        """Configure `finput` values"""
-        self._config(**kwargs)
-
-        for key, value in kwargs.items():
-            if key == 'text':
-                self._text = value
-            elif key == 'nl':
-                self._nl = value
-            elif key == 'use_suffix':
-                self._use_suffix = value
-            elif key == 'ret_type':
-                self._ret_type = value
-
-
     def __call__(self, text:str=None, ret_type:type=None, nl:bool=None, use_suffix:bool=None):
         """Get input from the user and return it as a specified type.
         
