@@ -38,7 +38,7 @@ class WriteFile(Base):
         force_create = self._check_input_val(force_create, self._force_create)
         remove_duplicates = self._check_input_val(remove_duplicates, self._remove_duplicates)
         encoding = self._check_input_val(encoding, self._encoding)
-        do_print = self._check_input_val(do_print, self._do_print)
+        do_print = self._check_input_val(do_print, self.do_print)
 
         fprint.config(do_print=do_print)
 

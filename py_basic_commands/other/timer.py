@@ -15,7 +15,7 @@ class Timer(Base):
         """Start a timer with a specified name"""
 
         # Chek values
-        do_print = self._check_input_val(do_print, self._do_print)
+        do_print = self._check_input_val(do_print, self.do_print)
 
         if self.timer_lst.get(timer_name):
             print(f'Timer with name already started: {timer_name}')

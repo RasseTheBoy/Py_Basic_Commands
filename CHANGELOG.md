@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.21] - 2023-6-5
+
+### Changed
+
+- Forgot to change old variables to new ones
+    - `_do_print` -> `do_print`
+
 ## [0.2.20] - 2023-6-5
 
 ### Added

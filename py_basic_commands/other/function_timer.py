@@ -34,7 +34,7 @@ class FunctionTimer(Base):
             return wrapper
         
         # Check input values
-        do_print = self._check_input_val(do_print, self._do_print)
+        do_print = self._check_input_val(do_print, self.do_print)
         ret_time = self._check_input_val(ret_time, self._ret_time)
         skip_intro = self._check_input_val(skip_intro, self._skip_intro)
         skip_inputs = self._check_input_val(skip_inputs, self._skip_inputs)

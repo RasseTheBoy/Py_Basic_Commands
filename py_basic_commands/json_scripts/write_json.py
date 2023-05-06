@@ -35,7 +35,7 @@ class WriteJson(Base):
         # Check input values
         indent = self._check_input_val(indent, self._indent)
         force = self._check_input_val(force, self._force)
-        do_print = self._check_input_val(do_print, self._do_print)
+        do_print = self._check_input_val(do_print, self.do_print)
 
         fprint.config(do_print=do_print)
 
