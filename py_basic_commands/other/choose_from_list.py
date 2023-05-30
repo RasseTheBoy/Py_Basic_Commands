@@ -6,12 +6,12 @@ from py_basic_commands.base   import Base
 
 @dataclass
 class ChooseFromList(Base):
-    _header_text:str    = ''
-    _header_nl:bool     = False
-    _input_text:str     = 'Input index: '
-    _choose_total:int   = 1
-    _start_num:int      = 0
-    _choose_until_correct:bool = True
+    header_text:str    = ''
+    header_nl:bool     = False
+    input_text:str     = 'Input index: '
+    choose_total:int   = 1
+    start_num:int      = 0
+    choose_until_correct:bool = True
 
 
     def __post_init__(self):
@@ -35,12 +35,12 @@ class ChooseFromList(Base):
         """
 
         # Check input values
-        header_text = self._check_input_val(header_text, self._header_text)
-        header_nl = self._check_input_val(header_nl, self._header_nl)
-        input_text = self._check_input_val(input_text, self._input_text)
-        choose_total = self._check_input_val(choose_total, self._choose_total)
-        start_num = self._check_input_val(start_num, self._start_num)
-        choose_until_correct = self._check_input_val(choose_until_correct, self._choose_until_correct)
+        header_text = self._check_input_val(header_text, self.header_text)
+        header_nl = self._check_input_val(header_nl, self.header_nl)
+        input_text = self._check_input_val(input_text, self.input_text)
+        choose_total = self._check_input_val(choose_total, self.choose_total)
+        start_num = self._check_input_val(start_num, self.start_num)
+        choose_until_correct = self._check_input_val(choose_until_correct, self.choose_until_correct)
         
 
         if not header_text:

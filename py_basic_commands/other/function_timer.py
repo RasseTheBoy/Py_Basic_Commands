@@ -7,9 +7,9 @@ from time   import perf_counter
 
 @dataclass
 class FunctionTimer(Base):
-    _ret_time:bool = False
-    _skip_intro:bool = True
-    _skip_inputs:bool = True    
+    ret_time:bool = False
+    skip_intro:bool = True
+    skip_inputs:bool = True    
     
     def __post_init__(self) -> None:
         super().__init__()
@@ -35,15 +35,15 @@ class FunctionTimer(Base):
         
         # Check input values
         do_print = self._check_input_val(do_print, self.do_print)
-        ret_time = self._check_input_val(ret_time, self._ret_time)
-        skip_intro = self._check_input_val(skip_intro, self._skip_intro)
-        skip_inputs = self._check_input_val(skip_inputs, self._skip_inputs)
+        ret_time = self._check_input_val(ret_time, self.ret_time)
+        skip_intro = self._check_input_val(skip_intro, self.skip_intro)
+        skip_inputs = self._check_input_val(skip_inputs, self.skip_inputs)
 
         return timer
     
 
     def __call__(self, func, *args, **kwargs):
-        fprint(f'Function timer started: {self._get_func_name(func)}', do_print=not self._skip_intro and self.do_print)
+        fprint(f'Function timer started: {self._get_func_name(func)}', do_print=not self.skip_intro and self.do_print)
         
         time_start = perf_counter()
         ret_val = func(*args, **kwargs)

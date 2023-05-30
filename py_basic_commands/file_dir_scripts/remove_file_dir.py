@@ -9,7 +9,7 @@ from os     import listdir, remove
 
 @dataclass
 class RemoveFileDir(Base):
-    _force:bool = True
+    force:bool = True
 
     def __post_init__(self):
         super().__init__()
@@ -30,7 +30,7 @@ class RemoveFileDir(Base):
         """
 
         # Check input values
-        force    = self._check_input_val(force, self._force)
+        force    = self._check_input_val(force, self.force)
         do_print = self._check_input_val(do_print, self.do_print)
 
         if do == 'd': # Directory

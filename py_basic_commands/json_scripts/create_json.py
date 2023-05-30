@@ -9,7 +9,7 @@ from py_basic_commands.base   import Base
 
 @dataclass
 class CreateJson(Base):
-    _force:bool = True
+    force:bool = True
 
     def __post_init__(self):
         super().__init__()

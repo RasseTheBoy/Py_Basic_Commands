@@ -7,11 +7,11 @@ from py_basic_commands.base   import Base
 
 @dataclass
 class FprintArray(Base):
-    _header:str=''
-    _indx_brackets:str='[]'
-    _print_num=False
-    _start_num:int=0
-    _nl:bool=True
+    header:str=''
+    indx_brackets:str='[]'
+    print_num=False
+    start_num:int=0
+    nl:bool=True
 
     def __post_init__(self):
         super().__init__()
@@ -63,11 +63,11 @@ class FprintArray(Base):
 
 
         # Check input values
-        header      = self._check_input_val(header, self._header)
-        indx_brackets = self._check_input_val(indx_brackets, self._indx_brackets)
-        print_num   = self._check_input_val(print_num, self._print_num)
-        start_num   = self._check_input_val(start_num, self._start_num)
-        nl          = self._check_input_val(nl, self._nl)
+        header      = self._check_input_val(header, self.header)
+        indx_brackets = self._check_input_val(indx_brackets, self.indx_brackets)
+        print_num   = self._check_input_val(print_num, self.print_num)
+        start_num   = self._check_input_val(start_num, self.start_num)
+        nl          = self._check_input_val(nl, self.nl)
 
         config_indx_num = lambda indx : f'{indx_brackets[0]}{indx}{indx_brackets[1]}'
 

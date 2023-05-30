@@ -1,9 +1,11 @@
 # Changelog
 
-## [0.2.23] - 2023-
+## [0.2.23] - 2023-5-31
 
 ### Removed
 
+- `_` prefix from all class self variables
+    - Was unnecessary
 - `base.py`
     - Forgot to remove (debugging) `print()` from `.config()`
 

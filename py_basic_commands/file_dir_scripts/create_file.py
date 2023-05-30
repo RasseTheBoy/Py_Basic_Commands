@@ -8,7 +8,7 @@ from py_basic_commands.base   import Base
 
 @dataclass
 class CreateFile(Base):
-    _force:bool = False
+    force:bool = False
 
     def __post_init__(self):
         super().__init__()

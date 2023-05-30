@@ -6,9 +6,9 @@ from py_basic_commands.base   import Base
 
 @dataclass
 class JoinPath(Base):
-    _join_with:str = '/'
-    _remove_empty:bool=True
-    _dir_end:bool=False
+    join_with:str = '/'
+    remove_empty:bool=True
+    dir_end:bool=False
 
     def __post_init__(self):
         super().__init__(False)
@@ -33,9 +33,9 @@ class JoinPath(Base):
             return join_with.join(var.split(split_with))
         
         # Check input values
-        join_with = self._check_input_val(join_with, self._join_with)
-        remove_empty = self._check_input_val(remove_empty, self._remove_empty)
-        dir_end = self._check_input_val(dir_end, self._dir_end)
+        join_with = self._check_input_val(join_with, self.join_with)
+        remove_empty = self._check_input_val(remove_empty, self.remove_empty)
+        dir_end = self._check_input_val(dir_end, self.dir_end)
         do_print = self._check_input_val(do_print, self.do_print)
 
         fprint.config(do_print=do_print)

@@ -11,8 +11,8 @@ from py_basic_commands.base   import Base
 
 @dataclass
 class WriteJson(Base):
-    _indent:bool = True
-    _force:bool = False
+    indent:bool = True
+    force:bool = False
 
     def __post_init__(self):
         super().__init__()

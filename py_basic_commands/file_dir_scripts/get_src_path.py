@@ -6,7 +6,7 @@ from py_basic_commands.base   import Base
 
 @dataclass
 class GetSourcePath(Base):
-    _ret_val:bool = 'a'
+    ret_val:bool = 'a'
 
     def __post_init__(self):
         super().__init__()
@@ -31,7 +31,7 @@ class GetSourcePath(Base):
             return None
 
         # Check input values
-        ret_val = self._check_input_val(ret_val, self._ret_val)
+        ret_val = self._check_input_val(ret_val, self.ret_val)
         do_print = self._check_input_val(do_print, self.do_print)
 
         fprint.config(do_print=do_print)

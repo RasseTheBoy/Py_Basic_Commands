@@ -7,13 +7,13 @@ from py_basic_commands.base   import Base
 
 @dataclass
 class ReadFile(Base):
-    _create:bool = False
-    _ret_did_create:bool = False
-    _splitlines:bool = True
-    _remove_empty:bool = True
-    _do_strip:bool = True
-    _do_lower:bool = False
-    _encoding:str = 'utf-8'
+    create:bool = False
+    ret_did_create:bool = False
+    splitlines:bool = True
+    remove_empty:bool = True
+    do_strip:bool = True
+    do_lower:bool = False
+    encoding:str = 'utf-8'
 
 
     def __post_init__(self):
@@ -67,13 +67,13 @@ class ReadFile(Base):
             return lines, did_create
 
         # Check input values
-        create      = self._check_input_val(create, self._create)
-        ret_did_create = self._check_input_val(ret_did_create, self._ret_did_create)
-        splitlines  = self._check_input_val(splitlines, self._splitlines)
-        remove_empty = self._check_input_val(remove_empty, self._remove_empty)
-        do_strip    = self._check_input_val(do_strip, self._do_strip)
-        do_lower    = self._check_input_val(do_lower, self._do_lower)
-        encoding    = self._check_input_val(encoding, self._encoding)
+        create      = self._check_input_val(create, self.create)
+        ret_did_create = self._check_input_val(ret_did_create, self.ret_did_create)
+        splitlines  = self._check_input_val(splitlines, self.splitlines)
+        remove_empty = self._check_input_val(remove_empty, self.remove_empty)
+        do_strip    = self._check_input_val(do_strip, self.do_strip)
+        do_lower    = self._check_input_val(do_lower, self.do_lower)
+        encoding    = self._check_input_val(encoding, self.encoding)
         do_print    = self._check_input_val(do_print, self.do_print)
 
         fprint.config(do_print=do_print)

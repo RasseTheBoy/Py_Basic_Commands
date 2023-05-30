@@ -8,10 +8,10 @@ from py_basic_commands.base   import Base
 
 @dataclass
 class WriteFile(Base):
-    _append:bool    = False
-    _force_create:bool  = True
-    _remove_duplicates:bool = False
-    _encoding:str   = 'utf-8'
+    append:bool    = False
+    force_create:bool  = True
+    remove_duplicates:bool = False
+    encoding:str   = 'utf-8'
 
     def __post_init__(self):
         super().__init__()
@@ -34,10 +34,10 @@ class WriteFile(Base):
         """
 
         # Check input values
-        append = self._check_input_val(append, self._append)
-        force_create = self._check_input_val(force_create, self._force_create)
-        remove_duplicates = self._check_input_val(remove_duplicates, self._remove_duplicates)
-        encoding = self._check_input_val(encoding, self._encoding)
+        append = self._check_input_val(append, self.append)
+        force_create = self._check_input_val(force_create, self.force_create)
+        remove_duplicates = self._check_input_val(remove_duplicates, self.remove_duplicates)
+        encoding = self._check_input_val(encoding, self.encoding)
         do_print = self._check_input_val(do_print, self.do_print)
 
         fprint.config(do_print=do_print)

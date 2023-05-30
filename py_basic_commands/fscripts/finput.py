@@ -5,10 +5,10 @@ from py_basic_commands.base   import Base
 
 @dataclass
 class Finput(Base):
-    _text:str = 'Input: '
-    _nl:bool = True
-    _use_suffix:bool = True
-    _ret_type:type = str
+    text:str = 'Input: '
+    nl:bool = True
+    use_suffix:bool = True
+    ret_type:type = str
 
     def __post_init__(self):
         super().__init__()
@@ -27,10 +27,10 @@ class Finput(Base):
         - The input value, converted to the specified type. If the conversion fails, the value is returned as a string.
         """
 
-        text = self._check_input_val(text, self._text)
-        nl = self._check_input_val(nl, self._nl)
-        use_suffix = self._check_input_val(use_suffix, self._use_suffix)
-        ret_type = self._check_input_val(ret_type, self._ret_type)
+        text = self._check_input_val(text, self.text)
+        nl = self._check_input_val(nl, self.nl)
+        use_suffix = self._check_input_val(use_suffix, self.use_suffix)
+        ret_type = self._check_input_val(ret_type, self.ret_type)
 
         if use_suffix and text.rstrip()[-1] != ':':
             text = f'{text}: '
