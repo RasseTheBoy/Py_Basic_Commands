@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.24] - 2023-5-31
+
+### Changed
+
+- `remove_file_dir.py`
+    - Input variables had a default value to them; these were meant to be `None`
+    - Now if `do_print` or `force` is set in `.config()`, it will remember that value
+
 ## [0.2.23] - 2023-5-31
 
 ### Removed

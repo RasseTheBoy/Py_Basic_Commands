@@ -16,7 +16,7 @@ class RemoveFileDir(Base):
 
 
     @try_traceback(print_traceback=True)
-    def __call__(self, do:str, do_path:str, force:bool=False, do_print:bool=True) -> bool:
+    def __call__(self, do:str, do_path:str, force:bool=None, do_print:bool=None) -> bool:
         """Remove a file or directory at the specified path.
         
         Parameters:
@@ -32,6 +32,8 @@ class RemoveFileDir(Base):
         # Check input values
         force    = self._check_input_val(force, self.force)
         do_print = self._check_input_val(do_print, self.do_print)
+
+        fprint.config(do_print=do_print)
 
         if do == 'd': # Directory
             try:
