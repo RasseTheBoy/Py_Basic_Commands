@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.25] - 2023-7-3
+
+A lot of small bug fixes and quality of life changes!
+
+### Changed
+
+
+
 ## [0.2.24] - 2023-5-31
 
 ### Changed

@@ -13,29 +13,39 @@ class CreateDirs(Base):
     def __call__(self, dst_path:str, do_print:bool=None) -> bool:
             """Create all required directories for the given path.
             
-            Parameters:
-            - `dst_path` (str): Destination path; can include the file name at the end.
-            - `do_print` (bool): Whether to print or not. Default is `True`
-            
-            Returns:
-            - `bool`: If all directories were created or not"""
+            Parameters
+            ----------
+            dst_path : str
+                Path to create directories for
+            do_print : bool, optional
+                Print output, by default None
+                
+            Returns
+            -------
+            bool
+                True if directories were created, False otherwise
+                
+            Raises
+            ------
+            ValueError
+                If empty path is given"""
 
             # Check input values
             do_print = self._check_input_val(do_print, self.do_print)
-
             fprint.config(do_print=do_print)
 
-            if dst_path == '':
-                return False
+            if dst_path == '': # Check if empty path is given
+                raise ValueError('Empty path given')
 
             dir_path = get_src_path(dst_path, ret_val='d', do_print=do_print)
 
             if dir_path == '':
+                # No directory path found
                 return False
 
             try:
                 makedirs(dir_path)
-                fprint(f'Destination created for path: {dir_path}')
+                # print(f'Destination created for path: {dir_path}')
                 return True
 
             except FileExistsError:

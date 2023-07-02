@@ -15,16 +15,18 @@ class GetSourcePath(Base):
     def __call__(self, src_path:str, ret_val=None, do_print:bool=None) -> Any:
         """Get the path for the given source.
         
-        Parameters:
-        - `src_path` (str): The path to the source.
-        - `ret_val` (str): Whether to return the 
-            - `'d'`: directory path
-            - `'fnam'`: name of the file
-            - `'a'`: all (default)
-
-        Returns:
-        - `Any`: If `ret_val` is `'d'`, the directory path. If `ret_val` is `'fnam'`, the filename. Otherwise, a tuple containing the directory path and the filename.
-        """
+        Parameters
+        ----------
+        src_path : str
+            Source path to get path for
+        ret_val : str, optional
+            Return value; 'a': (directory path, filename), 'd': directory path, 'fnam': filename, by default 'a'
+        do_print : bool, optional
+            Print output, by default True
+        
+        Returns
+        -------
+        Any"""
 
         if not src_path:
             fprint('No source path given')

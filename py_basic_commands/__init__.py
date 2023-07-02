@@ -11,5 +11,5 @@ from py_basic_commands.json_scripts import create_json, read_json, write_json
 from py_basic_commands.json_scripts import CreateJson, ReadJson, WriteJson
 
 # From other
-from py_basic_commands.other import choose_from_list, chunker, enter_to_continue, flatten_list, func_timer, try_traceback, timer
+from py_basic_commands.other import choose_from_list, chunker, enter_to_continue, flatten_list, func_timer, try_traceback, timer, _func_timer
 from py_basic_commands.other import ChooseFromList, FunctionTimer, Timer

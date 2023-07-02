@@ -2,6 +2,9 @@ from dataclasses    import dataclass
 from py_basic_commands.fscripts   import fprint
 from os.path    import dirname, basename, splitext
 from py_basic_commands.base   import Base
+from typing import Sequence, Any
+
+from FastDebugger import fd
 
 
 @dataclass
@@ -14,7 +17,7 @@ class JoinPath(Base):
         super().__init__(False)
 
 
-    def __call__(self, *args:str, join_with:str=None, remove_empty:bool=None, dir_end:bool=None, do_print:bool=None) -> str:
+    def __call__(self, *args:Any, join_with:str=None, remove_empty:bool=None, dir_end:bool=None, do_print:bool=None) -> str:
         r"""Join path segments together, removing certain characters (`<>:"/\|?*`) and adjust for correct slash direction.
 
         Parameters:
@@ -44,6 +47,9 @@ class JoinPath(Base):
         new_args = []
         for arg_indx, arg in enumerate(args):
             # Remove invalid characters
+            if isinstance(arg, list):
+                arg = join_with.join(arg)
+
             arg = split_join(split_join(arg, '\\'), '/')
             arg = arg.translate({ord(c): None for c in '<>"|?*'}) # ":" is an invalid character on Windows, but drivers can use it. E.g. "C:\"
 

@@ -45,15 +45,15 @@ class CreateFile(Base):
         - `bool`: Whether the file or directory was created.
         """
 
-        if dst_path == '':
-            fprint('No path specified')
-            return False
-
         # Check input values
-        force = self._check_input_val(force, self._force)
+        force = self._check_input_val(force, self.force)
         do_print = self._check_input_val(do_print, self.do_print)
 
         fprint.config(do_print=do_print)
+
+        if dst_path == '':
+            fprint('No path specified')
+            return False
 
         # Check if file already exists
         create_dirs(dst_path, do_print=do_print)

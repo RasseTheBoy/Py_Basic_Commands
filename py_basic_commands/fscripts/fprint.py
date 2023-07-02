@@ -29,11 +29,12 @@ class Fprint(Base):
         flush = self._check_input_val(flush, self.flush)
         do_print = self._check_input_val(do_print, self.do_print)
         end = self._check_input_val(end, self.end)
-        if not args:
-            args = ('\n')
 
         if not do_print:
             return
+
+        if not args:
+            args = ('\n')
 
         for arg_indx, arg in enumerate(args):
             if arg_indx == len(args)-1:
@@ -49,4 +50,4 @@ fprint = Fprint()
 
 
 if __name__ == '__main__':
-    fprint('hello', do_print=False)
+    fprint('hello', do_print=True)
