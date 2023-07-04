@@ -1,8 +1,10 @@
 from dataclasses    import dataclass
 from functools  import wraps
-from py_basic_commands.fscripts   import fprint
+from py_basic_commands.fscripts   import Fprint
 from py_basic_commands.base   import Base
 from time   import perf_counter
+
+fprint = Fprint()
 
 
 @dataclass
@@ -83,7 +85,7 @@ class FunctionTimer(Base):
 
         func_name = self._get_func_name(func)
         if round(time_delta, 4) == 0.0:
-            time_delta = '0.0000...'
+            time_delta = '0.0000...' # type: ignore
         else:
             time_delta = round(time_delta, 4)
 

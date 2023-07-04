@@ -1,15 +1,25 @@
 from py_basic_commands.file_dir_scripts.get_src_path  import get_src_path
+<<<<<<< Updated upstream
 from dataclasses    import dataclass
 from py_basic_commands.fscripts   import fprint
+=======
+from py_basic_commands.fscripts   import Fprint
+>>>>>>> Stashed changes
 from py_basic_commands.base   import Base
 from os     import makedirs
 
-@dataclass
+
+fprint = Fprint()
+
+
 class CreateDirs(Base):
-    def __post_init__(self):
+    """Create all required directories for the given path"""
+    def __init__(self):
+        """Initialize the class"""
         super().__init__()
 
 
+<<<<<<< Updated upstream
     def config(self, **kwargs):
         """Conmfigure `create_dirs` variables"""
         self._config(**kwargs)
@@ -28,6 +38,28 @@ class CreateDirs(Base):
             # Check input values
             do_print = self._check_input_val(do_print, self._do_print)
 
+=======
+    def __call__(self, dst_path:str, **kwargs) -> bool:
+            """Create all required directories for the given path.
+            
+            Parameters
+            ----------
+            dst_path : str
+                The path to create the directories for.
+            do_print : bool, optional
+                Whether to print information about the directory creation process. Default is `True`
+
+            Returns
+            -------
+            bool
+                Whether the directories were created
+            """
+
+            # Check input values
+            do_print = kwargs.get('do_print', self.do_print)
+
+            # Set print config
+>>>>>>> Stashed changes
             fprint.config(do_print=do_print)
 
             if dst_path == '':

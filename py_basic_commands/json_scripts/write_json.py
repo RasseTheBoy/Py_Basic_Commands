@@ -1,16 +1,18 @@
 import json
 
-from py_basic_commands.json_scripts.read_json  import read_json
+
 from py_basic_commands.file_dir_scripts.create_dirs import create_dirs
-from dataclasses    import dataclass
-from traceback  import format_exc
-from py_basic_commands.fscripts   import fprint
-from typing     import Any
-from py_basic_commands.base   import Base
+from py_basic_commands.json_scripts.read_json       import read_json
+from py_basic_commands.fscripts                     import Fprint
+from py_basic_commands.base                         import Base
+from traceback      import format_exc
+from typing         import Any
+
+fprint = Fprint()
 
 
-@dataclass
 class WriteJson(Base):
+<<<<<<< Updated upstream
     _indent:bool = True
     _force:bool = False
 
@@ -30,28 +32,54 @@ class WriteJson(Base):
                 
 
     def __call__(self, data:Any, file_path:str, indent:int=None, force:bool=None, do_print:bool=None) -> bool:
+=======
+    def __init__(self, force:bool=False, indent:int=4, do_print:bool=True):
+        super().__init__(do_print)
+
+        self.force = force
+        self.indent = indent
+                
+
+    def __call__(self, data:Any, file_path:str, **kwargs) -> bool:
+>>>>>>> Stashed changes
         """Write data to a JSON file.
         
-        Parameters:
-        - `data` (Any): The data to write to the JSON file. This can be a dictionary, list, or a string representation of JSON.
-        - `file_path` (str): The path of the JSON file to write to.
-        - `indent` (int): The number of spaces to use for indentation in the JSON file. Default is `4`.
-        - `force` (bool): Whether to overwrite any existing data in the JSON file. Default is `False`.
-        - `do_print` (bool): Whether to print information about the data writing process. Default is `True`.
-
-        Return:
-        - `bool`: Whether the file was created.
+        Parameters
+        ----------
+        data : Any
+            The data to write to the JSON file. This can be a dictionary, list, or a string representation of JSON.
+        file_path : str
+            The path of the JSON file to write to.
+        indent : int, optional
+            The number of spaces to use for indentation in the JSON file. Default is 4.
+        force : bool, optional
+            Whether to overwrite any existing data in the JSON file. Default is False.
+        do_print : bool, optional
+            Whether to print information about the data writing process. Default is True.
+        
+        Returns
+        -------
+        bool
+            Whether the file was created.
         """
 
         # Check input values
+<<<<<<< Updated upstream
         indent = self._check_input_val(indent, self._indent)
         force = self._check_input_val(force, self._force)
         do_print = self._check_input_val(do_print, self._do_print)
+=======
+        indent = kwargs.get('indent', self.indent)
+        force = kwargs.get('force', self.force)
+        do_print = kwargs.get('do_print', self.do_print)
+>>>>>>> Stashed changes
 
         fprint.config(do_print=do_print)
+        
+        data_type = data.__class__.__name__
 
         try:
-            if data.__class__.__name__ == ('str'):
+            if data_type == ('str'):
                 data = json.loads(data)
 
             d = read_json(file_path, do_print=do_print)
@@ -65,8 +93,10 @@ class WriteJson(Base):
 
             fprint(f'Wrote data to JSON file: {file_path}')
             return True
+        
         except TypeError:
-            fprint(f'Data type is wrong, can\'t write to JSON: {data.__class__.__name__}')
+            fprint(f'Data type is wrong, can\'t write to JSON: {data_type}')
+
         except FileNotFoundError:
             if force:
                 fprint('Force is True, creating file path')

@@ -1,22 +1,33 @@
 from py_basic_commands.file_dir_scripts   import read_file
 from dataclasses    import dataclass
 from traceback  import format_exc
-from py_basic_commands.fscripts   import fprint
+from py_basic_commands.fscripts   import Fprint
 from typing     import Any
 from py_basic_commands.base   import Base
+
+fprint = Fprint()
 
 
 @dataclass
 class WriteFile(Base):
+<<<<<<< Updated upstream
     _append:bool    = False
     _force_create:bool  = True
     _remove_duplicates:bool = False
     _encoding:str   = 'utf-8'
+=======
+    """Write text to a file"""
+    append:bool    = False
+    force_create:bool  = True
+    remove_duplicates:bool = False
+    encoding:str   = 'utf-8'
+>>>>>>> Stashed changes
 
     def __post_init__(self):
         super().__init__()
 
 
+<<<<<<< Updated upstream
     def config(self, **kwargs):
         """Configure variables."""
         self._config(**kwargs)
@@ -43,17 +54,48 @@ class WriteFile(Base):
         - `remove_duplicates` (bool): Whether to remove duplicates from a list, tuple or set
         - `encoding` (str): The encoding to use when writing the file.
         - `do_print` (bool): Whether to print information about the file writing process.
+=======
+    def __call__(self, text:Any, file_path:str, **kwargs) -> bool:
+        """Write text to a file.
         
-        Returns:
-        - `bool`: Whether the file was created.
+        Parameters
+        ----------
+        text : Any
+            The text to write to the file. If a list, tuple or set is given, the values will be joined by a newline character
+        file_path : str
+            The path to write the text to
+        append : bool, optional
+            Whether to append the text to the file. Default is False
+        force_create : bool, optional
+            Whether to force the creation of the file. Default is True
+        remove_duplicates : bool, optional
+            Whether to remove duplicate lines from the text. Default is False
+        encoding : str, optional
+            The encoding to use when writing to the file. Default is 'utf-8'
+        do_print : bool, optional
+            Whether to print information about the file creation process. Default is True
+>>>>>>> Stashed changes
+        
+        Returns
+        -------
+        bool
+            Whether the text was written to the file
         """
 
         # Check input values
+<<<<<<< Updated upstream
         append = self._check_input_val(append, self._append)
         force_create = self._check_input_val(force_create, self._force_create)
         remove_duplicates = self._check_input_val(remove_duplicates, self._remove_duplicates)
         encoding = self._check_input_val(encoding, self._encoding)
         do_print = self._check_input_val(do_print, self._do_print)
+=======
+        append = kwargs.get('append', self.append)
+        force_create = kwargs.get('force_create', self.force_create)
+        remove_duplicates = kwargs.get('remove_duplicates', self.remove_duplicates)
+        encoding = kwargs.get('encoding', self.encoding)
+        do_print = kwargs.get('do_print', self.do_print)
+>>>>>>> Stashed changes
 
         fprint.config(do_print=do_print)
 
@@ -72,8 +114,12 @@ class WriteFile(Base):
             return did_create
 
         try:
-            if not did_create and lines[-1] != '\n':
-                text = '\n' + text 
+            # Don't add newline if the last line already has one
+            if lines[-1] == '\n':
+                text = text.strip()
+
+            # if not did_create and lines[-1] != '\n':
+            #     text = '\n' + text 
         except IndexError:
             pass
         except Exception:

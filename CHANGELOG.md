@@ -1,6 +1,88 @@
 # Changelog
 
+<<<<<<< Updated upstream
 ## [0.2.00] - 2023-4-2
+=======
+## [0.2.25] - 2023-7-3
+
+Major QOL update!
+
+### Added
+
+- New file `file_editor.py`
+    - Has the class `FileEditor`
+    - Can read, edit and write to a file with ease
+    - STILL WIP, so may not work as intended
+- New function `try_listdir()`
+    - Tries to list a directory
+    - Returns `None` if it fails
+- `fprint()`
+    - New function `error()`
+        - Prints an error messade to the console, with your own text
+        - `fprint.error('This is an error message')` -> `--[!]-- This is an error message --[!]--`
+    - `sep` (separator) variable
+        - What to join the `*args` with
+
+### Changed
+
+- A lot of classes had the problem of "sharing" the same `fprint()`, so `do_print` was shared between all classes.
+    - This has been fixed, and now each class has its own `fprint()`
+- Changed docstring format from my custom created, to NumnPy style
+    - should make it easier to read and understand
+- In a lot of class `__call__()` functions, the default input values were set as `None`. Those are removed, and now are being taken from a kwargs.
+    - This makes the code a lot more readable, and easier to understand
+- `fprint()`
+    - Total rework of the function
+    - Should be easier to add more functions in the future
+
+### Removed
+
+- Some classes had unnecceary `@dataclass` decorators, so those have been removed
+    - Shouldn't affect anything
+
+## [0.2.24] - 2023-5-31
+
+### Changed
+
+- `remove_file_dir.py`
+    - Input variables had a default value to them; these were meant to be `None`
+    - Now if `do_print` or `force` is set in `.config()`, it will remember that value
+
+## [0.2.23] - 2023-5-31
+
+### Removed
+
+- `_` prefix from all class self variables
+    - Was unnecessary
+- `base.py`
+    - Forgot to remove (debugging) `print()` from `.config()`
+
+## [0.2.22] - 2023-6-5
+
+### Changed
+
+- Forgot to change old variables to new ones
+    - `_do_print` -> `do_print`
+
+## [0.2.20] - 2023-6-5
+
+### Added
+
+- All objects can now be imported as is, instead of pre-made variables
+    - (Testing how this works out; may be removed in the future)
+- `remove_file_dir.py`
+    - Catches a lot more exceptions when trying to remove a file or directory
+
+### Changed
+
+- Configuring objects **actually** works now!
+    - Code is also a lot more readable
+- `xxx.config()` function removed from all objects
+    - Included in the `base.py` file
+    - No need to create function for each object
+
+## [0.2.01] - 2023-4-2
+>>>>>>> Stashed changes
 
 ### Added
 

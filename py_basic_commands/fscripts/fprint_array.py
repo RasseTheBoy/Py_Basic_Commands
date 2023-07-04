@@ -17,6 +17,7 @@ class FprintArray(Base):
         super().__init__()
 
 
+<<<<<<< Updated upstream
     def config(self, **kwargs):
         """Configure variables"""
         self._config(**kwargs)
@@ -34,21 +35,34 @@ class FprintArray(Base):
                 self._nl = value
 
     def __call__(self, arr, header:str=None, indx_brackets:str=None, print_num=None, start_num:int=None, nl:bool=None) -> None:
+=======
+    def __call__(self, arr, **kwargs) -> None:
+>>>>>>> Stashed changes
         """This function prints the elements of an array along with their index numbers.
 
-        Parameters:
-        - `arr` (`list`|`set`|`tuple`|`dict`): The input array whose elements are to be printed.
-        - `header` (str):  The header message to be printed before the array elements. Defaults is ''.
-        - `indx_brackets` (str): The type of brackets to be used for index numbers. Defaults is '`[]`'.
-        - `start_num` (int): First shown value starts with this number. Default is `0`.
-        - `nl` (bool): Whether to append a newline character after the input. Default is `True`
-        
-        Returns:
-        - `None`
+        Parameters
+        ----------
+        arr : list|set|tuple|dict
+            The input array whose elements are to be printed.
+        header : str, optional
+            The header message to be printed before the array elements. Defaults is ''.
+        indx_brackets : str, optional
+            The type of brackets to be used for index numbers. Defaults is '`[]`'.
+        print_num : bool, optional
+            Whether to print the index numbers of the array elements. Default is `False`.
+        start_num : int, optional
+            First shown value starts with this number. Default is `0`.
+        nl : bool, optional
+            Whether to append a newline character after the input. Default is `True`
         """
 
         def _get_array_name() -> str:
-            """Get the name of the input array."""
+            """Get the name of the input array.
+            
+            Returns
+            -------
+            str
+                The name of the input array"""
             class Source(executing.Source):
                 def get_text_with_indentation(self, node):
                     result = self.asttokens().get_text(node)
@@ -61,7 +75,7 @@ class FprintArray(Base):
             callFrame = sys._getframe(2)
             callNode = Source.executing(callFrame).node
             source = Source.for_frame(callFrame)
-            inpt_array_name = source.get_text_with_indentation(callNode.args[0])
+            inpt_array_name = source.get_text_with_indentation(callNode.args[0]) # type: ignore
 
             return inpt_array_name
 
@@ -79,11 +93,19 @@ class FprintArray(Base):
 
 
         # Check input values
+<<<<<<< Updated upstream
         header      = self._check_input_val(header, self._header)
         indx_brackets = self._check_input_val(indx_brackets, self._indx_brackets)
         print_num   = self._check_input_val(print_num, self._print_num)
         start_num   = self._check_input_val(start_num, self._start_num)
         nl          = self._check_input_val(nl, self._nl)
+=======
+        header      = kwargs.get('header', self.header)
+        indx_brackets = kwargs.get('indx_brackets', self.indx_brackets)
+        print_num   = kwargs.get('print_num', self.print_num)
+        start_num   = kwargs.get('start_num', self.start_num)
+        nl          = kwargs.get('nl', self.nl)
+>>>>>>> Stashed changes
 
         config_indx_num = lambda indx : f'{indx_brackets[0]}{indx}{indx_brackets[1]}'
 
