@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.2.25] - 2023-7-3
+## [0.2.25] - 2023-7-
 
 Major QOL update!
 
@@ -10,9 +10,13 @@ Major QOL update!
     - Has the class `FileEditor`
     - Can read, edit and write to a file with ease
     - STILL WIP, so may not work as intended
+- New file `json_editor.py`
+    - Has the class `JsonEditor`
+    - Can read, edit and write to a JSON file with ease
+    - STILL WIP, so may not work as intended
 - New function `try_listdir()`
     - Tries to list a directory
-    - Returns `None` if it fails
+    - Returns and empty list if it fails
 - `fprint()`
     - New function `error()`
         - Prints an error messade to the console, with your own text
@@ -34,8 +38,10 @@ Major QOL update!
 
 ### Removed
 
-- Some classes had unnecceary `@dataclass` decorators, so those have been removed
+- Removed some unnecessary `@dataclass` decorators
     - Shouldn't affect anything
+- `_check_input_val()` function from `base.py`
+    - Wasn't used anywhere, so it was removed
 
 ## [0.2.24] - 2023-5-31
 

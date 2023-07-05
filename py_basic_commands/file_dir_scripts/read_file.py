@@ -19,7 +19,6 @@ class ReadFile(Base):
     encoding:str        = 'utf-8'
     do_print:bool       = True
 
-
     def __post_init__(self):
         super().__init__(self.do_print)
 

@@ -12,9 +12,10 @@ class JoinPath(Base):
     join_with:str = '/'
     remove_empty:bool = True
     dir_end:bool = False
+    do_print:bool = False
 
     def __post_init__(self):
-        super().__init__(False)
+        super().__init__(self.do_print)
 
 
     def __call__(self, *args:Any, **kwargs) -> str:

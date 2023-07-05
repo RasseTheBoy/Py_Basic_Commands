@@ -8,14 +8,14 @@ fprint = Fprint()
 
 class GetSourcePath(Base):
     """Get the path for the given source"""
-    def __init__(self, ret_val:str='a'):
+    def __init__(self, ret_val:str='a', do_print:bool=True):
         """Initialize the class
         
         Parameters
         ----------
         ret_val : str, optional
             Return value; 'a': (directory path, filename), 'd': directory path, 'f': filename, by default 'a'"""
-        super().__init__()
+        super().__init__(do_print=do_print)
 
         self.ret_val = ret_val
 

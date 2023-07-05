@@ -24,19 +24,6 @@ class Base:
         for key, value in kwargs.items():
             if hasattr(self, key):
                 setattr(self, key, value)
-       
-
-    def _check_input_val(self, inpt_val, saved_val):
-        """Check if input value is None, if so return saved value
-        
-        Parameters
-        ----------
-        inpt_val : Any
-            The input value to check
-        saved_val : Any
-            The saved value to return if the input value is None
-        """
-        return saved_val if inpt_val == None else inpt_val
 
 
 class EditorBase(Base):

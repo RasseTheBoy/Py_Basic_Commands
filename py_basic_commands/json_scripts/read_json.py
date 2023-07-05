@@ -9,7 +9,15 @@ fprint = Fprint()
 
 
 class ReadJson(Base):
+    """Read data from a JSON file"""
     def __init__(self, do_print:bool=True) -> None:
+        """Initialize the class
+
+        Parameters
+        ----------
+        do_print : bool, optional
+            Whether to get feedback printed to terminal or not. Default is True.
+        """
         super().__init__(do_print)
 
 
