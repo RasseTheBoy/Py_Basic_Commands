@@ -7,11 +7,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "py_basic_commands"
-<<<<<<< Updated upstream
-version = "0.2.00"
-=======
-version = "0.2.25"
->>>>>>> Stashed changes
+version = "0.2.25-beta.01"
 authors = [
   { name="Rasmus Ohert", email="rassemichael@gmail.com" },
 ]

@@ -1,8 +1,5 @@
 # Changelog
 
-<<<<<<< Updated upstream
-## [0.2.00] - 2023-4-2
-=======
 ## [0.2.25] - 2023-7-3
 
 Major QOL update!
@@ -82,7 +79,6 @@ Major QOL update!
     - No need to create function for each object
 
 ## [0.2.01] - 2023-4-2
->>>>>>> Stashed changes
 
 ### Added
 

@@ -6,7 +6,14 @@ fprint = Fprint()
 
 
 class Timer(Base):
+    """A class for timing processes"""
     def __init__(self, do_print:bool=True) -> None:
+        """Initialize the class
+        
+        Parameters
+        ----------
+        do_print : bool, optional
+            Whether to print information about the timer starting process. Default is True"""
         super().__init__(do_print)
 
         self.timer_lst:dict[str,float] = {}

@@ -9,10 +9,8 @@ from py_basic_commands.fscripts import Finput, FprintArray, Fprint
 
 # From json_scripts
 from py_basic_commands.json_scripts import create_json, read_json, write_json
+from py_basic_commands.json_scripts import CreateJson, ReadJson, WriteJson
 
 # From other
-from py_basic_commands.other import choose_from_list, chunker, enter_to_continue, flatten_list, func_timer, try_traceback, timer, _func_timer, try_listdir
+from py_basic_commands.other import choose_from_list, chunker, enter_to_continue, flatten_list, func_timer, _func_timer, try_traceback, timer, try_listdir
 from py_basic_commands.other import ChooseFromList, FunctionTimer, Timer
-
-# Base
-from py_basic_commands.base import Base, EditorBase
