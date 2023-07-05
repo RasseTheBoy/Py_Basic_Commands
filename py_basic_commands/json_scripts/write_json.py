@@ -12,27 +12,6 @@ fprint = Fprint()
 
 
 class WriteJson(Base):
-<<<<<<< Updated upstream
-    _indent:bool = True
-    _force:bool = False
-
-    def __post_init__(self):
-        super().__init__()
-
-
-    def config(self, **kwargs):
-        """Configure variables"""
-        self._config(**kwargs)
-
-        for key, value in kwargs.items():
-            if key == 'indent':
-                self._indent = value
-            elif key == 'force':
-                self._force = value
-                
-
-    def __call__(self, data:Any, file_path:str, indent:int=None, force:bool=None, do_print:bool=None) -> bool:
-=======
     def __init__(self, force:bool=False, indent:int=4, do_print:bool=True):
         super().__init__(do_print)
 
@@ -41,7 +20,6 @@ class WriteJson(Base):
                 
 
     def __call__(self, data:Any, file_path:str, **kwargs) -> bool:
->>>>>>> Stashed changes
         """Write data to a JSON file.
         
         Parameters
@@ -64,15 +42,9 @@ class WriteJson(Base):
         """
 
         # Check input values
-<<<<<<< Updated upstream
-        indent = self._check_input_val(indent, self._indent)
-        force = self._check_input_val(force, self._force)
-        do_print = self._check_input_val(do_print, self._do_print)
-=======
         indent = kwargs.get('indent', self.indent)
         force = kwargs.get('force', self.force)
         do_print = kwargs.get('do_print', self.do_print)
->>>>>>> Stashed changes
 
         fprint.config(do_print=do_print)
         

@@ -1,23 +1,14 @@
 from py_basic_commands.file_dir_scripts   import create_file
-from dataclasses    import dataclass
 from py_basic_commands.fscripts.fprint   import Fprint
-from typing     import Any
 from py_basic_commands.base   import Base
+from dataclasses    import dataclass
+from typing     import Any
 
 fprint = Fprint()
 
 
 @dataclass
 class ReadFile(Base):
-<<<<<<< Updated upstream
-    _create:bool = False
-    _ret_did_create:bool = False
-    _splitlines:bool = True
-    _remove_empty:bool = True
-    _do_strip:bool = True
-    _do_lower:bool = False
-    _encoding:str = 'utf-8'
-=======
     """Read the contents of a file"""
     create:bool         = False
     ret_did_create:bool = False
@@ -26,32 +17,11 @@ class ReadFile(Base):
     do_strip:bool       = True
     do_lower:bool       = False
     encoding:str        = 'utf-8'
->>>>>>> Stashed changes
+    do_print:bool       = True
 
 
     def __post_init__(self):
-        super().__init__()
-
-
-    def config(self, **kwargs):
-        """Configure variables"""
-        self._config(**kwargs)
-
-        for key, value in kwargs.items():
-            if key == 'create':
-                self._create = value
-            elif key == 'ret_did_create':
-                self._ret_did_create = value
-            elif key == 'splitlines':
-                self._splitlines = value
-            elif key == 'remove_empty':
-                self._remove_empty = value
-            elif key == 'do_strip':
-                self._do_strip = value
-            elif key == 'do_lower':
-                self._do_lower = value
-            elif key == 'encoding':
-                self._encoding = value
+        super().__init__(self.do_print)
 
     
     def __call__(self, file_path:str, **kwargs) -> Any:
@@ -121,16 +91,6 @@ class ReadFile(Base):
             return lines, did_create
 
         # Check input values
-<<<<<<< Updated upstream
-        create      = self._check_input_val(create, self._create)
-        ret_did_create = self._check_input_val(ret_did_create, self._ret_did_create)
-        splitlines  = self._check_input_val(splitlines, self._splitlines)
-        remove_empty = self._check_input_val(remove_empty, self._remove_empty)
-        do_strip    = self._check_input_val(do_strip, self._do_strip)
-        do_lower    = self._check_input_val(do_lower, self._do_lower)
-        encoding    = self._check_input_val(encoding, self._encoding)
-        do_print    = self._check_input_val(do_print, self._do_print)
-=======
         create          = kwargs.get('create', self.create)
         ret_did_create  = kwargs.get('ret_did_create', self.ret_did_create)
         splitlines      = kwargs.get('splitlines', self.splitlines)
@@ -139,7 +99,6 @@ class ReadFile(Base):
         do_lower        = kwargs.get('do_lower', self.do_lower)
         encoding        = kwargs.get('encoding', self.encoding)
         do_print        = kwargs.get('do_print', self.do_print)
->>>>>>> Stashed changes
 
         fprint.config(do_print=do_print)
 
@@ -152,6 +111,7 @@ class ReadFile(Base):
 
 
 read_file = ReadFile()
+
 
 if __name__ == '__main__':
     from FastDebugger import fd

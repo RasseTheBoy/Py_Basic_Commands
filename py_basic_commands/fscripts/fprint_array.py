@@ -1,43 +1,24 @@
 import executing, sys
 
+from py_basic_commands.base   import Base
 from dataclasses    import dataclass
 from textwrap   import dedent
-from py_basic_commands.base   import Base
 
 
 @dataclass
 class FprintArray(Base):
-    _header:str=''
-    _indx_brackets:str='[]'
-    _print_num=False
-    _start_num:int=0
-    _nl:bool=True
+    header:str=''
+    indx_brackets:str='[]'
+    print_num=False
+    start_num:int=0
+    nl:bool=True
+    do_print:bool=True
 
     def __post_init__(self):
-        super().__init__()
+        super().__init__(self.do_print)
 
 
-<<<<<<< Updated upstream
-    def config(self, **kwargs):
-        """Configure variables"""
-        self._config(**kwargs)
-
-        for key, value in kwargs.items():
-            if key == 'header':
-                self._header = value
-            elif key == 'indx_brackets':
-                self._indx_brackets = value
-            elif key == 'print_num':
-                self._print_num = value
-            elif key == 'start_num':
-                self._start_num = value
-            elif key == 'nl':
-                self._nl = value
-
-    def __call__(self, arr, header:str=None, indx_brackets:str=None, print_num=None, start_num:int=None, nl:bool=None) -> None:
-=======
     def __call__(self, arr, **kwargs) -> None:
->>>>>>> Stashed changes
         """This function prints the elements of an array along with their index numbers.
 
         Parameters
@@ -93,19 +74,11 @@ class FprintArray(Base):
 
 
         # Check input values
-<<<<<<< Updated upstream
-        header      = self._check_input_val(header, self._header)
-        indx_brackets = self._check_input_val(indx_brackets, self._indx_brackets)
-        print_num   = self._check_input_val(print_num, self._print_num)
-        start_num   = self._check_input_val(start_num, self._start_num)
-        nl          = self._check_input_val(nl, self._nl)
-=======
         header      = kwargs.get('header', self.header)
         indx_brackets = kwargs.get('indx_brackets', self.indx_brackets)
         print_num   = kwargs.get('print_num', self.print_num)
         start_num   = kwargs.get('start_num', self.start_num)
         nl          = kwargs.get('nl', self.nl)
->>>>>>> Stashed changes
 
         config_indx_num = lambda indx : f'{indx_brackets[0]}{indx}{indx_brackets[1]}'
 

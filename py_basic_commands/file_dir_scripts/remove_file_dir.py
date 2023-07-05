@@ -1,31 +1,18 @@
 from py_basic_commands.file_dir_scripts   import read_file
-<<<<<<< Updated upstream
-from dataclasses    import dataclass
-from py_basic_commands.fscripts   import fprint
-from shutil     import rmtree
-from py_basic_commands.base   import Base
-from os     import listdir, remove
-=======
 from py_basic_commands.fscripts   import Fprint
 from py_basic_commands.base   import Base
 from dataclasses    import dataclass
 from send2trash import send2trash
-from os.path import isfile, isdir
 from os     import listdir
->>>>>>> Stashed changes
 
 fprint = Fprint()
 
 
 @dataclass
 class RemoveFileDir(Base):
-<<<<<<< Updated upstream
-    _force:bool = True
-=======
     """Remove a file or directory at the specified path."""
     def __init__(self, force:bool=True, do_print:bool=True):
         """Initialize the class
->>>>>>> Stashed changes
 
         Parameters
         ----------
@@ -38,21 +25,8 @@ class RemoveFileDir(Base):
 
         self.force = force
 
-    
-    def config(self, **kwargs):
-        """Configure `remove_file_dir` variables"""
-        self._config(**kwargs)
 
-<<<<<<< Updated upstream
-        for key, value in kwargs.items():
-            if key == 'force':
-                self._force = value
-
-    @try_traceback(print_traceback=True)
-    def __call__(self, do:str, do_path:str, force:bool=False, do_print:bool=True) -> bool:
-=======
     def __call__(self, do:str, do_path:str, **kwargs) -> bool:
->>>>>>> Stashed changes
         """Remove a file or directory at the specified path.
         
         Parameters
@@ -78,22 +52,19 @@ class RemoveFileDir(Base):
         """
 
         # Check input values
-<<<<<<< Updated upstream
-        force    = self._check_input_val(force, self._force)
-        do_print = self._check_input_val(do_print, self._do_print)
-=======
         force    = kwargs.get('force', self.force)
         do_print = kwargs.get('do_print', self.do_print)
->>>>>>> Stashed changes
 
         fprint.config(do_print=do_print)
 
         if do == 'd': # Directory
             try:
                 dir_content = listdir(do_path)
+                
             except FileNotFoundError:
                 fprint(f'Directory path not found: {do_path}')
                 return False
+            
             except NotADirectoryError:
                 fprint(f'Path is not a directory: {do_path}')
                 return False
@@ -115,7 +86,7 @@ class RemoveFileDir(Base):
             if lines and not force:
                 fprint(f'File is not empty, not removing: {do_path}')
                 return False
-            remove(do_path)
+            send2trash(do_path)
             fprint(f'File removed: {do_path}')
             return True
         

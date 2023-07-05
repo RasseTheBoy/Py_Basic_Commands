@@ -1,14 +1,9 @@
 import json
-<<<<<<< Updated upstream
-from dataclasses    import dataclass
-=======
 
 from py_basic_commands.fscripts   import Fprint
 from py_basic_commands.base   import Base
->>>>>>> Stashed changes
 from traceback  import format_exc
-from py_basic_commands.fscripts   import fprint
-from py_basic_commands.base   import Base
+from typing import Any
 
 fprint = Fprint()
 
@@ -18,16 +13,7 @@ class ReadJson(Base):
         super().__init__(do_print)
 
 
-<<<<<<< Updated upstream
-    def config(self, **kwargs):
-        """Configure variables"""
-        self._config(**kwargs)
-
-
-    def __call__(self, file_path:str, do_print:bool=None):
-=======
     def __call__(self, file_path:str, **kwargs) -> Any:
->>>>>>> Stashed changes
         """Read data from a JSON file.
         
         Parameters
@@ -44,11 +30,7 @@ class ReadJson(Base):
         """
 
         # Check input values
-<<<<<<< Updated upstream
-        do_print = self._check_input_val(do_print, self._do_print)
-=======
         do_print = kwargs.get('do_print', self.do_print)
->>>>>>> Stashed changes
 
         fprint.config(do_print=do_print)
 

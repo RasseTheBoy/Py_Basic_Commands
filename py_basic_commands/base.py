@@ -4,14 +4,8 @@
 class Base:
     """Base class for all classes"""
     def __init__(self, do_print=True) -> None:
-        self._do_print=do_print
+        self.do_print=do_print
 
-<<<<<<< Updated upstream
-    def _config(self, **kwargs):
-        """Configure variables"""
-        if 'do_print' in kwargs:
-            self._do_print = kwargs['do_print']
-=======
     
     def config(self, **kwargs):
         """Configure variables
@@ -25,7 +19,6 @@ class Base:
             if hasattr(self, key):
                 setattr(self, key, value)
        
->>>>>>> Stashed changes
 
     def _check_input_val(self, inpt_val, saved_val):
         """Check if input value is None, if so return saved value

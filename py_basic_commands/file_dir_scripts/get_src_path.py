@@ -3,13 +3,7 @@ from os.path    import dirname, basename, splitext
 from typing     import Any
 from py_basic_commands.base   import Base
 
-<<<<<<< Updated upstream
-@dataclass
-class GetSourcePath(Base):
-    _ret_val:bool = 'a'
-=======
 fprint = Fprint()
->>>>>>> Stashed changes
 
 
 class GetSourcePath(Base):
@@ -25,27 +19,6 @@ class GetSourcePath(Base):
 
         self.ret_val = ret_val
 
-<<<<<<< Updated upstream
-    def config(self, **kwargs):
-        """Configure variables"""
-        self._config(**kwargs)
-
-        for key, value in kwargs.items():
-            if key == 'ret_val':
-                self._ret_val = value
-
-
-    def __call__(self, src_path:str, ret_val=None, do_print:bool=None) -> Any:
-        """Get the path for the given source.
-        
-        Parameters:
-        - `src_path` (str): The path to the source.
-        - `ret_val` (str): Whether to return the `'d'`irectory path, `'fnam'`e of the file, or `'a'`ll (default).
-        
-        Returns:
-        - `Any`: If `ret_val` is `'d'`, the directory path. If `ret_val` is `'fnam'`, the filename. Otherwise, a tuple containing the directory path and the filename.
-        """
-=======
 
     def __call__(self, src_path:str, **kwargs) -> Any:
         """Get the path for the given source.
@@ -69,21 +42,11 @@ class GetSourcePath(Base):
         do_print = kwargs.get('do_print', self.do_print)
 
         fprint.config(do_print=do_print)
->>>>>>> Stashed changes
 
         if not src_path:
             fprint('No source path given')
             return None
 
-<<<<<<< Updated upstream
-        # Check input values
-        ret_val = self._check_input_val(ret_val, self._ret_val)
-        do_print = self._check_input_val(do_print, self._do_print)
-
-        fprint.config(do_print=do_print)
-
-=======
->>>>>>> Stashed changes
         root, ext = splitext(src_path)
         if not ext:
             dir_path = root

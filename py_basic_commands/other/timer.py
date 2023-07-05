@@ -28,11 +28,7 @@ class Timer(Base):
             Whether the timer was started"""
 
         # Chek values
-<<<<<<< Updated upstream
-        do_print = self._check_input_val(do_print, self._do_print)
-=======
         do_print = kwargs.get('do_print', self.do_print)
->>>>>>> Stashed changes
 
         if self.timer_lst.get(timer_name):
             print(f'Timer with name already started: {timer_name}')

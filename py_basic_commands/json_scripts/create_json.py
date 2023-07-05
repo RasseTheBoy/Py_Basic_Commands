@@ -9,9 +9,6 @@ fprint = Fprint()
 
 
 class CreateJson(Base):
-<<<<<<< Updated upstream
-    _force:bool = True
-=======
     """Create a new empty JSON file."""
     def __init__(self, force:bool=True, do_print:bool=True):
         """Initialize the class
@@ -23,25 +20,11 @@ class CreateJson(Base):
         do_print : bool, optional
             Whether to print information about the file creation process. Default is True"""
         super().__init__(do_print)
->>>>>>> Stashed changes
 
         self.force = force
 
 
-<<<<<<< Updated upstream
-    def config(self, **kwargs):
-        """Configure `create_json` variables"""
-        self._config(**kwargs)
-
-        for key, value in kwargs.items():
-            if key == 'force':
-                self._force = value
-
-
-    def __call__(self, file_path:str, force:bool=None, do_print:bool=None) -> bool:
-=======
     def __call__(self, file_path:str, **kwargs) -> bool:
->>>>>>> Stashed changes
         """Create a new empty JSON file.
         
         Parameters
@@ -58,13 +41,8 @@ class CreateJson(Base):
         """
 
         # Check input values
-<<<<<<< Updated upstream
-        force = self._check_input_val(force, self._force)
-        do_print = self._check_input_val(do_print, self._do_print)
-=======
         force = kwargs.get('force', self.force)
         do_print = kwargs.get('do_print', self.do_print)
->>>>>>> Stashed changes
 
         fprint.config(do_print=do_print)
 

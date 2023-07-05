@@ -2,48 +2,22 @@ from dataclasses    import dataclass
 from py_basic_commands.fscripts   import Fprint
 from os.path    import dirname, basename, splitext
 from py_basic_commands.base   import Base
-<<<<<<< Updated upstream
-=======
 from typing import Any
 
 fprint = Fprint()
->>>>>>> Stashed changes
 
 
 @dataclass
 class JoinPath(Base):
-<<<<<<< Updated upstream
-    _join_with:str = '/'
-    _remove_empty:bool=True
-    _dir_end:bool=False
-=======
     join_with:str = '/'
     remove_empty:bool = True
     dir_end:bool = False
->>>>>>> Stashed changes
 
     def __post_init__(self):
         super().__init__(False)
 
 
-<<<<<<< Updated upstream
-    def config(self, **kwargs):
-        """Configure variables"""
-        self._config(**kwargs)
-
-        for key, value in kwargs.items():
-            if key == 'join_with':
-                self._join_with = value
-            elif key == 'remove_empty':
-                self._remove_empty = value
-            elif key == 'dir_end':
-                self._dir_end = value
-
-
-    def __call__(self, *args:str, join_with:str=None, remove_empty:bool=None, dir_end:bool=None, do_print:bool=None) -> str:
-=======
     def __call__(self, *args:Any, **kwargs) -> str:
->>>>>>> Stashed changes
         r"""Join path segments together, removing certain characters (`<>:"/\|?*`) and adjust for correct slash direction.
 
         Parameters
@@ -70,17 +44,10 @@ class JoinPath(Base):
             return join_with.join(var.split(split_with))
         
         # Check input values
-<<<<<<< Updated upstream
-        join_with = self._check_input_val(join_with, self._join_with)
-        remove_empty = self._check_input_val(remove_empty, self._remove_empty)
-        dir_end = self._check_input_val(dir_end, self._dir_end)
-        do_print = self._check_input_val(do_print, self._do_print)
-=======
         join_with = kwargs.get('join_with', self.join_with)
         remove_empty = kwargs.get('remove_empty', self.remove_empty)
         dir_end = kwargs.get('dir_end', self.dir_end)
         do_print = kwargs.get('do_print', self.do_print)
->>>>>>> Stashed changes
 
         fprint.config(do_print=do_print)
 

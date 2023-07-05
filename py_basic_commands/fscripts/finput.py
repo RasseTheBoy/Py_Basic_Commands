@@ -1,41 +1,23 @@
-from dataclasses    import dataclass
 from py_basic_commands.fscripts.fprint   import Fprint
 from py_basic_commands.base   import Base
+from dataclasses    import dataclass
 
 fprint = Fprint()
 
 
 @dataclass
 class Finput(Base):
-    _text:str = 'Input: '
-    _nl:bool = True
-    _use_suffix:bool = True
-    _ret_type:type = str
+    text:str = 'Input: '
+    nl:bool = True
+    use_suffix:bool = True
+    ret_type:type = str
+    do_print:bool = True
 
     def __post_init__(self):
-        super().__init__()
+        super().__init__(self.do_print)
 
 
-<<<<<<< Updated upstream
-    def config(self, **kwargs):
-        """Configure `finput` values"""
-        self._config(**kwargs)
-
-        for key, value in kwargs.items():
-            if key == 'text':
-                self._text = value
-            elif key == 'nl':
-                self._nl = value
-            elif key == 'use_suffix':
-                self._use_suffix = value
-            elif key == 'ret_type':
-                self._ret_type = value
-
-
-    def __call__(self, text:str=None, ret_type:type=None, nl:bool=None, use_suffix:bool=None):
-=======
     def __call__(self, **kwargs):
->>>>>>> Stashed changes
         """Get input from the user and return it as a specified type.
         
         Parameters
@@ -55,17 +37,10 @@ class Finput(Base):
             The input value, converted to the specified type. If the conversion fails, the value is returned as a string.
         """
 
-<<<<<<< Updated upstream
-        text = self._check_input_val(text, self._text)
-        nl = self._check_input_val(nl, self._nl)
-        use_suffix = self._check_input_val(use_suffix, self._use_suffix)
-        ret_type = self._check_input_val(ret_type, self._ret_type)
-=======
         text = kwargs.get('text', self.text)
         nl = kwargs.get('nl', self.nl)
         use_suffix = kwargs.get('use_suffix', self.use_suffix)
         ret_type = kwargs.get('ret_type', self.ret_type)
->>>>>>> Stashed changes
 
         if use_suffix and text.rstrip()[-1] != ':':
             text = f'{text}: '

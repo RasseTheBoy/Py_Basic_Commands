@@ -1,30 +1,15 @@
 from py_basic_commands.file_dir_scripts.create_dirs   import create_dirs
-from traceback  import format_exc
 from py_basic_commands.fscripts   import Fprint
-from os.path   import exists
 from py_basic_commands.base   import Base
+from traceback  import format_exc
+from os.path   import exists
 
 fprint = Fprint()
 
 
 class CreateFile(Base):
-<<<<<<< Updated upstream
-    _force:bool = False
-
-    def __post_init__(self):
-        super().__init__()
-
-    
-    def config(self, **kwargs):
-        """Configure variables"""
-        self._config(**kwargs)
-
-        for key, value in kwargs.items():
-            if key == 'force':
-                self._force = value
-=======
     """Create a file at the specified path."""
-    def __init__(self, force:bool=False) -> None:
+    def __init__(self, force:bool=False, do_print:bool=True) -> None:
         """Initialize the class
         
         Parameters
@@ -32,10 +17,9 @@ class CreateFile(Base):
         force : bool, optional
             Whether to force the creation of the file. Default is False
         """
-        super().__init__()
+        super().__init__(do_print=do_print)
 
         self.force = force
->>>>>>> Stashed changes
 
 
     def _create_empty_file(self, dst_path:str) -> bool:
@@ -78,24 +62,15 @@ class CreateFile(Base):
         bool
             Whether the file was created
         """
-<<<<<<< Updated upstream
-=======
         # Check input values
         force = kwargs.get('force', self.force)
         do_print = kwargs.get('do_print', self.do_print)
 
         fprint.config(do_print=do_print)
->>>>>>> Stashed changes
 
         if dst_path == '':
             fprint('No path specified')
             return False
-
-        # Check input values
-        force = self._check_input_val(force, self._force)
-        do_print = self._check_input_val(do_print, self._do_print)
-
-        fprint.config(do_print=do_print)
 
         # Check if file already exists
         create_dirs(dst_path, do_print=do_print)

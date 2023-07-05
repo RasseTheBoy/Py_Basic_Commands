@@ -17,15 +17,6 @@ class InavlidInputError(Exception):
 
 @dataclass
 class ChooseFromList(Base):
-<<<<<<< Updated upstream
-    _header_text:str    = ''
-    _header_nl:bool     = False
-    _input_text:str     = 'Input index: '
-    _choose_total:int   = 1
-    _start_num:int      = 0
-    _choose_until_correct:bool = True
-
-=======
     """Prompt the user to choose one or more values from a list"""
     header_text:str    = ''
     header_nl:bool     = False
@@ -35,34 +26,11 @@ class ChooseFromList(Base):
     start_num:int      = 1
     choose_until_correct:bool = True
     do_print:bool      = True
->>>>>>> Stashed changes
 
     def __post_init__(self):
         super().__init__(self.do_print)
 
 
-<<<<<<< Updated upstream
-    def config(self, **kwargs):
-        """Configure variables"""
-        self._config(**kwargs)
-
-        for key, value in kwargs.items():
-            if key == 'header_text':
-                self._header_text = value
-            elif key == 'header_nl':
-                self._header_nl = value
-            elif key == 'input_text':
-                self._input_text = value
-            elif key == 'choose_total':
-                self._choose_total = value
-            elif key == 'start_num':
-                self._start_num = value
-            elif key == 'choose_until_correct':
-                self._choose_until_correct = value
-
-
-    def __call__(self, _array:Any, header_text:str=None, header_nl:bool=None, input_text:str=None, choose_total:int=None, start_num:int=None, choose_until_correct:bool=None) -> list:
-=======
     def _check_input(self, user_input:str, array:list, choose_total:int, start_num:int) -> list:
         """Check if the user input is valid
         
@@ -123,7 +91,6 @@ class ChooseFromList(Base):
 
 
     def __call__(self, array:Any, **kwargs) -> Any:
->>>>>>> Stashed changes
         """Prompt the user to choose one or more values from a list.
         
         Args:
@@ -141,22 +108,12 @@ class ChooseFromList(Base):
         """
 
         # Check input values
-<<<<<<< Updated upstream
-        header_text = self._check_input_val(header_text, self._header_text)
-        header_nl = self._check_input_val(header_nl, self._header_nl)
-        input_text = self._check_input_val(input_text, self._input_text)
-        choose_total = self._check_input_val(choose_total, self._choose_total)
-        start_num = self._check_input_val(start_num, self._start_num)
-        choose_until_correct = self._check_input_val(choose_until_correct, self._choose_until_correct)
-        
-=======
         header_text = kwargs.get('header_text', self.header_text)
         header_nl   = kwargs.get('header_nl', self.header_nl)
         input_text  = kwargs.get('input_text', self.input_text)
         choose_total= kwargs.get('choose_total', self.choose_total)
         start_num   = kwargs.get('start_num', self.start_num)
         choose_until_correct = kwargs.get('choose_until_correct', self.choose_until_correct)
->>>>>>> Stashed changes
 
         if not header_text:
             if choose_total == 1:
