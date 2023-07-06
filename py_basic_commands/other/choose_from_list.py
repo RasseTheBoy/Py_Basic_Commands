@@ -140,8 +140,6 @@ class ChooseFromList(Base):
             except InavlidInputError as e:
                 print(e)
                 continue
-
-            print('No errors')
             break
         
         chosen_value_lst = [array[indx] for indx in value_indx_lst]
