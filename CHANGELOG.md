@@ -17,6 +17,9 @@ Major QOL update!
 - New function `try_listdir()`
     - Tries to list a directory
     - Returns and empty list if it fails
+- New function `try_moving()`
+    - Tries to move a file
+    - Returns `False` if it fails, and `True` if it succeeds
 - `fprint()`
     - New function `error()`
         - Prints an error messade to the console, with your own text

@@ -1,10 +1,16 @@
-from traceback  import format_exc
-from functools  import wraps
-from py_basic_commands.fscripts     import Fprint
+from py_basic_commands.file_dir_scripts.get_src_path    import get_src_path
+from py_basic_commands.file_dir_scripts.create_dirs     import create_dirs
+from py_basic_commands.file_dir_scripts.join_path       import join_path
+from py_basic_commands.fscripts                         import Fprint
+from traceback      import format_exc
+from functools      import wraps
+from shutil     import move
 from typing     import Any
 from os     import listdir 
 
+
 fprint = Fprint()
+
 
 def try_traceback(print_traceback=False):
     """Decorator to catch and handle exceptions raised by a function.
@@ -111,3 +117,46 @@ def try_listdir(path:str) -> list[str]:
         return listdir(path)
     except FileNotFoundError:
         return []
+    
+
+def try_moving(src_file_path:str, dst_dir_path:str, do_print=False) -> bool:
+    """Try to move a file
+    
+    Parameters
+    ----------
+    src : str
+        Source file path
+    dst : str
+        Destination direcotory path
+    
+    Returns
+    -------
+    bool
+        True if the file was moved, False if not"""
+
+    fprint.config(do_print=do_print)
+
+    src_dir_path, src_file_name = get_src_path(src_file_path)
+
+    if src_dir_path == dst_dir_path:
+        fprint(f'File ({src_file_name!r}) already in {dst_dir_path!r}')
+        return False
+    
+    dst_file_path = join_path(dst_dir_path, src_file_name)
+
+    create_dirs(dst_dir_path, do_print=do_print) # Just in case
+
+    try:
+        move(src_file_path, dst_file_path)
+        fprint(f'Moved {src_file_name!r} to {dst_dir_path!r}')
+        return True
+    
+    except FileNotFoundError:
+        fprint(f'File not found: {src_file_path!r}')
+    except PermissionError:
+        fprint(f'Permission error: {src_file_path!r}')
+    except Exception as e:
+        fprint(format_exc())
+
+    return False
+
