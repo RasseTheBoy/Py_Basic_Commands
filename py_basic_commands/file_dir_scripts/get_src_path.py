@@ -28,7 +28,7 @@ class GetSourcePath(Base):
         src_path : str
             Source path to get path for
         ret_val : str, optional
-            Return value; 'a': (directory path, filename), 'd': directory path, 'f': filename, by default 'a'
+            Return value; 'a': (directory path, file name), 'd': directory path, 'f': file name, by default 'a'
         do_print : bool, optional
             Print output, by default True
         
