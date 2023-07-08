@@ -34,6 +34,12 @@ class CreateDirs(Base):
             bool
                 Whether the directories were created
             """
+            # Check input values
+            do_print = kwargs.get('do_print', self.do_print)
+            
+            # Set print config
+            fprint.config(do_print=do_print)
+
             if not isinstance(dst_path, str):
                 raise TypeError(f'dst_path must be a string, not {type(dst_path)}')
             
@@ -43,12 +49,6 @@ class CreateDirs(Base):
             elif exists(dst_path):
                 fprint(f'dst_path already exists: {dst_path!r}')
                 return False
-
-            # Check input values
-            do_print = kwargs.get('do_print', self.do_print)
-
-            # Set print config
-            fprint.config(do_print=do_print)
 
             if dst_path == '':
                 return False
