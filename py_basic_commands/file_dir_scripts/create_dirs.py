@@ -1,6 +1,7 @@
 from py_basic_commands.file_dir_scripts.get_src_path  import get_src_path
 from py_basic_commands.fscripts   import Fprint
 from py_basic_commands.base   import Base
+from os.path import exists
 from os     import makedirs
 
 fprint = Fprint()
@@ -33,6 +34,15 @@ class CreateDirs(Base):
             bool
                 Whether the directories were created
             """
+            if not isinstance(dst_path, str):
+                raise TypeError(f'dst_path must be a string, not {type(dst_path)}')
+            
+            elif dst_path == '':
+                raise ValueError('dst_path cannot be an empty string')
+            
+            elif exists(dst_path):
+                fprint(f'dst_path already exists: {dst_path!r}')
+                return False
 
             # Check input values
             do_print = kwargs.get('do_print', self.do_print)
