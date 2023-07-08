@@ -132,8 +132,8 @@ def try_moving(src_file_path:str, dst_dir_path:str, do_print=False) -> bool:
     Returns
     -------
     bool
-        True if the file was moved, False if not"""
-
+        True if the file was moved, False if not
+    """
     fprint.config(do_print=do_print)
 
     src_dir_path, src_file_name = get_src_path(src_file_path)
@@ -160,3 +160,5 @@ def try_moving(src_file_path:str, dst_dir_path:str, do_print=False) -> bool:
 
     return False
 
+
+# TODO: Make a function that moves a directory to a dst directory. Add an option to delete the src directory after moving it.
