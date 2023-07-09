@@ -5,7 +5,7 @@ from py_basic_commands.fscripts                         import Fprint
 from traceback      import format_exc
 from functools      import wraps
 from shutil     import move
-from typing     import Any
+from typing     import Any, Optional
 from os     import listdir 
 
 
@@ -100,7 +100,7 @@ def flatten_list(lst:list[Any]) -> Any:
     return [item for sublist in lst for item in sublist]
 
 
-def try_listdir(path:str) -> list[str]:
+def try_listdir(path:str='') -> list[str]:
     """Try to list the contents of the given directory.
     
     Parameters
@@ -114,7 +114,10 @@ def try_listdir(path:str) -> list[str]:
         The contents of the directory, or an empty list if the directory does not exist or the file cannot be read
     """
     try:
-        return listdir(path)
+        if path:
+            return listdir(path)
+        else:
+            return listdir()
     except FileNotFoundError:
         return []
     
