@@ -100,7 +100,7 @@ def flatten_list(lst:list[Any]) -> Any:
     return [item for sublist in lst for item in sublist]
 
 
-def try_listdir(path:str='') -> list[str]:
+def try_listdir(path:Optional[str]=None) -> list[str]:
     """Try to list the contents of the given directory.
     
     Parameters
@@ -114,10 +114,7 @@ def try_listdir(path:str='') -> list[str]:
         The contents of the directory, or an empty list if the directory does not exist or the file cannot be read
     """
     try:
-        if path:
-            return listdir(path)
-        else:
-            return listdir()
+        return listdir(path)
     except FileNotFoundError:
         return []
     
