@@ -79,13 +79,15 @@ class ReadFile(Base):
                         lines = [x.strip() for x in lines]
                     if do_lower:
                         lines = [x.lower() for x in lines]
-                return lines, did_create
             
             except FileNotFoundError:
                 fprint(f'File not found: {file_path}', do_print=do_print)
                 if create:
                     create_file(file_path, force=True, do_print=do_print)
                     return try_reading(True)
+                
+            if not lines and not splitlines:
+                lines = ''
                 
             return lines, did_create
 
