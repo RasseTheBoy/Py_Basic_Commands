@@ -1,6 +1,7 @@
 from py_basic_commands.fscripts.fprint   import Fprint
 from py_basic_commands.base   import Base
 from dataclasses    import dataclass
+from typing         import Optional
 
 fprint = Fprint()
 
@@ -17,7 +18,7 @@ class Finput(Base):
         super().__init__(self.do_print)
 
 
-    def __call__(self, **kwargs):
+    def __call__(self, text:Optional[str]=None, **kwargs):
         """Get input from the user and return it as a specified type.
         
         Parameters
@@ -36,8 +37,10 @@ class Finput(Base):
         Any
             The input value, converted to the specified type. If the conversion fails, the value is returned as a string.
         """
+        # Get text
+        text = text or self.text
 
-        text = kwargs.get('text', self.text)
+        # Get kwargs
         nl = kwargs.get('nl', self.nl)
         use_suffix = kwargs.get('use_suffix', self.use_suffix)
         ret_type = kwargs.get('ret_type', self.ret_type)
