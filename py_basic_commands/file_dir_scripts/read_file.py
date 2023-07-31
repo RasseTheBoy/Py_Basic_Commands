@@ -73,10 +73,10 @@ class ReadFile(Base):
                     lines = f.read()
                 if splitlines:
                     lines = lines.splitlines()
-                    if remove_empty:
-                        lines = [x for x in lines if x != '']
                     if do_strip:
                         lines = [x.strip() for x in lines]
+                    if remove_empty:
+                        lines = [x for x in lines if x != '']
                     if do_lower:
                         lines = [x.lower() for x in lines]
             
