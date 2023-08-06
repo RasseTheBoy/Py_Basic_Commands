@@ -116,6 +116,8 @@ def try_listdir(path:Optional[str]=None, return_with_path:bool=False) -> list[st
         The contents of the directory, or an empty list if the directory does not exist or the file cannot be read
     """
     try:
+        if path == '':
+            path = None
         content_lst = listdir(path)
 
         if return_with_path:
