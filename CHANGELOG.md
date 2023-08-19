@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.2.25] - 2023-7-
+## [0.2.3] - 2023-7-
 
 Major QOL update!
 
@@ -31,13 +31,17 @@ Major QOL update!
 
 - A lot of classes had the problem of "sharing" the same `fprint()`, so `do_print` was shared between all classes.
     - This has been fixed, and now each class has its own `fprint()`
-- Changed docstring format from my custom created, to NumnPy style
+- Changed docstring format from my custom layout, to NumnPy style
     - should make it easier to read and understand
 - In a lot of class `__call__()` functions, the default input values were set as `None`. Those are removed, and now are being taken from a kwargs.
     - This makes the code a lot more readable, and easier to understand
 - `fprint()`
     - Total rework of the function
     - Should be easier to add more functions in the future
+- `timer()` function and `Timer()` class
+    - The class only times itself, and not multiple
+    - A lot more simple to use now
+- Some docstrings are updated with better information
 
 ### Removed
 
