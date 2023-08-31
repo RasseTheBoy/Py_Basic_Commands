@@ -26,10 +26,14 @@ Major QOL update!
         - `fprint.error('This is an error message')` -> `--[!]-- This is an error message --[!]--`
     - `sep` (separator) variable
         - What to join the `*args` with
+- `ReadJson()`
+    - New parameter `create`
+        - default: `True`
+        - Creates a new JSON file if it doesn't exist
 
 ### Changed
 
-- A lot of classes had the problem of "sharing" the same `fprint()`, so `do_print` was shared between all classes.
+- A lot of classes had the problem of "sharing" the same `fprint()`; so `do_print` was shared between all classes.
     - This has been fixed, and now each class has its own `fprint()`
 - Changed docstring format from my custom layout, to NumnPy style
     - should make it easier to read and understand

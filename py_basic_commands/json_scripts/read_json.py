@@ -1,24 +1,28 @@
 import json
 
-from py_basic_commands.fscripts   import Fprint
-from py_basic_commands.base   import Base
+from py_basic_commands.fscripts     import Fprint
+from py_basic_commands.base         import Base
 from traceback  import format_exc
-from typing import Any
+from typing     import Any
+
 
 fprint = Fprint()
 
 
 class ReadJson(Base):
     """Read data from a JSON file"""
-    def __init__(self, do_print:bool=True) -> None:
+    def __init__(self, do_print:bool=True, create:bool=True) -> None:
         """Initialize the class
 
         Parameters
         ----------
         do_print : bool, optional
             Whether to get feedback printed to terminal or not. Default is True.
+        create : bool, optional
+            Whether to create the file if it doesn't exist. Default is True.
         """
         super().__init__(do_print)
+        self.create = create
 
 
     def __call__(self, file_path:str, **kwargs) -> Any:
@@ -30,6 +34,8 @@ class ReadJson(Base):
             The path of the JSON file to read from.
         do_print : bool, optional
             Whether to get feedback printed to terminal or not. Default is True.
+        create : bool, optional
+            Whether to create the file if it doesn't exist. Default is True.
         
         Returns
         -------
@@ -39,19 +45,31 @@ class ReadJson(Base):
 
         # Check input values
         do_print = kwargs.get('do_print', self.do_print)
+        create = kwargs.get('create', self.create)
 
         fprint.config(do_print=do_print)
+
+        file_data = {}
 
         try:
             with open(file_path, 'r') as f:
                 file_data = json.load(f)
-            return file_data
+        
         except FileNotFoundError:
-            fprint(f'File not found: {file_path}')
+            fprint.error(f'File not found: {file_path!r}')
+            if create:
+                # Create empty json file
+                json.dump({}, open(file_path, 'w'))
+                fprint(f'Created file: {file_path!r}')
+
         except json.decoder.JSONDecodeError:
-            fprint(f'File cannot be read as a JSON: {file_path}')
+            fprint.error(f'File cannot be read as a JSON: {file_path}')
+
         except Exception:
-            fprint(format_exc())
+            fprint.error(format_exc())
+
+        finally:
+            return file_data
 
 
 read_json = ReadJson()
