@@ -50,14 +50,17 @@ class JsonEditor(EditorBase):
         self.b_json_data[keys] = data
 
 
-    def __getitem__(self, keys:Any):
+    def __getitem__(self, keys:Any) -> Any:
         """Returns the data from the json file
         
         Parameters
         ----------
         keys : Any
             The key to get"""
-        return self.b_json_data[keys]
+        try:
+            return self.b_json_data[keys]
+        except KeyError:
+            return None
 
 
     def __delitem__(self, keys:str):
@@ -128,46 +131,79 @@ class JsonEditor(EditorBase):
             return True
 
 
-    def find_value_path(self, find_value:str, separator:str='/', path:Optional[str] = None) -> Optional[str]:
-        """Iterate through the json file and find the path to a value.
-        When a list is encountered, the index of the list is added to the path as: {key}[{list index}].
-
-        Return the path as a string.
-        If value is not found, return None
+    def find_value_path(self, value:Any, key:Optional[Any]=None) -> Optional[str]:
+        """Finds the first path to a value in the json file
         
         Parameters
         ----------
-        find_value : str
+        find_value : Any
             The value to search for
-        separator : str, optional
-            The separator to use when returning the path, by default '/'
-        path : [type], optional
-            The path to the value, by default None
+        key : Optional[Any], optional
+            The key to search for the value in, by default None
         
         Returns
         -------
         str or None
-            The path to the value if found, None if not found"""
-
-        def _search_json(json_data:dict, find_value:str, separator:str='.', path = None) -> Optional[str]:
-            """Iterate through the json file and find the path to a value."""
-            for key, val in json_data.items():
-                if isinstance(val, dict):
-                    path = _search_json(val, find_value, separator, path)
-                    if path:
-                        path = key + separator + path
-                        return path
-                elif isinstance(val, list):
-                    for index, item in enumerate(val):
-                        path = _search_json(item, find_value, separator, path)
-                        if path:
-                            path = f'{key}[{index}]' + separator + path
-                            return path
+            The path to the value if found, None if not found
+        """
+        if not self.does_value_exists(value):
+            return None
+        
+        for keypath in self.b_json_data.keypaths(value):
+            if value == self.b_json_data[keypath]:
+                if key:
+                    if key == keypath.split('/')[-1]:
+                        return keypath
                 else:
-                    if val == find_value:
-                        path = key
-                        return path
+                    return keypath
+            
 
-        return _search_json(self.b_json_data, find_value, separator, path)
+    def find_value_path_all(self, value:Any, key:Optional[Any]=None) -> list[str]:
+        """Finds all the paths to a value in the json file
+        
+        Parameters
+        ----------
+        find_value : Any
+            The value to search for
+        key : Optional[Any], optional
+            The key to search for the value in, by default None
+            
+        Returns
+        -------
+        list[str]
+            The paths to the value if found, an empty list if not found
+        """
+        paths = []
+        if not self.does_value_exists(value):
+            return paths
+        
+        for keypath in self.b_json_data.keypaths(value):
+            if value == self.b_json_data[keypath]:
+                if key:
+                    if key == keypath.split('/')[-1]:
+                        paths.append(keypath)
+                else:
+                    paths.append(keypath)
 
+        return paths
+            
 
+    def count_occurance(self, value:Any, key:Optional[Any]=None) -> int:
+        """Count the number of times a value occurs in the json file
+
+        Parameters
+        ----------
+        value : Any
+            The value to count
+        key : Optional[Any], optional
+            The key to search for the value in, by default None
+        
+        Returns
+        -------
+        int
+            The number of times the value occurs"""
+        if not key:
+            return len(self.b_json_data.search(value))
+    
+        else:
+            return len([values[1] for values in self.b_json_data.search(value) if values[1] == key])

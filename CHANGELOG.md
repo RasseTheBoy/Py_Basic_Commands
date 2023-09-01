@@ -30,6 +30,12 @@ Major QOL update!
     - New parameter `create`
         - default: `True`
         - Creates a new JSON file if it doesn't exist
+- `JsonEditor()`
+    - New functions
+        - `find_value_path_all()`
+            - Finds all paths to a value in a JSON file
+        - `count_occurance()`
+            - Counts how many times a value occurs in a JSON file
 
 ### Changed
 
@@ -46,6 +52,8 @@ Major QOL update!
     - The class only times itself, and not multiple
     - A lot more simple to use now
 - Some docstrings are updated with better information
+- Fixed `JsonEditor().find_value_path()`
+    - Wasn't working as intended before
 
 ### Removed
 
