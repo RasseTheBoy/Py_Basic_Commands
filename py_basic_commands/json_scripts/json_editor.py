@@ -323,7 +323,7 @@ class JsonEditor(EditorBase):
         self.new_dict(remove_falsy_recursive(self.b_json_data.dict()))
 
 
-    def remove_duplicates(self, value:Any, master_keypath:str='', only_in_key:str=''):
+    def remove_duplicates(self, value:Any, master_keypath:str='', only_in_key:str='') -> int:
         """Remove all duplicates from the given value. Only keep the value on the master keypath.
         
         If no master keypath is given, the first item will be saved
@@ -337,26 +337,44 @@ class JsonEditor(EditorBase):
             The value to remove duplicates from.
         master_keypath : str
             The keypath to the value that should be kept.
+
+        Returns
+        -------
+        int
+            The amount of duplicates removed
+        
+        Raises
+        ------
+        Exception
+            If the master keypath is not in the path list
         """
         path_lst = self.find_value_path_all(value)
+        removed_amnt = 0
 
         if len(path_lst) <= 1:
             print('No duplicates')
-            return
+            return removed_amnt
         else:
             print(f'{len(path_lst)} duplicates found')
 
         if only_in_key:
             path_lst = [path for path in path_lst if only_in_key in path]
 
+        # If no master keypath is given, keep the first item
         if not master_keypath:
             for path in path_lst[1:][::-1]:
                 self.remove_path(path)
-            return
+                removed_amnt += 1
+            return removed_amnt
         
+        # If master keypath is given, but not in path list, raise error
         if master_keypath not in path_lst:
             raise Exception(f'Master keypath {master_keypath} not in path list')
 
+        # Remove all duplicates
         for path in path_lst[::-1]:
             if path != master_keypath:
                 self.remove_path(path)
+                removed_amnt += 1
+
+        return removed_amnt
