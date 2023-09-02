@@ -303,7 +303,7 @@ class JsonEditor(EditorBase):
         self.b_json_data.remove(path)
 
 
-    def remove_empty_values(self, empty_values:list[Any]=['', None, {}, []]):
+    def remove_empty_values(self, empty_values:list[Any]=[None, {}, []]):
         """Removes all empty values from the json file.
          Also removes the keys that contain the empty values.
 
