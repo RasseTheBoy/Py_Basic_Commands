@@ -2,6 +2,8 @@
 
 from py_basic_commands.json_scripts import read_json, write_json
 from py_basic_commands.base import EditorBase
+
+from send2trash import send2trash
 from benedict import benedict
 from typing import Any, Optional
 
@@ -60,7 +62,7 @@ class JsonEditor(EditorBase):
         try:
             return self.b_json_data[keypath]
         except KeyError:
-            return None
+            return ''
 
 
     def __delitem__(self, keys:str):
@@ -109,7 +111,7 @@ class JsonEditor(EditorBase):
             yield key, value
 
     
-    def new_dict(self, new_dict:dict[Any, Any]):
+    def new_dict(self, new_dict:dict):
         """Updates the json file with a new dict
         
         Parameters
@@ -128,6 +130,11 @@ class JsonEditor(EditorBase):
             The path to the json file"""
         self.file_path = file_path
         self.new_dict(read_json(self.file_path))
+
+
+    def remove_file(self):
+        """Removes the json file"""
+        send2trash(self.file_path)
 
 
     def append(self, keypath:str, data) -> str:
@@ -294,7 +301,7 @@ class JsonEditor(EditorBase):
         empty_values : list[Any], optional
             The values to remove, by default ['', None, {}, []]
         """
-        def remove_falsy_recursive(obj) -> Any:
+        def remove_falsy_recursive(obj):
             """Recursively remove all falsy values from a nested dict/list."""
             if isinstance(obj, dict):
                 return {k: remove_falsy_recursive(v) for k, v in obj.items() if v not in empty_values}
