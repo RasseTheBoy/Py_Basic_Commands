@@ -111,7 +111,7 @@ class JsonEditor(EditorBase):
             yield key, value
 
     
-    def new_dict(self, new_dict:dict):
+    def new_dict(self, new_dict:dict[Any, Any]):
         """Updates the json file with a new dict
         
         Parameters
@@ -200,9 +200,36 @@ class JsonEditor(EditorBase):
             return False
         else:
             return True
+        
+
+    def _yield_keypaths(self, value:Any, key:Optional[Any]=None, add_index:bool=True):
+        """Yields all the paths to a value in the json file
+        
+        This is only used internally!
+
+        Parameters
+        ----------
+        find_value : Any
+            The value to search for
+        key : Optional[Any], optional
+            The key to search for the value in, by default None
+        add_index : bool, optional
+            If True, adds the index to the path, by default True
+        
+        Yields
+        ------
+        str
+            The path to the value
+        """
+        if key and not self.does_key_exists(key):
+            return
+        
+        for keypath in self.b_json_data.keypaths(value):
+            if (value == self[keypath] or value in self[keypath]) and ((not key) or (key and key in keypath)) and ((add_index and keypath[-1] == ']') or (not add_index and keypath[-1] != ']')):
+                yield keypath
 
 
-    def find_value_path(self, value:Any, key:Optional[Any]=None) -> Optional[str]:
+    def find_value_path(self, value:Any, key:Optional[Any]=None, add_index:bool=True) -> Optional[str]:
         """Finds the first path to a value in the json file
         
         Parameters
@@ -217,19 +244,13 @@ class JsonEditor(EditorBase):
         str or None
             The path to the value if found, None if not found
         """
-        if not self.does_value_exists(value):
+        try:
+            return self.find_value_path_all(value, key, add_index)[0]
+        except IndexError:
             return None
-        
-        for keypath in self.b_json_data.keypaths(value):
-            if value == self.b_json_data[keypath]:
-                if key:
-                    if key == keypath.split('/')[-1]:
-                        return keypath
-                else:
-                    return keypath
             
 
-    def find_value_path_all(self, value:Any, key:Optional[Any]=None) -> list[str]:
+    def find_value_path_all(self, value:Any, key:Optional[Any]=None, add_index:bool=True) -> list[str]:
         """Finds all the paths to a value in the json file
         
         Parameters
@@ -238,25 +259,15 @@ class JsonEditor(EditorBase):
             The value to search for
         key : Optional[Any], optional
             The key to search for the value in, by default None
+        add_index : bool, optional
+            If True, adds the index to the path, by default True
             
         Returns
         -------
         list[str]
             The paths to the value if found, an empty list if not found
         """
-        paths = []
-        if not self.does_value_exists(value):
-            return paths
-        
-        for keypath in self.b_json_data.keypaths(value):
-            if value == self.b_json_data[keypath]:
-                if key:
-                    if key == keypath.split('/')[-1]:
-                        paths.append(keypath)
-                else:
-                    paths.append(keypath)
-
-        return paths
+        return [keypath for keypath in self._yield_keypaths(value, key, add_index)]
             
 
     def count_occurance(self, value:Any, key:Optional[Any]=None) -> int:
@@ -301,7 +312,7 @@ class JsonEditor(EditorBase):
         empty_values : list[Any], optional
             The values to remove, by default ['', None, {}, []]
         """
-        def remove_falsy_recursive(obj):
+        def remove_falsy_recursive(obj) -> Any:
             """Recursively remove all falsy values from a nested dict/list."""
             if isinstance(obj, dict):
                 return {k: remove_falsy_recursive(v) for k, v in obj.items() if v not in empty_values}
@@ -312,7 +323,7 @@ class JsonEditor(EditorBase):
         self.new_dict(remove_falsy_recursive(self.b_json_data.dict()))
 
 
-    def remove_duplicates(self, value:Any, master_keypath:str=''):
+    def remove_duplicates(self, value:Any, master_keypath:str='', only_in_key:str=''):
         """Remove all duplicates from the given value. Only keep the value on the master keypath.
         
         If no master keypath is given, the first item will be saved
@@ -334,6 +345,9 @@ class JsonEditor(EditorBase):
             return
         else:
             print(f'{len(path_lst)} duplicates found')
+
+        if only_in_key:
+            path_lst = [path for path in path_lst if only_in_key in path]
 
         if not master_keypath:
             for path in path_lst[1:][::-1]:
