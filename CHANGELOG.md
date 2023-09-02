@@ -11,7 +11,7 @@ Major QOL update!
     - Can read, edit and write to a file with ease
     - STILL WIP, so may not work as intended
 - New file `json_editor.py`
-    - Has the class `JsonEditor`
+    - Has the class `JsonEditor`; Read more below
     - Can read, edit and write to a JSON file with ease
     - STILL WIP, so may not work as intended
 - New function `try_listdir()`
@@ -30,12 +30,7 @@ Major QOL update!
     - New parameter `create`
         - default: `True`
         - Creates a new JSON file if it doesn't exist
-- `JsonEditor()`
-    - New functions
-        - `find_value_path_all()`
-            - Finds all paths to a value in a JSON file
-        - `count_occurance()`
-            - Counts how many times a value occurs in a JSON file
+        
 
 ### Changed
 

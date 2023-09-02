@@ -38,19 +38,19 @@ class JsonEditor(EditorBase):
         return self.b_json_data
 
 
-    def __setitem__(self, keys:str, data):
+    def __setitem__(self, keypath:str, data:Any):
         """Adds data to the json file. If the data already exists, it will be overwritten
         
         Parameters
         ----------
-        keys : str
+        keypath : str
             The key to add the data to
         data : Any
             The data to add"""
-        self.b_json_data[keys] = data
+        self.b_json_data[keypath] = data
 
 
-    def __getitem__(self, keys:Any) -> Any:
+    def __getitem__(self, keypath:Any) -> Any:
         """Returns the data from the json file
         
         Parameters
@@ -58,7 +58,7 @@ class JsonEditor(EditorBase):
         keys : Any
             The key to get"""
         try:
-            return self.b_json_data[keys]
+            return self.b_json_data[keypath]
         except KeyError:
             return None
 
@@ -73,6 +73,52 @@ class JsonEditor(EditorBase):
         del self.b_json_data[keys]
 
 
+    def __contains__(self, keys:str) -> bool:
+        """Checks if a key is in the json file
+        
+        Parameters
+        ----------
+        keys : str
+            The key to check for
+        
+        Returns
+        -------
+        bool
+            True if the key is in the json file, False if not"""
+        try:
+            self.b_json_data[keys]
+            return True
+        
+        except KeyError:
+            return False
+        
+    
+    def __len__(self) -> int:
+        """Returns the number of keys in the json file
+        
+        Returns
+        -------
+        int
+            The number of keys in the json file"""
+        return len(self.b_json_data)
+    
+
+    def __iter__(self):
+        """Returns an iterator for the json file with the key and value"""
+        for key, value in self.b_json_data.items():
+            yield key, value
+
+    
+    def new_dict(self, new_dict:dict[Any, Any]):
+        """Updates the json file with a new dict
+        
+        Parameters
+        ----------
+        new_dict : dict
+            The new dict to update the json file with"""
+        self.b_json_data = benedict(new_dict, keypath_separator="/")
+
+
     def new_file(self, file_path:str):
         """Updates the json file path and reads the json file
         
@@ -81,15 +127,33 @@ class JsonEditor(EditorBase):
         file_path : str
             The path to the json file"""
         self.file_path = file_path
-        self.b_json_data = benedict(read_json(self.file_path), keypath_separator="/")
+        self.new_dict(read_json(self.file_path))
 
 
-    def add_data(self, keys:str, data):
-        """Adds data to the json file. If the data already exists, it will be overwritten"""
-        self.b_json_data[keys] = data
+    def append(self, keypath:str, data) -> str:
+        """Appends data to the json file.
+        
+        Parameters
+        ----------
+        keys : str
+            The key to add the data to
+        data : Any
+            The data to add
+        
+        Returns
+        -------
+        str
+            The path to the data
+        """
+        if not self.does_key_exists(keypath):
+            self[keypath] = [data]
+        else:
+            self[keypath].append(data)
+
+        return f'{keypath}[{len(self[keypath])-1}]'
 
 
-    def does_key_exists(self, keys:str) -> bool:
+    def does_key_exists(self, keypath:str) -> bool:
         """Checks if a key is in the json file
 
         Parameters
@@ -103,7 +167,7 @@ class JsonEditor(EditorBase):
             True if the key is in the json file, False if not"""
         
         try:
-            self.b_json_data[keys]
+            self.b_json_data[keypath]
             return True
         
         except KeyError:
@@ -207,3 +271,71 @@ class JsonEditor(EditorBase):
     
         else:
             return len([values[1] for values in self.b_json_data.search(value) if values[1] == key])
+        
+
+    def remove_path(self, path:str):
+        """Removes a path from the json file
+
+        WARNING: This will remove all data after the path as well
+        
+        Parameters
+        ----------
+        path : str
+            The path to remove"""
+        self.b_json_data.remove(path)
+
+
+    def remove_empty_values(self, empty_values:list[Any]=['', None, {}, []]):
+        """Removes all empty values from the json file.
+         Also removes the keys that contain the empty values.
+
+        Parameters
+        ----------
+        empty_values : list[Any], optional
+            The values to remove, by default ['', None, {}, []]
+        """
+        def remove_falsy_recursive(obj) -> Any:
+            """Recursively remove all falsy values from a nested dict/list."""
+            if isinstance(obj, dict):
+                return {k: remove_falsy_recursive(v) for k, v in obj.items() if v not in empty_values}
+            if isinstance(obj, list):
+                return [remove_falsy_recursive(i) for i in obj if i]
+            return obj
+        
+        self.new_dict(remove_falsy_recursive(self.b_json_data.dict()))
+
+
+    def remove_duplicates(self, value:Any, master_keypath:str=''):
+        """Remove all duplicates from the given value. Only keep the value on the master keypath.
+        
+        If no master keypath is given, the first item will be saved
+        
+        May leave empty lists and dicts behind
+        To remove these, use remove_empty_values()
+        
+        Parameters
+        ----------
+        value : Any
+            The value to remove duplicates from.
+        master_keypath : str
+            The keypath to the value that should be kept.
+        """
+        path_lst = self.find_value_path_all(value)
+
+        if len(path_lst) <= 1:
+            print('No duplicates')
+            return
+        else:
+            print(f'{len(path_lst)} duplicates found')
+
+        if not master_keypath:
+            for path in path_lst[1:][::-1]:
+                self.remove_path(path)
+            return
+        
+        if master_keypath not in path_lst:
+            raise Exception(f'Master keypath {master_keypath} not in path list')
+
+        for path in path_lst[::-1]:
+            if path != master_keypath:
+                self.remove_path(path)
