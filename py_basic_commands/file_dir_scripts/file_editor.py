@@ -142,6 +142,11 @@ class FileEditor(EditorBase):
             return self.text
 
 
+    def update_write(self):
+        """Writes self.text to the file"""
+        write_file(self.text, self.file_path)
+
+
     def overwrite(self, text:str|list):
         """Overwrite the file contents
         
