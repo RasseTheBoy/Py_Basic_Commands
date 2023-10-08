@@ -14,6 +14,8 @@ Major QOL update!
     - Has the class `JsonEditor`; Read more below
     - Can read, edit and write to a JSON file with ease
     - STILL WIP, so may not work as intended
+- New file `prettify_json.py`:
+    - Prettify a bad looking JSON file
 - New function `try_listdir()`
     - Tries to list a directory
     - Returns and empty list if it fails

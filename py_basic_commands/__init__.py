@@ -11,6 +11,7 @@ from py_basic_commands.fscripts import Finput, FprintArray, Fprint
 from py_basic_commands.json_scripts import create_json, read_json, write_json
 from py_basic_commands.json_scripts import CreateJson, ReadJson, WriteJson
 from py_basic_commands.json_scripts import JsonEditor
+from py_basic_commands.json_scripts import prettify_json
 
 # From other
 from py_basic_commands.other import choose_from_list, chunker, enter_to_continue, flatten_list, func_timer, _func_timer, try_traceback, timer, try_listdir, try_moving

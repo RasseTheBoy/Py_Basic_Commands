@@ -1,22 +1,23 @@
 import json
 
-
-from py_basic_commands.file_dir_scripts.create_dirs import create_dirs
 from py_basic_commands.json_scripts.read_json       import read_json
 from py_basic_commands.fscripts                     import Fprint
 from py_basic_commands.base                         import Base
+
 from traceback      import format_exc
 from typing         import Any
+from os             import makedirs
 
 fprint = Fprint()
 
 
 class WriteJson(Base):
-    def __init__(self, force:bool=False, indent:int=4, do_print:bool=True):
+    def __init__(self, force:bool=False, indent:int=4, do_print:bool=True, encoding:str='utf-8'):
         super().__init__(do_print)
 
         self.force = force
         self.indent = indent
+        self.encoding = encoding
                 
 
     def __call__(self, data:Any, file_path:str, **kwargs) -> bool:
@@ -45,6 +46,7 @@ class WriteJson(Base):
         indent = kwargs.get('indent', self.indent)
         force = kwargs.get('force', self.force)
         do_print = kwargs.get('do_print', self.do_print)
+        encoding = kwargs.get('encoding', self.encoding)
 
         fprint.config(do_print=do_print)
         
@@ -54,13 +56,13 @@ class WriteJson(Base):
             if data_type == ('str'):
                 data = json.loads(data)
 
-            d = read_json(file_path, do_print=do_print)
+            d = read_json(file_path, do_print=do_print, encoding=encoding)
             
             if d and not force:
                 fprint(f'Data found in JSON file, not writing new data: {file_path}')
                 return False
 
-            with open(file_path, 'w') as f:
+            with open(file_path, 'w', encoding=encoding) as f:
                 json.dump(data, f, indent=indent)
 
             fprint(f'Wrote data to JSON file: {file_path}')
@@ -72,10 +74,12 @@ class WriteJson(Base):
         except FileNotFoundError:
             if force:
                 fprint('Force is True, creating file path')
-                create_dirs(file_path)
+                makedirs(file_path)
                 self(data, file_path, indent=indent, force=force, do_print=do_print)
+
         except Exception:
             fprint(format_exc())
+
         return False
 
 

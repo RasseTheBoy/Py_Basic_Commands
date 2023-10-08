@@ -11,7 +11,7 @@ fprint = Fprint()
 
 class ReadJson(Base):
     """Read data from a JSON file"""
-    def __init__(self, do_print:bool=True, create:bool=True) -> None:
+    def __init__(self, do_print:bool=True, create:bool=True, encoding:str='utf-8') -> None:
         """Initialize the class
 
         Parameters
@@ -23,9 +23,10 @@ class ReadJson(Base):
         """
         super().__init__(do_print)
         self.create = create
+        self.encoding = encoding
 
 
-    def __call__(self, file_path:str, **kwargs) -> Any:
+    def __call__(self, file_path:str, **kwargs) -> dict:
         """Read data from a JSON file.
         
         Parameters
@@ -37,6 +38,7 @@ class ReadJson(Base):
         create : bool, optional
             Whether to create the file if it doesn't exist. Default is True.
         
+        
         Returns
         -------
         Any
@@ -46,20 +48,21 @@ class ReadJson(Base):
         # Check input values
         do_print = kwargs.get('do_print', self.do_print)
         create = kwargs.get('create', self.create)
+        encoding = kwargs.get('encoding', self.encoding)
 
         fprint.config(do_print=do_print)
 
         file_data = {}
 
         try:
-            with open(file_path, 'r') as f:
+            with open(file_path, 'r', encoding=encoding) as f:
                 file_data = json.load(f)
         
         except FileNotFoundError:
             fprint.error(f'File not found: {file_path!r}')
             if create:
                 # Create empty json file
-                json.dump({}, open(file_path, 'w'))
+                json.dump({}, open(file_path, 'w', encoding=encoding))
                 fprint(f'Created file: {file_path!r}')
 
         except json.decoder.JSONDecodeError:
