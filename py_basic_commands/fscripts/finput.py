@@ -1,7 +1,7 @@
 from py_basic_commands.fscripts.fprint   import Fprint
 from py_basic_commands.base   import Base
 from dataclasses    import dataclass
-from typing         import Optional
+from typing         import Optional, Any
 
 fprint = Fprint()
 
@@ -18,7 +18,7 @@ class Finput(Base):
         super().__init__(self.do_print)
 
 
-    def __call__(self, text:Optional[str]=None, **kwargs):
+    def __call__(self, text:Optional[str]=None, **kwargs) -> Any:
         """Get input from the user and return it as a specified type.
         
         Parameters

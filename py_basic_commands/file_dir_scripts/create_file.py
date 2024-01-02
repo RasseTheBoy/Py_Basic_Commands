@@ -38,7 +38,7 @@ class CreateFile(Base):
         try:
             with open(dst_path, 'w') as f:
                 f.write('')
-            fprint(f'File created: {dst_path}')
+            fprint(f'File created: {dst_path!r}')
             return True
         except Exception:
             fprint(format_exc())

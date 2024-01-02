@@ -81,10 +81,14 @@ class ReadFile(Base):
                         lines = [x.lower() for x in lines]
             
             except FileNotFoundError:
-                fprint(f'File not found: {file_path}', do_print=do_print)
+                fprint(f'File not found: {file_path}')
                 if create:
-                    create_file(file_path, force=True, do_print=do_print)
+                    create_file(file_path, force=True)
                     return try_reading(True)
+                
+            except UnicodeDecodeError:
+                fprint(f'Could not read file: {file_path}')
+                lines = []
                 
             if not lines and not splitlines:
                 lines = ''

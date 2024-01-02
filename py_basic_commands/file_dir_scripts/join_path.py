@@ -6,7 +6,6 @@ from typing import Any
 
 fprint = Fprint()
 
-
 @dataclass
 class JoinPath(Base):
     join_with:str = '/'
@@ -57,7 +56,19 @@ class JoinPath(Base):
         for arg_indx, arg in enumerate(args):
             # Remove invalid characters
             arg = split_join(split_join(arg, '\\'), '/')
+
+            # Check if the start of the path is a drive letter
+            if arg_indx == 0 and arg[1] == ':':
+                _driver = True
+            else:
+                _driver = False
+
+            # Remove invalid characters
             arg = arg.translate({ord(c): None for c in '<>:"|?*'})
+
+            # Add drive letter back
+            if _driver:
+                arg = arg[0] + ':' + arg[1:]
 
             # Remove empty strings
             split_arg = arg.split('/')

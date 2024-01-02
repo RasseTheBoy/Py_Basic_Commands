@@ -92,21 +92,31 @@ class ChooseFromList(Base):
 
     def __call__(self, array:Any, **kwargs) -> Any:
         """Prompt the user to choose one or more values from a list.
+
+        Parameters
+        ----------
+        array : Any
+            List of values to choose from
+        header_text : str, optional
+            Header text to display, by default ''
+        header_nl : bool, optional
+            Whether to print a newline after the header text, by default False
+        input_text : str, optional
+            Text to display before the input, by default 'Input index: '
+        choose_total : int, optional
+            The amount of values to choose, by default 0 (0 = any amount, 1 = single value, >1 = multiple values)
+        ret_single_as_str : bool, optional
+            Whether to return a single value as a string, by default False
+        start_num : int, optional
+            The starting index number, by default 1
+        choose_until_correct : bool, optional
+            Whether to keep prompting the user until the correct amount of values are chosen, by default True
         
-        Args:
-            array (Any): List of values to choose from
-            header_text (str, optional): Header text to display. Defaults to ''
-            header_nl (bool, optional): Whether to print a newline after the header text. Defaults to False
-            input_text (str, optional): Text to display before the input. Defaults to 'Input index: '
-            choose_total (int, optional): The amount of values to choose. Defaults to 0 (0 = any amount, 1 = single value, >1 = multiple values)
-            ret_single_as_str (bool, optional): Whether to return a single value as a string. Defaults to False
-            start_num (int, optional): The starting index number. Defaults to 1
-            choose_until_correct (bool, optional): Whether to keep prompting the user until the correct amount of values are chosen. Defaults to True
-
-        Returns:
-            Any: List of chosen values or a single value potentially as a string
+        Returns
+        -------
+        Any
+            List of chosen values or a single value potentially as a string
         """
-
         # Check input values
         header_text = kwargs.get('header_text', self.header_text)
         header_nl   = kwargs.get('header_nl', self.header_nl)

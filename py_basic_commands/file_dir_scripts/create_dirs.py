@@ -19,13 +19,15 @@ class CreateDirs(Base):
         super().__init__(do_print)
 
 
-    def __call__(self, dst_path:str, **kwargs) -> bool:
+    def __call__(self, dst_path:str, includes_file:bool=True, **kwargs) -> bool:
             """Create all required directories for the given path.
             
             Parameters
             ----------
             dst_path : str
                 The path to create the directories for.
+            includes_file : bool, optional
+                Whether the path includes a file. Default is True
             do_print : bool, optional
                 Whether to print information about the directory creation process. Default is True
 
@@ -53,7 +55,10 @@ class CreateDirs(Base):
             if dst_path == '':
                 return False
 
-            dir_path = get_src_path(dst_path, ret_val='d', do_print=do_print)
+            if includes_file:
+                dir_path = get_src_path(dst_path, ret_val='d', do_print=do_print)
+            else:
+                dir_path = dst_path
 
             if dir_path == '':
                 return False

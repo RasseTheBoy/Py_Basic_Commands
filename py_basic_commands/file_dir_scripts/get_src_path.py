@@ -70,9 +70,12 @@ get_src_path = GetSourcePath()
 
 
 if __name__ == '__main__':
-    # Testing code
-    src_path = 'folder/subfolder/file.txt'
-    dir_path, fnam = get_src_path(src_path, ret_val='f', do_print=True)
+    from FastDebugger import fd
 
-    print(f'Direcotry path: {dir_path!r}')
-    print(f'Filename: {fnam!r}')
+    # Testing code
+    src_path = '/file.txt'
+    out = get_src_path(src_path, ret_val='d', do_print=True)
+
+    fd(out)
+    # print(f'Direcotry path: {dir_path!r}')
+    # print(f'Filename: {fnam!r}')

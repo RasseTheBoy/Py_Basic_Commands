@@ -2,7 +2,9 @@
 from py_basic_commands.file_dir_scripts import read_file, write_file
 from py_basic_commands.fscripts import Fprint
 from py_basic_commands.base  import EditorBase
+
 from send2trash import send2trash
+from typing import Any
 
 fprint = Fprint()
 
@@ -95,6 +97,11 @@ class FileEditor(EditorBase):
         self.text = '\n'.join(self.text_lst)
 
 
+    def __list__(self):
+        """Get the file contents as a list"""
+        return self.text_lst
+
+
     def __len__(self):
         """Get the length of the file"""
         return len(self.text_lst)
@@ -140,7 +147,7 @@ class FileEditor(EditorBase):
             return self.text_lst
         else:
             return self.text
-
+        
 
     def update_write(self):
         """Writes self.text to the file"""
@@ -193,6 +200,68 @@ class FileEditor(EditorBase):
         """Removes the file"""
         send2trash(self.file_path)
         fprint(f'File removed: {self.file_path}')
+
+
+    def find_index_all(self, val:Any, exact:bool=False):
+        """Find all occurances of the given value
+        
+        Parameters
+        ----------
+        val : Any
+            The value to find
+        exact : bool, optional
+            Whether to only find exact matches. Default is False
+        
+        Returns
+        -------
+        list
+            A list of the indices of the occurances of the given value  
+        """
+        return [i for i, line in enumerate(self) if (exact and (val == line)) or (not exact and (val in line))]
+
+
+    def find_index(self, val:Any, exact:bool=False):
+        """Find the first occurance of the given value
+        
+        Parameters
+        ----------
+        val : Any
+            The value to find
+        exact : bool, optional
+            Whether to only find exact matches. Default is False
+            
+        Returns
+        -------
+        int
+            The index of the first occurance of the given value
+        """
+        for i, line in enumerate(self):
+            if (exact and (val == line)) or (not exact and (val in line)):
+                return i
+            
+
+    def remove_all_occurance(self, val:Any, exact:bool=False):
+        """Remove all occurances of the given value
+        
+        Parameters
+        ----------
+        val : Any
+            The value to remove
+        exact : bool, optional
+            Whether to only remove exact matches. Default is False
+        
+        Returns
+        -------
+        bool
+            Whether the value was removed
+        """
+        removed = False
+        for i, line in enumerate(self):
+            if (exact and (val == line)) or (not exact and (val in line)):
+                del self[i]
+                removed = True
+
+        return removed
 
 
 

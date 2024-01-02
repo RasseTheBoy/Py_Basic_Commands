@@ -24,5 +24,16 @@ def prettify_json(file_path:str, indent:int=4, do_print:bool=True, encoding:str=
     bool
         Whether the file was prettified.
     """
-    jsonData = read_json(file_path, do_print=do_print, encoding=encoding, **kwargs)
-    return write_json(jsonData, file_path, indent=indent, do_print=do_print, encoding=encoding, **kwargs)
+    return write_json(
+        read_json(
+            file_path,
+            do_print=do_print,
+            encoding=encoding,
+            **kwargs
+        ),
+        file_path,
+        indent=indent,
+        do_print=do_print,
+        encoding=encoding,
+        **kwargs
+    )

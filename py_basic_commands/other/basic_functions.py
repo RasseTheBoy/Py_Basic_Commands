@@ -127,6 +127,9 @@ def try_listdir(path:Optional[str]=None, return_with_path:bool=False) -> list[st
     except FileNotFoundError:
         return []
     
+    except NotADirectoryError:
+        return []
+    
 
 def try_moving(src_file_path:str, dst_dir_path:str, do_print=False) -> bool:
     """Try to move a file
