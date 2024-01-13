@@ -4,9 +4,9 @@ from py_basic_commands.file_dir_scripts.join_path       import join_path
 from py_basic_commands.fscripts                         import Fprint
 from traceback      import format_exc
 from functools      import wraps
-from shutil     import move
-from typing     import Any, Optional
-from os     import listdir 
+from shutil         import move
+from typing         import Any, Optional
+from os             import listdir 
 
 
 fprint = Fprint()
@@ -129,6 +129,24 @@ def try_listdir(path:Optional[str]=None, return_with_path:bool=False) -> list[st
     
     except NotADirectoryError:
         return []
+    
+
+def normal_round(n:float, decimal_places:int=0):
+    """Rounds a number normally
+    
+    Parameters
+    ----------
+    n : float
+        Number to round
+    decimal_places : int
+        Decimal places to round to
+    
+    Returns
+    -------
+    float
+        Rounded number
+    """
+    return round(n + 10**(-len(str(n).split('.')[1]) - 1), decimal_places)
     
 
 def try_moving(src_file_path:str, dst_dir_path:str, do_print=False) -> bool:

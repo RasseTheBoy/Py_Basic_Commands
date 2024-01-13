@@ -22,6 +22,9 @@ Major QOL update!
 - New function `try_moving()`
     - Tries to move a file
     - Returns `False` if it fails, and `True` if it succeeds
+- New function `normal_round()`
+    - Rounds a number like normal math (5.5 -> 6; 5.4 -> 5)
+    - A decimal point can be given for how many decimals to round to
 - `fprint()`
     - New function `error()`
         - Prints an error messade to the console, with your own text
