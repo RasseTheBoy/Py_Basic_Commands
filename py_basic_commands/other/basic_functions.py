@@ -6,10 +6,28 @@ from traceback      import format_exc
 from functools      import wraps
 from shutil         import move
 from typing         import Any, Optional
+from ctypes         import windll
 from os             import listdir 
 
 
 fprint = Fprint()
+
+
+def SCROLL_LOCK_STATE() -> bool:
+    """Returns the state of the scrolllock key
+
+    Returns
+    -------
+    bool
+        State of the scrolllock key. True if on, False if off
+    """
+    return windll.user32.GetKeyState(0x91) & 0xffff != 0
+
+
+def SCROLL_LOCK_RAISE():
+    """Raises a KeyboardInterrupt if the scroll lock is on"""
+    if SCROLL_LOCK_STATE():
+        raise KeyboardInterrupt
 
 
 def try_traceback(print_traceback=False):
