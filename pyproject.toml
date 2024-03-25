@@ -7,13 +7,17 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "py_basic_commands"
-version = "0.2.24"
+version = "0.2.3"
 authors = [
   { name="Rasmus Ohert", email="rassemichael@gmail.com" },
 ]
 description = "Basic tools for Python"
 readme = "README.md"
 requires-python = ">=3.7"
+dependencies = [
+  "send2trash",
+  "python_benedict",
+]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Education",

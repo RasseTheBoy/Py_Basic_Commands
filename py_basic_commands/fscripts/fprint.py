@@ -1,53 +1,127 @@
+from py_basic_commands.base   import Base
 from dataclasses    import dataclass
 from typing     import Any
-from py_basic_commands.base   import Base
+from typing    import Optional
+
+
+class DoNotPrint(Exception):
+    """Class that is raised when a message should not be printed"""
+    pass
+
 
 @dataclass
 class Fprint(Base):
     nl:bool = True
-    flush:bool = False
-    end = None
+    end:Optional[str] = None
+    sep:str = ' '
+    do_print:bool = True
 
     def __post_init__(self):
-        super().__init__()
+        super().__init__(self.do_print)
 
 
-    def __call__(self, *args:Any, nl:bool=None, flush:bool=None, do_print:bool=None, end:str=None) -> None:
-        """Print one or more objects to the console, with optional newline, flushing, and ending characters.
+    def _get_msg(self, *args, **kwargs) -> str:
+        """Get the message to print.
         
-        Parameters:
-        - `args` (*Any): One or more objects to print.
-        - `nl` (bool): Whether to append a newline character to the output.
-        - `flush` (bool): Whether to flush the output buffer.
-        - `do_print` (bool): Whether to actually print the output.
-        - `end` (str): The string to print at the end of the output.
-        """
-        # TODO: Add `sep` input parameter (separator between objects to print)
+        Parameters
+        ----------
+        *args : Any
+            The values to print
+        do_print : bool, optional
+            Whether to print or not. Default is True
+        sep : str, optional
+            The string to use to separate the given values. Default is ' '
+        
+        Returns
+        -------
+        str
+            The message to print"""
+        # Get kwargs values
+        do_print = kwargs.get('do_print', self.do_print)
+        sep = kwargs.get('sep', self.sep)
 
-        # Check input values
-        nl = self._check_input_val(nl, self.nl) 
-        flush = self._check_input_val(flush, self.flush)
-        do_print = self._check_input_val(do_print, self.do_print)
-        end = self._check_input_val(end, self.end)
-
+        # Check if printing is required
         if not do_print:
-            return
-
+            raise DoNotPrint
+        
+        # Make args a list
         if not args:
-            args = ('\n')
+            msg_args = ['']
+        else:
+            msg_args = list(args)
 
-        for arg_indx, arg in enumerate(args):
-            if arg_indx == len(args)-1:
-                print(arg, end=end, flush=flush)
-            else:
-                print(arg, end=' ', flush=flush)
+        # Combine args into a single string
+        msg = sep.join([str(arg) for arg in msg_args])
 
-        if nl and not end:
+        return msg
+
+
+    def _print_msg(self, msg:str, error:bool=False, **kwargs):
+        # Get kwargs values
+        nl = kwargs.get('nl', self.nl)
+        end = kwargs.get('end', self.end)
+
+        # Print the message
+        if end and not error:
+            print(msg, end=end)
+        else:
+            print(msg)
+
+        # Print a newline if required
+        if nl:
             print()
+
+
+    def error(self, *args, **kwargs):
+        """Using the `fprint` function, print and error message to the console.
+        
+        Parameters
+        ----------
+        *args : Any
+            The values to print
+        do_print : bool, optional
+            Whether to print or not. Default is True
+        nl : bool, optional
+            Whether to print a newline after the message. Default is True
+        sep : str, optional
+            The string to use to separate the given values. Default is ' '
+        """
+        try:
+            msg = self._get_msg(*args, **kwargs)
+        except DoNotPrint:
+            return
+        
+        error_msg = f'--[!]-- {msg} --[!]--'
+        self._print_msg(error_msg, error=True, **kwargs)
+
+
+    def __call__(self, *args, **kwargs):
+        """Print the given values to the console.
+        
+        Parameters
+        ----------
+        *args : Any
+            The values to print
+        do_print : bool, optional
+            Whether to print or not. Default is True
+        nl : bool, optional
+            Whether to print a newline after the message. Default is True
+        end : str, optional
+            The string to print at the end of the message. Default is None
+        sep : str, optional
+            The string to use to separate the given values. Default is ' '
+        """
+        try:
+            msg = self._get_msg(*args, **kwargs)
+        except DoNotPrint:
+            return
+        
+        self._print_msg(msg, **kwargs)
 
 
 fprint = Fprint()
 
 
 if __name__ == '__main__':
-    fprint('hello', do_print=True)
+    fprint.config(sep=' - ', end='!!!')
+    fprint('Hello', 'World')

@@ -1,34 +1,42 @@
 from dataclasses    import dataclass
-from py_basic_commands.fscripts   import fprint
+from py_basic_commands.fscripts   import Fprint
 from os.path    import dirname, basename, splitext
 from py_basic_commands.base   import Base
-from typing import Sequence, Any
+from typing import Any
 
-from FastDebugger import fd
-
+fprint = Fprint()
 
 @dataclass
 class JoinPath(Base):
     join_with:str = '/'
-    remove_empty:bool=True
-    dir_end:bool=False
+    remove_empty:bool = True
+    dir_end:bool = False
+    do_print:bool = False
 
     def __post_init__(self):
-        super().__init__(False)
+        super().__init__(self.do_print)
 
 
-    def __call__(self, *args:Any, join_with:str=None, remove_empty:bool=None, dir_end:bool=None, do_print:bool=None) -> str:
+    def __call__(self, *args:Any, **kwargs) -> str:
         r"""Join path segments together, removing certain characters (`<>:"/\|?*`) and adjust for correct slash direction.
 
-        Parameters:
-        - `*args` (str): One or more path segments to join.
-        - `join_with` (str): The separator to use when joining the path segments. Default is `'/'`.
-        - `remove_empty` (bool): Remove empty strings. Default is `True`.
-        - `dir_end` (bool): Specify whether to add join_with character at the end of the returned path. Default is `False`.
-        - `do_print` (bool): Whether to print or not. Default is `False`.
-
-        Return:
-        A `string` representing the joined path.
+        Parameters
+        ----------
+        *args : Any
+            The path segments to join together. If a list is given, the values will be joined by the `join_with` character
+        join_with : str, optional
+            The character to use to join the path segments together. Default is '/'
+        remove_empty : bool, optional
+            Whether to remove empty strings from the path segments. Default is True
+        dir_end : bool, optional
+            Whether to add the `join_with` character at the end of the path. Default is False
+        do_print : bool, optional
+            Whether to print information about the file creation process. Default is True
+        
+        Returns
+        -------
+        str
+            The joined path
         """
 
         def split_join(var:str, split_with:str=' '):
@@ -36,10 +44,10 @@ class JoinPath(Base):
             return join_with.join(var.split(split_with))
         
         # Check input values
-        join_with = self._check_input_val(join_with, self.join_with)
-        remove_empty = self._check_input_val(remove_empty, self.remove_empty)
-        dir_end = self._check_input_val(dir_end, self.dir_end)
-        do_print = self._check_input_val(do_print, self.do_print)
+        join_with = kwargs.get('join_with', self.join_with)
+        remove_empty = kwargs.get('remove_empty', self.remove_empty)
+        dir_end = kwargs.get('dir_end', self.dir_end)
+        do_print = kwargs.get('do_print', self.do_print)
 
         fprint.config(do_print=do_print)
 
@@ -51,7 +59,16 @@ class JoinPath(Base):
                 arg = join_with.join(arg)
 
             arg = split_join(split_join(arg, '\\'), '/')
-            arg = arg.translate({ord(c): None for c in '<>"|?*'}) # ":" is an invalid character on Windows, but drivers can use it. E.g. "C:\"
+
+            # Check if the start of the path is a drive letter
+            _driver = arg_indx == 0 and ':' in arg
+
+            # Remove invalid characters
+            arg = arg.translate({ord(c): None for c in '<>:"|?*'})
+
+            # Add drive letter back
+            if _driver:
+                arg = arg[0] + ':' + arg[1:]
 
             # Remove empty strings
             split_arg = arg.split('/')

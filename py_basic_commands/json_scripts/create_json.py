@@ -1,35 +1,48 @@
 import json
 
 from py_basic_commands.file_dir_scripts   import create_file, read_file
-from dataclasses    import dataclass
 from py_basic_commands.json_scripts.read_json  import read_json
-from py_basic_commands.fscripts   import fprint
+from py_basic_commands.fscripts   import Fprint
 from py_basic_commands.base   import Base
 
+fprint = Fprint()
 
-@dataclass
+
 class CreateJson(Base):
-    force:bool = True
+    """Create a new empty JSON file."""
+    def __init__(self, force:bool=True, do_print:bool=True):
+        """Initialize the class
+        
+        Parameters
+        ----------
+        force : bool, optional
+            Whether to overwrite any existing file with the same name. Default is True
+        do_print : bool, optional
+            Whether to print information about the file creation process. Default is True"""
+        super().__init__(do_print)
 
-    def __post_init__(self):
-        super().__init__()
+        self.force = force
 
 
-    def __call__(self, file_path:str, force:bool=None, do_print:bool=None) -> bool:
+    def __call__(self, file_path:str, **kwargs) -> bool:
         """Create a new empty JSON file.
         
-        Parameters:
-        - `file_path` (str): The path for the new JSON file.
-        - `force` (bool): Whether to overwrite any existing file with the same name. Default is `True`.
-        - `do_print` (bool): Whether to print information about the file creation process. Default is `True`.
+        Parameters
+        ----------
+        file_path : str
+            The path for the new JSON file
+        force : bool, optional
+            Whether to overwrite any existing file with the same name. Default is True
         
-        Returns:
-        - `bool`: Whether the file was created.
+        Returns
+        -------
+        bool
+            Whether the file was created
         """
 
         # Check input values
-        force = self._check_input_val(force, self.force)
-        do_print = self._check_input_val(do_print, self.do_print)
+        force = kwargs.get('force', self.force)
+        do_print = kwargs.get('do_print', self.do_print)
 
         fprint.config(do_print=do_print)
 

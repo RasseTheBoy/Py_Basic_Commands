@@ -7,16 +7,17 @@ from base   import Base
 
 @dataclass
 class Example(Base):
-    _val1:bool = True
+    val1:bool = True
+    do_print = True
 
     def __post_init__(self):
-        super().__init__()
+        super().__init__(self.do_print)
 
 
-    def __call__(self, val1:bool=None, do_print:bool=None):
+    def __call__(self, **kwargs):
         # Check input values
-        val1 = self._check_input_val(val1, self._val1)
-        do_print = self._check_input_val(do_print, self._do_print)
+        val1 = kwargs.get('val1', self.val1)
+        do_print = kwargs.get('do_print', self.do_print)
 
 
 example = Example()

@@ -1,53 +1,70 @@
 from py_basic_commands.file_dir_scripts.create_dirs   import create_dirs
-from dataclasses    import dataclass
-from traceback  import format_exc
-from py_basic_commands.fscripts   import fprint
-from os.path   import exists
+from py_basic_commands.fscripts   import Fprint
 from py_basic_commands.base   import Base
+from traceback  import format_exc
+from os.path   import exists
+
+fprint = Fprint()
 
 
-@dataclass
 class CreateFile(Base):
-    force:bool = False
+    """Create a file at the specified path."""
+    def __init__(self, force:bool=False, do_print:bool=True) -> None:
+        """Initialize the class
+        
+        Parameters
+        ----------
+        force : bool, optional
+            Whether to force the creation of the file. Default is False
+        """
+        super().__init__(do_print=do_print)
 
-    def __post_init__(self):
-        super().__init__()
+        self.force = force
 
 
     def _create_empty_file(self, dst_path:str) -> bool:
-        """Create an empty file at the specified path.
+        """Create an empty file at the specified path
         
-        Parameters:
-        - `dst_path` (str): The path to create the file at.
-        
-        Returns:
-        - `bool`: Whether the file was created.
+        Parameters
+        ----------
+        dst_path : str
+            The path to create the file at
+
+        Returns
+        -------
+        bool
+            Whether the file was created
         """
         try:
             with open(dst_path, 'w') as f:
                 f.write('')
-            fprint(f'File created: {dst_path}')
+            fprint(f'File created: {dst_path!r}')
             return True
         except Exception:
             fprint(format_exc())
             return False
 
 
-    def __call__(self, dst_path:str, force:bool=None, do_print:bool=None) -> bool:
+    def __call__(self, dst_path:str, **kwargs) -> bool:
         """Create a file or directory at the specified path.
         
-        Parameters:
-        - `dst_path` (str): The path to create the file or directory at.
-        - `force` (bool): Whether to force the creation of the file or directory by deleting any existing file or directory with the same name. Default is `False`
-        - `do_print` (bool): Whether to print information about the file or directory creation process. Default is `True`
+        Parameters
+        ----------
+        dst_path : str
+            The path to create the file at
+        force : bool, optional
+            Whether to force the creation of the file. Default is False
+        do_print : bool, optional
+            Whether to print information about the file creation process. Default is True
         
-        Returns:
-        - `bool`: Whether the file or directory was created.
+        Returns
+        -------
+        bool
+            Whether the file was created
         """
-
         # Check input values
-        force = self._check_input_val(force, self.force)
-        do_print = self._check_input_val(do_print, self.do_print)
+        force = kwargs.get('force', self.force)
+        do_print = kwargs.get('do_print', self.do_print)
 
         fprint.config(do_print=do_print)
 

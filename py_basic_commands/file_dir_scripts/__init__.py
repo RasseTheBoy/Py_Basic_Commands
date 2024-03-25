@@ -5,3 +5,4 @@ from py_basic_commands.file_dir_scripts.join_path         import join_path, Join
 from py_basic_commands.file_dir_scripts.read_file         import read_file, ReadFile
 from py_basic_commands.file_dir_scripts.remove_file_dir   import remove_file_dir, RemoveFileDir
 from py_basic_commands.file_dir_scripts.write_file        import write_file, WriteFile
+from py_basic_commands.file_dir_scripts.file_editor       import FileEditor
